@@ -20,6 +20,8 @@ Parmi les propriétés que l'on demande sur votre système, vous devrez considé
 
 Pour aller plus loin, vous êtes libres de prendre des initiatives afin d'enrichir votre projet: permettre à l'utilisateur de refuser un triplet de sorties et générer d'autres, considérer des trajets à vélo et donner les positions de Vélib les plus proches du domicile, se déplacer en voiture et désigner le Sam de la soirée... Notez cependant que toute fonctionnalité doit être documentée et que son absence lors de l'implémentation (e.g. manque de temps, impossibilité de l'API à fournir des informations spécifiques...) entraîne des pénalités. Les étapes d'analyse, de conception et d'implémentation sont donc liées et aucune ne devrait être négligée.
 
+___
+
 API key: AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4
 
 API URL exemple : https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=48.855218,2.368622&radius=500&type=restaurant&name=burger&key=AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4
