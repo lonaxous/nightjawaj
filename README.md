@@ -1,5 +1,7 @@
 # nightjawaj
 Projet GLA L3 MIAGE
+Groupe consitué de Jeremy Quyen, Duc Nguyen, Lucas Salvato
+
 ## Sujet
 ### Contexte
 
