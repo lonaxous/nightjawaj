@@ -8,16 +8,16 @@ Groupe consitué de Jeremy Quyen, Duc Nguyen, Lucas Salvato
 
 Plusieurs amis veulent sortir à Paris afin de fêter leurs retrouvailles et ont envie de passer une bonne soirée. Pour cela, ils auraient besoin d'organiser successivement trois sorties
 
-    * Boire un verre dans un bar sympa
-    * Manger au restaurant (attention: un des amis n'aime pas les kebabs!)
-    * Sortir en boîte de nuit
+* Boire un verre dans un bar sympa
+* Manger au restaurant (attention: un des amis n'aime pas les kebabs!)
+* Sortir en boîte de nuit
 
 ### Exigences
 
 Votre projet consiste à fournir une interface avec en:
 
-    * Entrée: une date, une liste de personnes ayant des contraintes d'adresses (là où ils habitent) et de préférences alimentaires
-    * Résultat: une liste chronologique de trois adresses (bar, resto, boîte)
+* Entrée: une date, une liste de personnes ayant des contraintes d'adresses (là où ils habitent) et de préférences alimentaires
+* Résultat: une liste chronologique de trois adresses (bar, resto, boîte)
 
 Parmi les propriétés que l'on demande sur votre système, vous devrez considérer qu'une sortie prend un certain temps (que vous déterminerez arbitrairement), que le déplacement d'un point à un autre prend aussi un certain temps (qui devra être calculé), et que les sorties ont des horaires d'ouverture coïncidant avec les critères précédents.
 
