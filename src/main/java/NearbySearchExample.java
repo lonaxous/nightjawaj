@@ -17,6 +17,8 @@ import java.io.*;
 import java.util.*;
 import org.json.*;
 
+import static spark.Spark.get;
+
 class NearbySearchExample{
 
 
@@ -41,9 +43,11 @@ class NearbySearchExample{
         JSONObject j = new JSONObject(html_output);
 
         // Afficher
+        String burger = "J'ai envie d'un bon burger autour de Bastille !<br>";
         System.out.println ("J'ai envie d'un bon burger autour de Bastille !");
         for (int i = 0 ; i < j.length() ; i++){
             JSONObject lieu = (j.getJSONArray("results")).getJSONObject (i);
+            burger = burger.concat("  -> " + lieu.getString ("name") + ", " + lieu.getString ("vicinity")+"<br>");
             System.out.println ("  -> " + lieu.getString ("name") + ", " + lieu.getString ("vicinity"));
         }
 
@@ -57,10 +61,6 @@ class NearbySearchExample{
 
         JSONObject dist = new JSONObject(html_output);
 
-
-
-        System.out.print("La distance entre ");
-
         JSONArray origin = dist.getJSONArray("origin_addresses");
         JSONArray arri = dist.getJSONArray("destination_addresses");
 
@@ -68,8 +68,11 @@ class NearbySearchExample{
 
         JSONObject duree = (dist.getJSONArray("rows")).getJSONObject (0).getJSONArray("elements").getJSONObject (0).getJSONObject("duration");
 
+        String affDistance = "La distance entre "+origin.get(0)+" et "+arri.get(0)+" est de "+distance.getString("text")+" pour une durée de "+duree.getString("text");
+        System.out.println("La distance entre "+origin.get(0)+" et "+arri.get(0)+" est de "+distance.getString("text")+" pour une durée de "+duree.getString("text"));
 
-        System.out.println(origin.get(0)+" et "+arri.get(0)+" est de "+distance.getString("text")+" pour une durée de "+duree.getString("text"));
+        String finalBurger = burger;
+        get("/hello", (req, res) -> finalBurger + "<br>" + affDistance);
 
     }
 }
