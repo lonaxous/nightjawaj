@@ -30,9 +30,15 @@ public class Register {
 
             //Verify address
             if (isAddressValid(address)){
-                registerAddress(address);
-                return "It does exist!";
+                ArrayList<String> list_address = registerAddress(address);
                 // Create session from now on
+                request.session(true);
+                request.session().attribute("lname",last_name);
+                request.session().attribute("fname",first_name);
+
+                chooseAddress(list_address);
+                response.redirect("/choose_address");
+                return "<p>It does exist!<p>";
             }
             else return "This address doen't exist";
             // Return to previous page
@@ -53,7 +59,7 @@ public class Register {
         return (j.getString("status").equals("OK")); // if status is OK then address is valid
     }
 
-    public void registerAddress(String address) throws IOException, JSONException {
+    public ArrayList<String> registerAddress(String address) throws IOException, JSONException {
         String addressEncoded = URLEncoder.encode(address, "UTF-8"); // Make the address URL compliant
         URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + addressEncoded + "&key=" + GooglePlacesKey); // Search for the address via API
         Scanner scan = new Scanner(url.openStream());
@@ -64,14 +70,34 @@ public class Register {
         JSONObject j = new JSONObject(html_output);
 
         ArrayList<String> results = new ArrayList<>();
-        for (int i = 0; i < j.length()-1; i++) { // Getting results in an Array
+        for (int i = 0; i < j.getJSONArray("results").length(); i++) { // Getting results in an Array
             JSONObject addr = j.getJSONArray("results").getJSONObject(i);
             results.add(addr.getString("formatted_address"));
             System.out.println(results.get(i));
         }
+
+        return results;
+    }
+
+    public void chooseAddress(ArrayList<String> list_address){
+        String tmp = "";
+
+        for (int i = 0; i < list_address.size();i++){
+            tmp = tmp.concat("<a href=\"\">"+list_address.get(i)+"</a>");
+        }
+
+        String page = tmp;
+
+        System.out.println(page);
+
+        get("/choose_address", ((request, response) -> {
+            return page;
+        }));
     }
 
     public static void main(String args[]) throws IOException, JSONException {
+        System.setProperty("https.proxyHost", "cache.u-psud.fr");
+        System.setProperty("https.proxyPort", "8080");
         staticFiles.location("/"); // Initialize static files folder
         Register user1 = new Register();
     }
