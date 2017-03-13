@@ -38,9 +38,9 @@ public class Register {
 
                 chooseAddress(list_address);
                 response.redirect("/choose_address");
-                return "<p>It does exist!<p>";
+                return "<p>It does exist!</p>";
             }
-            else return "This address doen't exist";
+            else return "<p>This address doesn't exist</p>";
             // Return to previous page
         });
     }
