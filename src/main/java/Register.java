@@ -47,7 +47,8 @@ public class Register {
 
     public boolean isAddressValid(String address) throws IOException, JSONException {
         String addressEncoded = URLEncoder.encode(address,"UTF-8"); // Make the address URL compliant
-        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query="+addressEncoded+"&key=" + GooglePlacesKey); // Search for the address via API
+        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query="+
+                addressEncoded+"&key=" + GooglePlacesKey); // Search for the address via API
         Scanner scan = new Scanner(url.openStream());
         String html_output = new String();
         while (scan.hasNext())
@@ -61,7 +62,8 @@ public class Register {
 
     public ArrayList<String> registerAddress(String address) throws IOException, JSONException {
         String addressEncoded = URLEncoder.encode(address, "UTF-8"); // Make the address URL compliant
-        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + addressEncoded + "&key=" + GooglePlacesKey); // Search for the address via API
+        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" +
+                screaddressEncoded + "&key=" + GooglePlacesKey); // Search for the address via API
         Scanner scan = new Scanner(url.openStream());
         String html_output = new String();
         while (scan.hasNext())
@@ -70,6 +72,7 @@ public class Register {
         JSONObject j = new JSONObject(html_output);
 
         ArrayList<String> results = new ArrayList<>();
+        System.out.println("nb address : "+j.getJSONArray("results").length());
         for (int i = 0; i < j.getJSONArray("results").length(); i++) { // Getting results in an Array
             JSONObject addr = j.getJSONArray("results").getJSONObject(i);
             results.add(addr.getString("formatted_address"));
@@ -81,13 +84,15 @@ public class Register {
 
     public void chooseAddress(ArrayList<String> list_address){
         String tmp = "";
+        System.out.println("before: "+tmp);
 
         for (int i = 0; i < list_address.size();i++){
-            tmp = tmp.concat("<a href=\"\">"+list_address.get(i)+"</a>");
+            tmp = tmp.concat("<a href=\"\">"+list_address.get(i)+"</a><br>");
         }
 
-        String page = tmp;
+        System.out.println("after: "+tmp);
 
+        String page = tmp;
         System.out.println(page);
 
         get("/choose_address", ((request, response) -> {
