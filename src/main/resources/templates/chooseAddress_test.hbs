@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/registering" method="post">
+    <div>
+        <select>
+        {{#each items}}
+            <option value="{{this}}">{{this}}</option>
+        {{/each}}
+        </select>
+    </div>
+</form>
+</body>
+</html>
