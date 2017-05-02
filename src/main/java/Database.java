@@ -3,17 +3,23 @@
  */
 import java.sql.*;
 
-public class database {
+public class Database {
 
     //Attribut
     Connection co;
 
     //Constructeur
-    database() throws SQLException {
+    Database(String address, String user, String password) throws SQLException {
         co = DriverManager.getConnection("à mettre");
     }
 
     //Fonctions
+
+    //Création de la base
+    public void create(){
+        String texte = "EXECUTE sql/nightjawaj.sql";
+        executeSQL(texte);
+    }
 
     //Inscription
     public void register(String fname, String lname){
