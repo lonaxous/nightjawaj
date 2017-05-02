@@ -1,10 +1,19 @@
 /**
  * Created by lucas on 09/04/17.
  */
+//        ()
+// _______/__
+// \ ____/_ /
+//  \\    //
+//   \\  //
+//    \\//
+//     ||
+//     ||
+//    /  \
+//   /____\
+// NightJawaj
 import java.sql.*;
-
 public class Database {
-
     //Attribut
     Connection co;
 
