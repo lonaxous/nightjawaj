@@ -1,6 +1,3 @@
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.Options;
 import org.json.JSONException;
 import org.json.JSONObject;
 import spark.ModelAndView;
