@@ -12,7 +12,8 @@ create table utilisateur(
 	adrs varchar2(200),
 	mail varchar2(100) not null,
 	transport varchar2(20),
-	foodpref varchar2(300)
+	foodpref varchar2(300),
+	unique(mail)
 );
 
 create table event(
