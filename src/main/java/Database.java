@@ -40,48 +40,63 @@ public class Database {
     }
 
     //Modifier firstName d'un utilisateur
-    public void modifyUserFName(int idu,String fname){
+    public void modifyUserFName(int idu,String fname)throws SQLException{
         String text = "update user " +
-                "set fname = '"+fname+"' "+
-                "where id = "+idu;
-
-        executeSQL(text);
+                "set fname = ? "+
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1,fname);
+        ps.setInt(2,idu);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Modifier lastName d'un utilisateur
-    public void modifyUserLName(int idu,String lname){
+    public void modifyUserLName(int idu,String lname)throws SQLException{
         String text = "update user " +
-                "set lname = '"+lname+"' "+
-                "where id = "+idu;
-
-        executeSQL(text);
+                "set lname = ? "+
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1,lname);
+        ps.setInt(2,idu);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Modifier adresse d'un utilisateur
-    public void modifyUserAdrs(int idu,String adrs){
+    public void modifyUserAdrs(int idu,String adrs)throws SQLException{
         String text = "update user " +
-                "set adrs = '"+adrs+"' "+
-                "where id = "+idu;
-
-        executeSQL(text);
+                "set adrs = ? "+
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, adrs);
+        ps.setInt(2,idu);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Modifier le moyen de transport d'un utilisateur
-    public void modifyTransport(int idu, String transport){
+    public void modifyTransport(int idu, String transport)throws SQLException{
         String text = "update user " +
-                "set transport = '"+transport+"' "+
-                "where id = "+idu;
-
-        executeSQL(text);
+                "set transport = ? "+
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, transport);
+        ps.setInt(2,idu);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Modifier les préférences allimentaire
-    public void modifyFoodPref(int idu, String foodPref){
+    public void modifyFoodPref(int idu, String foodPref)throws SQLException{
         String text = "update user " +
-                "set foodpref = '"+foodPref+"' "+
-                "where id = "+idu;
-
-        executeSQL(text);
+                "set foodpref = ? "+
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, foodPref);
+        ps.setInt(2,idu);
+        ps.executeQuery();
+        ps.close();
     }
 
     public boolean modifyMail(int idu, String mail)throws SQLException{
@@ -97,131 +112,202 @@ public class Database {
     }
 
     //Créer un évènement
-    public void createEvent(int idu, String name, Date date){
+    public void createEvent(int idu, String name, Date date)throws SQLException{
         int ide = seqNumber("event");
         //Insertion d'un nouvelle event
         String text = "insert into event(id,name,date) " +
-                "values("+ide+",'"+name+"',"+date+")";
-        executeSQL(text);
+                "values(?,?,?)";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setInt(1, ide);
+        ps.setString(2,name);
+        ps.setDate(3,date);
+        ps.executeQuery();
+        ps.close();
         //Liaison entre un event et l'organisateur
         String text2 = "insert into organiser " +
-                "values(seq_organiser.nextval,"+idu+","+ide+")";
-        executeSQL(text2);
+                "values(seq_organiser.nextval,?,?)";
+        PreparedStatement ps2 = co.prepareStatement(text2);
+        ps2.setInt(1,idu);
+        ps2.setInt(2,ide);
+        ps2.executeQuery();
+        ps.close();
     }
 
     //Evenement modifier heure de début
-    public void modifyEventStartHour(int ide, String startHour){
+    public void modifyEventStartHour(int ide, String startHour)throws SQLException{
         String text = "update event " +
-                "set starthour = "+startHour+" " +
-                "where id ="+ide;
-        executeSQL(text);
+                "set starthour = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, startHour);
+        ps.setInt(2,ide);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Evenement modifier heure de fin
-    public void modifyEventEndHour(int ide, String endHour){
+    public void modifyEventEndHour(int ide, String endHour)throws SQLException{
         String text = "update event " +
-                "set endhour ="+endHour+" " +
-                "where id ="+ide;
-        executeSQL(text);
+                "set endhour = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, endHour);
+        ps.setInt(2,ide);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Evenement modifier la date
-    public void modifyEventDate(int ide, Date date){
+    public void modifyEventDate(int ide, Date date)throws SQLException{
         String text = "update event " +
-                "set date ="+date+" " +
-                "where id ="+ide;
-        executeSQL(text);
+                "set date = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setDate(1, date);
+        ps.setInt(2,ide);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Evenement modifier le nom
-    public void modifyEventName(int ide, String name){
+    public void modifyEventName(int ide, String name)throws SQLException{
         String text = "update event " +
-                "set name ="+name+" " +
-                "where id ="+ide;
-        executeSQL(text);
+                "set name = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, name);
+        ps.setInt(2,ide);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Annuler un événement
-    public  void deleteEvent(int ide, int idu){
+    public  void deleteEvent(int ide)throws SQLException{
         String text = "delete * " +
                 "from organiser " +
-                "where ide = "+ide+" " +
-                "and idu = "+idu;
-        executeSQL(text);
+                "where ide = ? ";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setInt(1, ide);
+        ps.executeQuery();
+        ps.close();
 
         String text2 = "delete * " +
+                "from ambiance " +
+                "where ide = ?";
+        PreparedStatement ps2 = co.prepareStatement(text2);
+        ps2.setInt(1,ide);
+        ps2.executeQuery();
+        ps2.close();
+
+        String text3 = "delete * " +
                 "from event " +
-                "where id ="+ide;
-        executeSQL(text2);
+                "where id = ?";
+        PreparedStatement ps3 = co.prepareStatement(text3);
+        ps3.setInt(1, ide);
+        ps3.executeQuery();
+        ps3.close();
     }
 
 
 
     //Ajouter une activité à un événement
-    public void addActivity(int ide, String name, String adrs){
+    public void addActivity(int ide, String name, Date date)throws SQLException{
         int ida = seqNumber("activity");
         //Insertion d'une nouvelle activity
         String text = "insert into activity(id,name,date) " +
-                "values("+ida+",'"+name+"',"+adrs+")";
-        executeSQL(text);
+                "values("+ida+",?,?)";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, name);
+        ps.setDate(2,date);
+        ps.executeQuery();
+        ps.close();
         //Liaison entre un event et l'organisateur
         String text2 = "insert into planing " +
-                "values(seq_planing.nextval,"+ide+","+ida+")";
-        executeSQL(text2);
+                "values(seq_planing.nextval,?,?)";
+        PreparedStatement ps2 = co.prepareStatement(text2);
+        ps2.setInt(1, ide);
+        ps2.setInt(2,ida);
+        ps2.executeQuery();
+        ps2.close();
     }
 
     //Activity modifier le nom
-    public void modifyActivityName(int ida, String name){
+    public void modifyActivityName(int ida, String name)throws SQLException{
         String text = "update activity " +
-                "set name ="+name+" " +
-                "where id ="+ida;
-        executeSQL(text);
+                "set name = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, name);
+        ps.setInt(2,ida);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Activity modifier l'adresse
-    public void modifyActivityAdrs(int ida, String adrs){
+    public void modifyActivityAdrs(int ida, String adrs)throws SQLException{
         String text = "update activity " +
-                "set adrs ="+adrs+" " +
-                "where id ="+ida;
-        executeSQL(text);
+                "set adrs = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, adrs);
+        ps.setInt(2,ida);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Activity modifier la date
-    public void modifyActivityDate(int ida, Date date){
+    public void modifyActivityDate(int ida, Date date)throws SQLException{
         String text = "update activity " +
-                "set date ="+date+" " +
-                "where id ="+ida;
-        executeSQL(text);
+                "set date = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setDate(1, date);
+        ps.setInt(2,ida);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Activity modifier l'heure de début
-    public void modifyActivityStartHour(int ida, String startHour){
+    public void modifyActivityStartHour(int ida, String startHour)throws SQLException{
         String text = "update activity " +
-                "set starthour ="+startHour+" " +
-                "where id ="+ida;
-        executeSQL(text);
+                "set starthour = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, startHour);
+        ps.setInt(2,ida);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Activity modifier l'heure de fin
-    public void modifyActivityEndHour(int ida, String endHour){
+    public void modifyActivityEndHour(int ida, String endHour)throws  SQLException{
         String text = "update activity " +
-                "set endhour ="+endHour+" " +
-                "where id ="+ida;
-        executeSQL(text);
+                "set endhour = ? " +
+                "where id = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, endHour);
+        ps.setInt(2,ida);
+        ps.executeQuery();
+        ps.close();
     }
 
     //Supprimer une activité
-    public void deletePlaning(int ida, int ide){
+    public void deletePlaning(int ida)throws SQLException{
         String text = "delete * " +
                 "from planing " +
-                "where ide = "+ide+" " +
-                "and ida ="+ida;
-        executeSQL(text);
+                "where ida = ? ";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setInt(1,ida);
+        ps.executeQuery();
+        ps.close();
 
         String text2 = "delete * " +
                 "from activity " +
-                "where id ="+ida;
-        executeSQL(text2);
+                "where id = ?";
+        PreparedStatement ps2 = co.prepareStatement(text2);
+        ps.setInt(1,ida);
+        ps.executeQuery();
+        ps.close();
     }
 
 
