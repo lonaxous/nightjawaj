@@ -32,7 +32,7 @@ public class Database {
 
     //Inscription
     public boolean register(String fname, String lname, String mail)throws SQLException{
-        String text =  "insert into user(id,fname,lname,mail) " +
+        String text =  "insert into utilisateur(id,fname,lname,mail) " +
                 "values(seq_user.nextval,?,?,?)";
         if(verifmail(mail)) {
             PreparedStatement ps = co.prepareStatement(text);
@@ -50,7 +50,7 @@ public class Database {
 
     //Modifier firstName d'un utilisateur
     public void modifyUserFName(int idu,String fname)throws SQLException{
-        String text = "update user " +
+        String text = "update utilisateur " +
                 "set fname = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -62,7 +62,7 @@ public class Database {
 
     //Modifier lastName d'un utilisateur
     public void modifyUserLName(int idu,String lname)throws SQLException{
-        String text = "update user " +
+        String text = "update utilisateur " +
                 "set lname = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -74,7 +74,7 @@ public class Database {
 
     //Modifier adresse d'un utilisateur
     public void modifyUserAdrs(int idu,String adrs)throws SQLException{
-        String text = "update user " +
+        String text = "update utilisateur " +
                 "set adrs = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -86,7 +86,7 @@ public class Database {
 
     //Modifier le moyen de transport d'un utilisateur
     public void modifyTransport(int idu, String transport)throws SQLException{
-        String text = "update user " +
+        String text = "update utilisateur " +
                 "set transport = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -98,7 +98,7 @@ public class Database {
 
     //Modifier les préférences allimentaire
     public void modifyFoodPref(int idu, String foodPref)throws SQLException{
-        String text = "update user " +
+        String text = "update utilisateur " +
                 "set foodpref = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -109,7 +109,7 @@ public class Database {
     }
 
     public boolean modifyMail(int idu, String mail)throws SQLException{
-        String text = "update user set mail = ? where idu = ?";
+        String text = "update utilisateur set mail = ? where idu = ?";
         if(verifmail(mail)) {
             PreparedStatement ps = co.prepareStatement(text);
             ps.setString(1, mail);
@@ -124,7 +124,7 @@ public class Database {
     public void createEvent(int idu, String name, Date date)throws SQLException{
         int ide = seqNumber("event");
         //Insertion d'un nouvelle event
-        String text = "insert into event(id,name,date) " +
+        String text = "insert into event(id,name,jour) " +
                 "values(?,?,?)";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setInt(1, ide);
@@ -169,7 +169,7 @@ public class Database {
     //Evenement modifier la date
     public void modifyEventDate(int ide, Date date)throws SQLException{
         String text = "update event " +
-                "set date = ? " +
+                "set jour = ? " +
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setDate(1, date);
@@ -223,7 +223,7 @@ public class Database {
     public void addActivity(int ide, String name, Date date)throws SQLException{
         int ida = seqNumber("activity");
         //Insertion d'une nouvelle activity
-        String text = "insert into activity(id,name,date) " +
+        String text = "insert into activity(id,name,jour) " +
                 "values("+ida+",?,?)";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1, name);
@@ -267,7 +267,7 @@ public class Database {
     //Activity modifier la date
     public void modifyActivityDate(int ida, Date date)throws SQLException{
         String text = "update activity " +
-                "set date = ? " +
+                "set jour = ? " +
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setDate(1, date);
