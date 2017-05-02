@@ -22,16 +22,26 @@ public class Database {
     }
 
     //Inscription
-    public void register(String fname, String lname){
-        String text =  "insert into user(id,fname,lname)" +
-                " values(seq_user.nextval,'"+fname+"','"+lname+"')";
+    public boolean register(String fname, String lname, String mail)throws SQLException{
+        String text =  "insert into user(id,fname,lname,mail) " +
+                "values(seq_user.nextval,?,?,?)";
+        if(verifmail(mail)) {
+            PreparedStatement ps = co.prepareStatement(text);
+            ps.setString(1, fname);
+            ps.setString(2, lname);
+            ps.setString(3, mail);
+            ps.executeUpdate();
+            ps.close();
+            return true;
+        }
+        else
+            return false;
 
-        executeSQL(text);
     }
 
     //Modifier firstName d'un utilisateur
     public void modifyUserFName(int idu,String fname){
-        String text = "update user" +
+        String text = "update user " +
                 "set fname = '"+fname+"' "+
                 "where id = "+idu;
 
@@ -40,7 +50,7 @@ public class Database {
 
     //Modifier lastName d'un utilisateur
     public void modifyUserLName(int idu,String lname){
-        String text = "update user" +
+        String text = "update user " +
                 "set lname = '"+lname+"' "+
                 "where id = "+idu;
 
@@ -49,7 +59,7 @@ public class Database {
 
     //Modifier adresse d'un utilisateur
     public void modifyUserAdrs(int idu,String adrs){
-        String text = "update user" +
+        String text = "update user " +
                 "set adrs = '"+adrs+"' "+
                 "where id = "+idu;
 
@@ -58,7 +68,7 @@ public class Database {
 
     //Modifier le moyen de transport d'un utilisateur
     public void modifyTransport(int idu, String transport){
-        String text = "update user" +
+        String text = "update user " +
                 "set transport = '"+transport+"' "+
                 "where id = "+idu;
 
@@ -67,19 +77,31 @@ public class Database {
 
     //Modifier les préférences allimentaire
     public void modifyFoodPref(int idu, String foodPref){
-        String text = "update user" +
+        String text = "update user " +
                 "set foodpref = '"+foodPref+"' "+
                 "where id = "+idu;
 
         executeSQL(text);
     }
 
+    public boolean modifyMail(int idu, String mail)throws SQLException{
+        String text = "update user set mail = ? where idu = ?";
+        if(verifmail(mail)) {
+            PreparedStatement ps = co.prepareStatement(text);
+            ps.setString(1, mail);
+            ps.setInt(2, idu);
+            ps.executeQuery();
+            return true;
+        }
+        return false;
+    }
+
     //Créer un évènement
     public void createEvent(int idu, String name, Date date){
         int ide = seqNumber("event");
         //Insertion d'un nouvelle event
-        String text = "insert into event(id,name,date)+" +
-                " values("+ide+",'"+name+"',"+date+")";
+        String text = "insert into event(id,name,date) " +
+                "values("+ide+",'"+name+"',"+date+")";
         executeSQL(text);
         //Liaison entre un event et l'organisateur
         String text2 = "insert into organiser " +
@@ -139,8 +161,8 @@ public class Database {
     public void addActivity(int ide, String name, String adrs){
         int ida = seqNumber("activity");
         //Insertion d'une nouvelle activity
-        String text = "insert into activity(id,name,date)+" +
-                " values("+ida+",'"+name+"',"+adrs+")";
+        String text = "insert into activity(id,name,date) " +
+                "values("+ida+",'"+name+"',"+adrs+")";
         executeSQL(text);
         //Liaison entre un event et l'organisateur
         String text2 = "insert into planing " +
@@ -266,7 +288,41 @@ public class Database {
         return  selectSQL(text);
     }
 
+    //insertion d'une clé apiGoogle(à utiliser une unique fois pour entrer la clé)
+    public void insertApiG(String clef)throws SQLException{
+        String text = "insert into APIgoogle values(1,?)";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1,clef);
+        ps.executeUpdate();
+        ps.close();
+    }
 
+    //Modification d'une clé apiGoogle
+    public void updateApiG(String clef)throws SQLException{
+        String text = "update APIgoogle set clef = ? where id = 1";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1,clef);
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    //Obtenir la clé d'api google
+    public ResultSet selectApiG()throws SQLException{
+        String text = "select clef from APIgoogle where id = 1";
+        return selectSQL(text);
+    }
+
+    //Fonction pour vérifier si une adressemail existe déjà
+    public boolean verifmail(String mail)throws SQLException{
+        String text = "select mail from user where mail = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1,mail);
+        ResultSet rs = ps.executeQuery();
+        ps.close();
+        if(rs.next())return false;
+        rs.close();
+        return true;
+    }
 
 
     //Fonction executant du SQL
@@ -309,4 +365,5 @@ public class Database {
         }
         return -1;
     }
+
  }

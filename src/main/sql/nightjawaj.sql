@@ -10,6 +10,7 @@ create table user(
 	fname varchar2 not null,
 	lname varchar2 not null,
 	adrs varchar2,
+	mail varchar2 not null,
 	transport varchar2,
 	foodpref varchar2
 );
@@ -47,4 +48,9 @@ create table planing(
 	id int primary key,
 	ide int references event,
 	ida int references actvity 
+);
+
+create table APIgoogle(
+    id int primary key,
+    clef varchar2(300)
 );
