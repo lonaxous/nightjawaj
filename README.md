@@ -30,14 +30,15 @@ API key: AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4
 API URL exemple : https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=48.855218,2.368622&radius=500&type=restaurant&name=burger&key=AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4
 
 Diagrammes UML de nightjawaj : https://repository.genmymodel.com/lonaxous/nightjawaj
-                                                                 ()
-                                                         ________/__
-                                                         \ _____/_ /
-                                                          \\     //
-                                                           \\   //
-                                                            \\ //
-                                                             | |
-                                                             | |
-                                                            /   \
-                                                           /_____\
-                                                          NightJawaj
+         ()
+ ________/__
+ \ _____/_ /
+  \\     //
+   \\   //
+    \\ //
+     | |
+     | |
+    /   \
+   /_____\
+  NightJawaj
+                                                                
