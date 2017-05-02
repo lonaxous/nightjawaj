@@ -39,7 +39,7 @@ public class Database {
             ps.setString(1, fname);
             ps.setString(2, lname);
             ps.setString(3, mail);
-            ps.executeUpdate();
+            ps.executeQuery();
             ps.close();
             return true;
         }
