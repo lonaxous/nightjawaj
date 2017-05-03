@@ -2,15 +2,11 @@ package controleur;
 
 import modele.Address;
 import org.json.JSONObject;
-import tools.Database;
 import tools.Server;
 
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * Created by dnguye2 on 02/05/17.
@@ -28,7 +24,8 @@ public class ControlerAddress {
             System.out.println("nb address : "+j.getJSONArray("results").length());
             for (int i = 0; i < j.getJSONArray("results").length(); i++) { // Getting results in an Array
                 JSONObject addr = j.getJSONArray("results").getJSONObject(i);
-                listAddress.add(new Address(addr.getString("place_id"),addr.getString("formatted_address"))); //getting the valid address
+                System.out.println("Place id : "+ addr.getString("place_id"));
+                listAddress.add(new Address(addr.getString("formatted_address"),addr.getString("place_id"))); //getting the valid address
             }
 
             Map map = new HashMap();

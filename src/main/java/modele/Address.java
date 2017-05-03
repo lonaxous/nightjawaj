@@ -7,22 +7,24 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 import tools.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 /**
  * Created by dnguye2 on 27/03/17.
  */
 public class Address {
-    public String formatedAddress;
+    public String formattedAddress;
     public String placeid;
 
     public Address(){}
 
-    public Address(String placeid, String validAddress){
+    public Address(String formattedAddress, String placeid) {
+        this.formattedAddress = formattedAddress;
         this.placeid = placeid;
-        formatedAddress = validAddress;
     }
 
     public static void start(){
@@ -34,20 +36,18 @@ public class Address {
             return new ModelAndView(validList,"tabaddress.hbs");
         }, new HandlebarsTemplateEngine());
 
-//        post("/validAddress",((request, response) -> {
-//            String request.queryParams();
-//
-//            return null
-//        });
+        post("/validAddress",(request, response) -> {//Getting the placid from user
+            User u = request.session().attribute("user");
+            if(u != null){
+                u.setPlaceid(request.queryParams("listeadresse"));//Set the address
+                request.session().attribute("user",u);//Update the session with placeid
+                response.redirect("/register");
+                return "<h1>Redirection error</h1>";
+            }
+            else return "<h1>Error, session doesn't exist";
+        });
     }
 
-    public String getPlaceid() {
-        return placeid;
-    }
-
-    public String getFormatedAddress() {
-        return formatedAddress;
-    }
 
     public boolean isValid(String unformattedAddress) throws IOException {
         JSONObject j = Server.getAPI().textSearch(unformattedAddress);

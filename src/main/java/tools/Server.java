@@ -17,21 +17,8 @@ public class Server {
     private static Database db;
 
     public void initiate() throws SQLException {
-        System.out.println("tools.Database creation");
-        Scanner sc = new Scanner(System.in); //Getting login informations from user
-        System.out.print("tools.Server address : ");
-        String address = sc.nextLine();
-        System.out.print("Username : ");
-        String user = sc.nextLine();
-        System.out.print("Password : ");
-        String psw = sc.nextLine();
-        db = new Database(address,user,psw); //Initiate connection to database
-        db.create(); //Launch database creation script
-        System.out.println("tools.Database creation sucess!");
-
-        System.out.print("API Key : ");
-        String GooglePlacesKey = sc.nextLine();
-        //db.setAPIKey(GooglePlacesKey);
+        db = new Database(); //Initiate connection to database
+        System.out.println("tools.tools.Database creation sucess!");
         staticFiles.location("/"); // Initialize static files folder
     }
 
@@ -43,9 +30,11 @@ public class Server {
 //        String user = sc.nextLine();
 //        System.out.print("Password : ");
 //        String psw = sc.nextLine();
-        //Database db = new Database(address,user,psw);
-        api = new API("AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4");
+        tools.Database db = new tools.Database();
         System.out.println("tools.Database connection success, starting server");
+
+        api = new API("AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4");
+
         staticFiles.location("/"); // Initialize static files folder
         User.start();
         Address.start();
