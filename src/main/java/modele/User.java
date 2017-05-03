@@ -1,5 +1,11 @@
 package modele;
 
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -57,20 +63,25 @@ public class User {
 //            request.session().attribute("fname",u.lastName);
 
             response.redirect("/choose_address?unformatted_address="+unformattedAddress);
-            return "<h1>Redirection error</h1>";
-        });
+            Map map = new HashMap();
+            map.put("message","Redirection error");
+            return new ModelAndView(map,"error.hbs");
+        },new HandlebarsTemplateEngine());
 
         get("/register",(request, response) -> {//Register the user in database
             if(request.session().attribute("user") != null){
                 //Server.getDatabase().register();
 
-                User u = request.session().attribute("user");
-                return "<h1>Successfully created user</h1>" +
-                        "<p>Name : "+u.mail+"</p>"+
-                        "<p>placeid : "+u.placeid+"</p>";
+                Map map = new HashMap();
+                map.put("message","Successfully created user");
+                return new ModelAndView(map,"error.hbs");
             }
-            else return "<h1>Error, session doesn't exist";
-            });
+            else{
+                Map map = new HashMap();
+                map.put("message","Error, session doesn't exist");
+                return new ModelAndView(map,"error.hbs");
+            }
+            },new HandlebarsTemplateEngine());
     }
 
 //    public static void registerUser() {
