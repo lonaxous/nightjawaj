@@ -1,6 +1,7 @@
 package tools;
 
 import modele.Address;
+import modele.Event;
 import modele.User;
 import spark.Spark;
 
@@ -38,6 +39,7 @@ public class Server {
         staticFiles.location("/"); // Initialize static files folder
         User.start();
         Address.start();
+        Event.start();
     }
 
     public static API getAPI(){

@@ -2,6 +2,7 @@ package modele;
 
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
+import tools.Server;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,31 +16,24 @@ import static spark.Spark.post;
 public class User {
     private String name;
     private String lastName;
-    private int age;
-    private Address address;
     private String placeid;
     private String mail;
     private String mdp;
 
 
-    public User(String n,String ln) {
+    public User(String n, String ln) {
         name = n;
         lastName = ln;
     }
 
-    public User(String name, String lastName, int age, String mail, String mdp) {
+    public User(String name, String lastName, String mail, String mdp) {
         this.name = name;
         this.lastName = lastName;
-        this.age = age;
         this.mail = mail;
         this.mdp = mdp;
     }
 
-    public String getMail() {
-        return mail;
-    }
-
-    public void setPlaceid(String placeid){
+    public void setPlaceid(String placeid) {
         this.placeid = placeid;
     }
 
@@ -48,46 +42,50 @@ public class User {
             // register informations
             User u = new User(request.queryParams("nom"),
                     request.queryParams("prenom"),
-                    Integer.parseInt(request.queryParams("age")),
                     request.queryParams("mail"),
                     request.queryParams("mpd"));
+
+            if (!Server.getDatabase().verifmail(u.mail)){//Mail verification
+                Map map = new HashMap();
+                map.put("message", "Mail already present in database");
+                return new ModelAndView(map, "error.hbs");
+            }
 
             String unformattedAddress = request.queryParams("adresse");
 
             // Create session from now on
             request.session(true);
-            request.session().attribute("user",u);
+            request.session().attribute("user", u);
 
-
-//            request.session().attribute("lname",u.name);
-//            request.session().attribute("fname",u.lastName);
-
-            response.redirect("/choose_address?unformatted_address="+unformattedAddress);
+            response.redirect("/choose_address?unformatted_address=" + unformattedAddress);
             Map map = new HashMap();
-            map.put("message","Redirection error");
-            return new ModelAndView(map,"error.hbs");
-        },new HandlebarsTemplateEngine());
+            map.put("message", "Redirection error");
+            return new ModelAndView(map, "error.hbs");
+        }, new HandlebarsTemplateEngine());
 
-        get("/register",(request, response) -> {//Register the user in database
-            if(request.session().attribute("user") != null){
-                //Server.getDatabase().register();
+        get("/register", (request, response) -> {//Register the user in database
+            if (request.session().attribute("user") != null) {
+                User u = request.session().attribute("user");
+                //Server.getDatabase().register(u.name,u.lastName,u.mail,u.mdp,u.placeid);
 
                 Map map = new HashMap();
-                map.put("message","Successfully created user");
-                return new ModelAndView(map,"error.hbs");
-            }
-            else{
+                map.put("message", "Successfully created user");
+                return new ModelAndView(map, "error.hbs");
+            } else {
                 Map map = new HashMap();
-                map.put("message","Error, session doesn't exist");
-                return new ModelAndView(map,"error.hbs");
+                map.put("message", "Error, session doesn't exist");
+                return new ModelAndView(map, "error.hbs");
             }
-            },new HandlebarsTemplateEngine());
-    }
+        }, new HandlebarsTemplateEngine());
 
-//    public static void registerUser() {
-//        post("/register",((request, response) -> {
-//           request.queryParams();
-//           retrun null;
+//        post("/home", ((request, response) -> {
+//            User u = Server.getDatabase().selectUser(request.queryParams("mail"),request.queryParams("mdp"));
+//            if (u  != null){
+//              request.session().attribute("user",u);
+//              Map map = new HashMap();
+//              map.put("name", u.name);
+//              return new ModelAndView(map, "userpage.hbs");
+//            }
 //        });
-//    }
+    }
 }
