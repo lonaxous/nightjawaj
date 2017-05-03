@@ -50,10 +50,16 @@ public class Address {
                 u.setPlaceid(request.queryParams("listeadresse"));//Set the address
                 request.session().attribute("user",u);//Update the session with placeid
                 response.redirect("/register");
-                return "<h1>Redirection error</h1>";
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
             }
-            else return "<h1>Error, session doesn't exist";
-        });
+            else{
+                Map map = new HashMap();
+                map.put("message","Error, session doesn't exist");
+                return new ModelAndView(map,"error.hbs");
+            }
+        },new HandlebarsTemplateEngine());
     }
 
 
