@@ -1,10 +1,7 @@
 package modele;
 
-import java.util.ArrayList;
-
+import static spark.Spark.get;
 import static spark.Spark.post;
-import tools.Database;
-import tools.Server;
 
 /**
  * Created by dnguye2 on 27/03/17.
@@ -32,6 +29,10 @@ public class User {
         this.mdp = mdp;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
     public void setPlaceid(String placeid){
         this.placeid = placeid;
     }
@@ -50,6 +51,8 @@ public class User {
             // Create session from now on
             request.session(true);
             request.session().attribute("user",u);
+
+
 //            request.session().attribute("lname",u.name);
 //            request.session().attribute("fname",u.lastName);
 
@@ -57,14 +60,14 @@ public class User {
             return "<h1>Redirection error</h1>";
         });
 
-        post("/register",(request, response) -> {//Register the user in database
+        get("/register",(request, response) -> {//Register the user in database
             if(request.session().attribute("user") != null){
                 //Server.getDatabase().register();
 
                 User u = request.session().attribute("user");
                 return "<h1>Successfully created user</h1>" +
-                        "Name : "+u.name+
-                        "placeid : "+u.placeid;
+                        "<p>Name : "+u.mail+"</p>"+
+                        "<p>placeid : "+u.placeid+"</p>";
             }
             else return "<h1>Error, session doesn't exist";
             });

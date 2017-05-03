@@ -1,5 +1,7 @@
 package modele;
 
+import com.github.jknack.handlebars.Context;
+import com.github.jknack.handlebars.context.FieldValueResolver;
 import controleur.ControlerAddress;
 import org.json.JSONObject;
 import spark.ModelAndView;
@@ -8,6 +10,7 @@ import tools.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static spark.Spark.get;
@@ -31,13 +34,18 @@ public class Address {
         get("/choose_address", (request, response) -> { //User choose the valid address in the liste
             String unformattedAddress = request.queryParams("unformatted_address");
             ControlerAddress control = new ControlerAddress();
-            Map validList = control.getValidAddress(unformattedAddress);
+            //Map map = control.getValidAddress(unformattedAddress);
+            ArrayList<Map> liste = control.getValidAddress(unformattedAddress);
 
-            return new ModelAndView(validList,"tabaddress.hbs");
+            Map map = new HashMap();
+            map.put("items", liste);
+
+            return new ModelAndView(map,"tabaddress.hbs");
         }, new HandlebarsTemplateEngine());
 
         post("/validAddress",(request, response) -> {//Getting the placid from user
             User u = request.session().attribute("user");
+
             if(u != null){
                 u.setPlaceid(request.queryParams("listeadresse"));//Set the address
                 request.session().attribute("user",u);//Update the session with placeid
