@@ -1,4 +1,4 @@
-/**
+package tools; /**
  * Created by lucas on 09/04/17.
  */
 //         ()
@@ -18,17 +18,11 @@ public class Database {
     Connection co;
 
     //Constructeur
-    Database(String address, String user, String password) throws SQLException {
-        co = DriverManager.getConnection("à mettre");
+    Database() throws SQLException {
+        co = DriverManager.getConnection("jdbc:sqlite:database.db");
     }
 
     //Fonctions
-
-    //Création de la base
-    public void create(){
-        String texte = "EXECUTE sql/nightjawaj.sql";
-        executeSQL(texte);
-    }
 
     //Inscription
     public boolean register(String fname, String lname, String mail)throws SQLException{
