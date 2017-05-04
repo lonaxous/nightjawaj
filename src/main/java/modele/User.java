@@ -88,17 +88,17 @@ public class User {
         }, new HandlebarsTemplateEngine());
 
         get("/", (request, response) -> {
-            if (request.session().attribute("user") == null){
+            User u = request.session().attribute("user");
+            if (u == null){
                 response.redirect("/utilisateur.html");
                 Map map = new HashMap();
                 map.put("message", "Redirection error");
                 return new ModelAndView(map, "error.hbs");
             }
             else{
-                response.redirect("/connect");
                 Map map = new HashMap();
-                map.put("message", "Redirection error");
-                return new ModelAndView(map, "error.hbs");
+                map.put("name", u.name);
+                return new ModelAndView(map, "userpage.hbs");
             }
         }, new HandlebarsTemplateEngine());
 
