@@ -404,6 +404,7 @@ public class Database {
     }
 
     //Fonction pour vérifier si une adressemail existe déjà
+    //Retourne faux si elle existe, vrai sinon
     public boolean verifmail(String mail)throws SQLException{
         String text = "select mail from user where mail = ?";
         PreparedStatement ps = co.prepareStatement(text);

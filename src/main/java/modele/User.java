@@ -45,11 +45,11 @@ public class User {
                     request.queryParams("mail"),
                     request.queryParams("mpd"));
 
-            if (!Server.getDatabase().verifmail(u.mail)){//Mail verification
-                Map map = new HashMap();
-                map.put("message", "Mail already present in database");
-                return new ModelAndView(map, "error.hbs");
-            }
+//            if (Server.getDatabase().verifmail(u.mail)){//Mail verification
+//                Map map = new HashMap();
+//                map.put("message", "Mail already present in database");
+//                return new ModelAndView(map, "error.hbs");
+//            }
 
             String unformattedAddress = request.queryParams("adresse");
 
@@ -66,7 +66,7 @@ public class User {
         get("/register", (request, response) -> {//Register the user in database
             if (request.session().attribute("user") != null) {
                 User u = request.session().attribute("user");
-                Server.getDatabase().register(u.name,u.lastName,u.mail,u.mdp,u.placeid);
+                Server.getDatabase().register(u.name,u.lastName,u.placeid,u.mail,u.mdp);
 
                 Map map = new HashMap();
                 map.put("message", "Successfully created user");
