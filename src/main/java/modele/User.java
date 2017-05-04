@@ -14,6 +14,7 @@ import static spark.Spark.post;
  * Created by dnguye2 on 27/03/17.
  */
 public class User {
+    private int id;
     private String name;
     private String lastName;
     private String placeid;
@@ -33,6 +34,14 @@ public class User {
         this.mdp = mdp;
     }
 
+    public User(int id, String name, String lastName, String placeid, String mail) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.placeid = placeid;
+        this.mail = mail;
+    }
+
     public void setPlaceid(String placeid) {
         this.placeid = placeid;
     }
@@ -43,7 +52,7 @@ public class User {
             User u = new User(request.queryParams("nom"),
                     request.queryParams("prenom"),
                     request.queryParams("mail"),
-                    request.queryParams("mpd"));
+                    request.queryParams("mdp"));
 
 //            if (Server.getDatabase().verifmail(u.mail)){//Mail verification
 //                Map map = new HashMap();
@@ -78,14 +87,27 @@ public class User {
             }
         }, new HandlebarsTemplateEngine());
 
-//        post("/home", ((request, response) -> {
-//            User u = Server.getDatabase().selectUser(request.queryParams("mail"),request.queryParams("mdp"));
-//            if (u  != null){
-//              request.session().attribute("user",u);
-//              Map map = new HashMap();
-//              map.put("name", u.name);
-//              return new ModelAndView(map, "userpage.hbs");
-//            }
-//        });
+        get("/", (request, response) -> {
+            if (request.session().attribute("user") == null){
+                response.redirect("/utilisateur.html");
+                Map map = new HashMap();
+                map.put("message", "Redirection error");
+                return new ModelAndView(map, "error.hbs");
+            }
+            else{
+                response.redirect("/connect");
+                Map map = new HashMap();
+                map.put("message", "Redirection error");
+                return new ModelAndView(map, "error.hbs");
+            }
+        }, new HandlebarsTemplateEngine());
+
+        post("/connect", (request,response) -> {
+            User u = Server.getDatabase().connect(request.queryParams("mail"),request.queryParams("mdp"));
+            request.session().attribute("user",u);
+            Map map = new HashMap();
+            map.put("name", u.name);
+            return new ModelAndView(map, "userpage.hbs");
+        }, new HandlebarsTemplateEngine());
     }
 }

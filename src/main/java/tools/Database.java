@@ -12,6 +12,8 @@ package tools; /**
 //    /   \
 //   /_____\
 //  NightJawaj
+import modele.User;
+
 import java.sql.*;
 public class Database {
     //Attribut
@@ -347,11 +349,35 @@ public class Database {
     }
 
     //Selection des informations d'un user
-    public  ResultSet selectUser(int idu){
+    public ResultSet selectUser(int idu){
         String text = "select * " +
                 "from user " +
                 "where id ="+idu;
         return selectSQL(text);
+    }
+
+    public User connect(String mail,String password) throws Exception {
+        String text = "SELECT id FROM user WHERE mail = ? AND psw = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1,mail);
+        ps.setString(2,password);
+
+        ResultSet rs = ps.executeQuery();
+
+        if(!rs.next()){
+            throw new Exception("Unkown user");
+        }
+        int idu = rs.getInt("id");
+
+
+        ResultSet userResult = selectUser(idu);
+        userResult.next();
+
+        User u = new User(idu,userResult.getString("fname"),
+                userResult.getString("lname"),
+                userResult.getString("placeid"),
+                userResult.getString("mail"));
+        return u;
     }
 
     //Selection des informations d'un evenement
