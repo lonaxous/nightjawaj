@@ -54,7 +54,7 @@ public class Database {
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1,fname);
         ps.setInt(2,idu);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
@@ -66,19 +66,19 @@ public class Database {
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1,lname);
         ps.setInt(2,idu);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
     //Modifier adresse d'un user
-    public void modifyUserAdrs(int idu,String adrs)throws SQLException{
+    public void modifyUserPlaceId(int idu,String placeid)throws SQLException{
         String text = "update user " +
-                "set adrs = ? "+
+                "set placeid = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
-        ps.setString(1, adrs);
+        ps.setString(1, placeid);
         ps.setInt(2,idu);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
@@ -90,7 +90,7 @@ public class Database {
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1, transport);
         ps.setInt(2,idu);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
@@ -102,77 +102,76 @@ public class Database {
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1, foodPref);
         ps.setInt(2,idu);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
-    public boolean modifyMail(int idu, String mail)throws SQLException{
+    //Modifier l'adresse mail
+    public void modifyMail(int idu, String mail)throws SQLException{
         String text = "update user set mail = ? where idu = ?";
-        if(verifmail(mail)) {
-            PreparedStatement ps = co.prepareStatement(text);
-            ps.setString(1, mail);
-            ps.setInt(2, idu);
-            ps.executeQuery();
-            return true;
-        }
-        return false;
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, mail);
+        ps.setInt(2, idu);
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    //Modifier les evenements
+    public void modifyPsw(int idu, String psw)throws SQLException{
+        String text = "update user set psw = ? where idu = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setString(1, psw);
+        ps.setInt(2, idu);
+        ps.executeUpdate();
+        ps.close();
     }
 
     //Créer un évènement
-    public void createEvent(int idu, String name, Date date)throws SQLException{
-        int ide = seqNumber("event");
+    public void createEvent(int idu, String name)throws SQLException{
         //Insertion d'un nouvelle event
-        String text = "insert into event(id,name,jour) " +
-                "values(?,?,?)";
+        String text = "insert into event(name) " +
+                "values(?)";
         PreparedStatement ps = co.prepareStatement(text);
-        ps.setInt(1, ide);
-        ps.setString(2,name);
-        ps.setDate(3,date);
-        ps.executeQuery();
+        ps.setString(1,name);
+        ps.executeUpdate();
         ps.close();
+        //On prend le dernier id
+        int ide = -1;
+        String lastId = "select max(id) from event where name ="+name+" and jour ="+date;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(lastId);
+        if(rs.next())ide = rs.getInt(1);
         //Liaison entre un event et l'organisateur
-        String text2 = "insert into organiser " +
-                "values(seq_organiser.nextval,?,?)";
+        String text2 = "insert into organiser(idu,ide) " +
+                "values(?,?)";
         PreparedStatement ps2 = co.prepareStatement(text2);
         ps2.setInt(1,idu);
         ps2.setInt(2,ide);
-        ps2.executeQuery();
+        ps2.executeUpdate();
         ps.close();
     }
 
-    //Evenement modifier heure de début
-    public void modifyEventStartHour(int ide, String startHour)throws SQLException{
+    //Evenement modifier date de début
+    public void modifyEventStartDate(int ide, String startDate)throws SQLException{
         String text = "update event " +
-                "set starthour = ? " +
+                "set startdate = ? " +
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
-        ps.setString(1, startHour);
+        ps.setString(1, startDate);
         ps.setInt(2,ide);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
-    //Evenement modifier heure de fin
-    public void modifyEventEndHour(int ide, String endHour)throws SQLException{
+    //Evenement modifier date de fin
+    public void modifyEventEndDate(int ide, String endDate)throws SQLException{
         String text = "update event " +
-                "set endhour = ? " +
+                "set enddate = ? " +
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
-        ps.setString(1, endHour);
+        ps.setString(1, endDate);
         ps.setInt(2,ide);
-        ps.executeQuery();
-        ps.close();
-    }
-
-    //Evenement modifier la date
-    public void modifyEventDate(int ide, Date date)throws SQLException{
-        String text = "update event " +
-                "set jour = ? " +
-                "where id = ?";
-        PreparedStatement ps = co.prepareStatement(text);
-        ps.setDate(1, date);
-        ps.setInt(2,ide);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
@@ -184,57 +183,60 @@ public class Database {
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1, name);
         ps.setInt(2,ide);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
     //Annuler un événement
     public  void deleteEvent(int ide)throws SQLException{
-        String text = "delete * " +
+        String text = "delete " +
                 "from organiser " +
                 "where ide = ? ";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setInt(1, ide);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
 
-        String text2 = "delete * " +
+        String text2 = "delete " +
                 "from ambiance " +
                 "where ide = ?";
         PreparedStatement ps2 = co.prepareStatement(text2);
         ps2.setInt(1,ide);
-        ps2.executeQuery();
+        ps2.executeUpdate();
         ps2.close();
 
-        String text3 = "delete * " +
+        String text3 = "delete " +
                 "from event " +
                 "where id = ?";
         PreparedStatement ps3 = co.prepareStatement(text3);
         ps3.setInt(1, ide);
-        ps3.executeQuery();
+        ps3.executeUpdate();
         ps3.close();
     }
 
-
-
     //Ajouter une activité à un événement
-    public void addActivity(int ide, String name, Date date)throws SQLException{
-        int ida = seqNumber("activity");
+    public void addActivity(int ide, String name, String placeid)throws SQLException{
         //Insertion d'une nouvelle activity
-        String text = "insert into activity(id,name,jour) " +
-                "values("+ida+",?,?)";
+        String text = "insert into activity(name,placeid) " +
+                "values(?,?)";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1, name);
-        ps.setDate(2,date);
-        ps.executeQuery();
+        ps.setString(2, placeid);
+        ps.executeUpdate();
         ps.close();
+        //On prend le dernier id
+        int ida = -1;
+        String lastId = "select max(id) from activity where name ="+name+" and placeid ="+placeid;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(lastId);
+        if(rs.next())ida = rs.getInt(1);
         //Liaison entre un event et l'organisateur
         String text2 = "insert into planing " +
-                "values(seq_planing.nextval,?,?)";
+                "values(?,?)";
         PreparedStatement ps2 = co.prepareStatement(text2);
         ps2.setInt(1, ide);
-        ps2.setInt(2,ida);
-        ps2.executeQuery();
+        ps2.setInt(2, ida);
+        ps2.executeUpdate();
         ps2.close();
     }
 
@@ -246,93 +248,84 @@ public class Database {
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1, name);
         ps.setInt(2,ida);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
     //Activity modifier l'adresse
-    public void modifyActivityAdrs(int ida, String adrs)throws SQLException{
+    public void modifyActivityPlaceid(int ida, String placeid)throws SQLException{
         String text = "update activity " +
-                "set adrs = ? " +
+                "set placeid = ? " +
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
-        ps.setString(1, adrs);
+        ps.setString(1, placeid);
         ps.setInt(2,ida);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
-    //Activity modifier la date
-    public void modifyActivityDate(int ida, Date date)throws SQLException{
+    //Activity modifier la date de début
+    public void modifyActivityStartDate(int ida, String startdate)throws SQLException{
         String text = "update activity " +
-                "set jour = ? " +
+                "set startdate = ? " +
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
-        ps.setDate(1, date);
+        ps.setString(1, startdate);
         ps.setInt(2,ida);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
-    //Activity modifier l'heure de début
-    public void modifyActivityStartHour(int ida, String startHour)throws SQLException{
+    //Activity modifier la date de fin
+    public void modifyActivityEndDate(int ida, String enddate)throws SQLException{
         String text = "update activity " +
-                "set starthour = ? " +
+                "set enddate = ? " +
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
-        ps.setString(1, startHour);
+        ps.setString(1, enddate);
         ps.setInt(2,ida);
-        ps.executeQuery();
-        ps.close();
-    }
-
-    //Activity modifier l'heure de fin
-    public void modifyActivityEndHour(int ida, String endHour)throws  SQLException{
-        String text = "update activity " +
-                "set endhour = ? " +
-                "where id = ?";
-        PreparedStatement ps = co.prepareStatement(text);
-        ps.setString(1, endHour);
-        ps.setInt(2,ida);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
     //Supprimer une activité
     public void deletePlaning(int ida)throws SQLException{
-        String text = "delete * " +
+        String text = "delete " +
                 "from planing " +
                 "where ida = ? ";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setInt(1,ida);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
 
-        String text2 = "delete * " +
+        String text2 = "delete " +
                 "from activity " +
                 "where id = ?";
         PreparedStatement ps2 = co.prepareStatement(text2);
         ps.setInt(1,ida);
-        ps.executeQuery();
+        ps.executeUpdate();
         ps.close();
     }
 
 
     //Ajouter un ambiancé
-    public void addAmbiance(int ide,int idu){
-        int idamb = seqNumber("ambiance");
-        String text = "insert into ambiance " +
-                "values("+idamb+","+idu+","+ide+")";
-        executeSQL(text);
+    public void addAmbiance(int idu,int ide) throws SQLException {
+        String text = "insert into ambiance(idu,ide) values(?,?)";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setInt(1, idu);
+        ps.setInt(2, ide);
+        ps.executeUpdate();
+        ps.close();
     }
 
     //Enlever un ambiancé
-    public void deleteAmbiance(int ide, int idu){
-        String text = "delete * " +
-                "from ambiance " +
-                "where ide = "+ide+" " +
-                "and idu ="+idu;
-        executeSQL(text);
+    public void deleteAmbiance(int idu, int ide) throws SQLException {
+        String text = "delete from ambiance where idu = ? and ide = ?";
+        PreparedStatement ps = co.prepareStatement(text);
+        ps.setInt(1, idu);
+        ps.setInt(2, ide);
+        ps.executeUpdate();
+        ps.close();
     }
 
     //Select
@@ -356,6 +349,7 @@ public class Database {
         return selectSQL(text);
     }
 
+    //Connexion
     public User connect(String mail,String password) throws Exception {
         String text = "SELECT id FROM user WHERE mail = ? AND psw = ?";
         PreparedStatement ps = co.prepareStatement(text);
