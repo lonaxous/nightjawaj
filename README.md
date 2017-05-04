@@ -46,6 +46,9 @@ ____
 
 # Installation
 ## Depuis un terminal avec le fichier jar et le fichier sql :
+
+Les fichiers jar et sql sont disponible dans la partie "release"
+
 ```bash
 sqlite3 database.db < nightjawaj.sql
 java -jar nightjawaj.jar initiate
