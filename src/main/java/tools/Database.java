@@ -25,14 +25,16 @@ public class Database {
     //Fonctions
 
     //Inscription
-    public boolean register(String fname, String lname, String mail)throws SQLException{
-        String text =  "insert into utilisateur(id,fname,lname,mail) " +
-                "values(seq_user.nextval,?,?,?)";
+    public boolean register(String fname, String lname, String placeid, String mail,String psw)throws SQLException{
+        String text =  "insert into utilisateur(fname,lname,placeid,mail,psw) " +
+                "values(?,?,?,?,?)";
         if(verifmail(mail)) {
             PreparedStatement ps = co.prepareStatement(text);
             ps.setString(1, fname);
             ps.setString(2, lname);
-            ps.setString(3, mail);
+            ps.setString(3, placeid);
+            ps.setString(4, mail);
+            ps.setString(5, psw);
             ps.executeQuery();
             ps.close();
             return true;

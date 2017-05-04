@@ -66,7 +66,7 @@ public class User {
         get("/register", (request, response) -> {//Register the user in database
             if (request.session().attribute("user") != null) {
                 User u = request.session().attribute("user");
-                //Server.getDatabase().register(u.name,u.lastName,u.mail,u.mdp,u.placeid);
+                Server.getDatabase().register(u.name,u.lastName,u.mail,u.mdp,u.placeid);
 
                 Map map = new HashMap();
                 map.put("message", "Successfully created user");

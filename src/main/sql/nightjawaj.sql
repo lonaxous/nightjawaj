@@ -1,4 +1,4 @@
-drop table utilisateur;
+drop table user;
 drop table event;
 drop table activity;
 drop table organiser;
@@ -7,14 +7,13 @@ drop table planning;
 drop table APIgoogle;
 
 
-create table utilisateur(
+create table user(
 	id integer primary key autoincrement,
 	fname varchar(30) not null,
 	lname varchar(30) not null,
-	adrs varchar(200),
+	placeid varchar(200),
 	mail varchar(100) not null,
 	psw varchar(100),
-	transport varchar(20),
 	foodpref varchar(300),
 	unique(mail)
 );

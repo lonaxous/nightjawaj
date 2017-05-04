@@ -31,7 +31,7 @@ public class Server {
 //        String user = sc.nextLine();
 //        System.out.print("Password : ");
 //        String psw = sc.nextLine();
-        tools.Database db = new tools.Database();
+        db = new tools.Database();
         System.out.println("tools.Database connection success, starting server");
 
         api = new API("AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4");
