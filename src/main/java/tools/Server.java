@@ -21,6 +21,11 @@ public class Server {
         db = new Database(); //Initiate connection to database
         System.out.println("tools.tools.Database creation sucess!");
         staticFiles.location("/"); // Initialize static files folder
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("API Key : ");
+        String apikey = sc.nextLine();
+        db.insertApiG(apikey);
     }
 
     public void start() throws SQLException {
@@ -34,7 +39,8 @@ public class Server {
         db = new tools.Database();
         System.out.println("tools.Database connection success, starting server");
 
-        api = new API("AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4");
+        String apikey = db.selectApiG();
+        api = new API(apikey);
 
         staticFiles.location("/"); // Initialize static files folder
         User.start();

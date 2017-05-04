@@ -424,9 +424,10 @@ public class Database {
     }
 
     //Obtenir la clé d'api google
-    public ResultSet selectApiG()throws SQLException{
+    public String selectApiG()throws SQLException{
         String text = "select clef from APIgoogle where id = 1";
-        return selectSQL(text);
+        ResultSet rs = selectSQL(text);
+        return rs.getString(1);
     }
 
     //Fonction pour vérifier si une adressemail existe déjà

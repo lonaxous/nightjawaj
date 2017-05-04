@@ -87,7 +87,7 @@ public class User {
             }
         }, new HandlebarsTemplateEngine());
 
-        get("/", (request, response) -> {
+        get("/", (request, response) -> { //Redirect user to login page or to homepage if session is present or not
             User u = request.session().attribute("user");
             if (u == null){
                 response.redirect("/utilisateur.html");
@@ -98,11 +98,12 @@ public class User {
             else{
                 Map map = new HashMap();
                 map.put("name", u.name);
+                map.put("lname",u.lastName);
                 return new ModelAndView(map, "userpage.hbs");
             }
         }, new HandlebarsTemplateEngine());
 
-        post("/connect", (request,response) -> {
+        post("/connect", (request,response) -> {//Connect user and create session
             try{
                 User u = Server.getDatabase().connect(request.queryParams("mail"),request.queryParams("mdp"));
                 request.session().attribute("user",u);
@@ -113,12 +114,12 @@ public class User {
             }
             catch(Exception e){
                 Map map = new HashMap();
-                map.put("message", "Unknown user/password");
+                map.put("message", "Unknown user/password");//Show an error if password and mail aren't correct
                 return new ModelAndView(map, "error.hbs");
             }
         }, new HandlebarsTemplateEngine());
 
-        get("/disconnect", (request, response) -> {
+        get("/disconnect", (request, response) -> {//Disconnect user
             User u = request.session().attribute("user");
             if (u != null){
                 request.session(false);
