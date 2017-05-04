@@ -11,9 +11,9 @@ create table user(
 	id integer primary key autoincrement,
 	fname varchar(30) not null,
 	lname varchar(30) not null,
-	placeid varchar(200),
+	placeid varchar(200)not null,
 	mail varchar(100) not null,
-	psw varchar(100),
+	psw varchar(100) not null,
 	foodpref varchar(300),
 	unique(mail)
 );
@@ -28,7 +28,7 @@ create table event(
 create table activity(
 	id integer primary key autoincrement,
 	name varchar(50) not null,
-	adrs varchar(200) not null,
+	placeid varchar(200) not null,
 	startdate varchar(16),
 	enddate varchar(16)
 );
