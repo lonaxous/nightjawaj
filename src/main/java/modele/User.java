@@ -54,11 +54,11 @@ public class User {
                     request.queryParams("mail"),
                     request.queryParams("mdp"));
 
-//            if (Server.getDatabase().verifmail(u.mail)){//Mail verification
-//                Map map = new HashMap();
-//                map.put("message", "Mail already present in database");
-//                return new ModelAndView(map, "error.hbs");
-//            }
+            if (Server.getDatabase().verifmail(u.mail)){//Mail verification
+                Map map = new HashMap();
+                map.put("message", "Mail already present in database");
+                return new ModelAndView(map, "error.hbs");
+            }
 
             String unformattedAddress = request.queryParams("adresse");
 

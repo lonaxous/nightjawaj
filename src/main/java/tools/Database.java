@@ -430,16 +430,14 @@ public class Database {
     }
 
     //Fonction pour vérifier si une adressemail existe déjà
-    //Retourne faux si elle existe, vrai sinon
+    //Retourne vrai si elle existe, faux sinon
     public boolean verifmail(String mail)throws SQLException{
-        String text = "select mail from user where mail = ?";
+        String text = "select id from user where mail = ?";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1,mail);
         ResultSet rs = ps.executeQuery();
-        ps.close();
-        if(rs.next())return false;
-        rs.close();
-        return true;
+        boolean isPresent = rs.next();
+        return isPresent;
     }
 
 
