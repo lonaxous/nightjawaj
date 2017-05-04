@@ -1,9 +1,7 @@
 package modele;
 
 import spark.ModelAndView;
-import spark.Response;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import tools.ModelException;
 import tools.Server;
 
 import java.util.*;
@@ -35,14 +33,26 @@ public class Event {
                     request.queryParams("heurefin"));
 
             if (!e.dateDeb.matches("([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])")){
-                response.redirect("/error?Error, start hour doesn't match format. Hint : ([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])");
+                response.redirect("/error?msg=Error, start hour doesn't match format. Hint : ([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])");
             }
             else if (!e.dateDeb.matches("([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])")){
-                response.redirect("/error?Error, end hour doesn't match format. Hint : ([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])");
+                response.redirect("/error?msg=Error, end hour doesn't match format. Hint : ([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])");
             }
             User u = request.session().attribute("user");
-            Server.getDatabase().createEvent(u.getId(),e.name);
-            return "Name : "+e.name+"<br>"+"hdeb : "+e.dateDeb+"<br>hfin : "+e.dateFin;
-        });
+            if (u == null ) response.redirect("/");
+            Server.getDatabase().createEvent(u.getId(),e.name); // Adding event to database
+            Map map = new HashMap();
+            map.put("eventname", e.name);
+            map.put("nom", u.getName());
+            map.put("prenom", u.getFirstname());
+            map.put("hdeb",e.dateDeb);
+            map.put("hfin",e.dateFin);
+
+            //Manage user address
+            Address a = Address.getAddressFromId(u.getPlaceid());
+            map.put("adresse",a.formattedAddress);
+
+            return new ModelAndView(map, "listeevenement.hbs");
+        }, new HandlebarsTemplateEngine());
     }
 }

@@ -66,9 +66,15 @@ public class Address {
     public boolean isValid(String unformattedAddress) throws IOException {
         JSONObject j = Server.getAPI().textSearch(unformattedAddress);
 
-        System.out.println(j.getString("status"));
         return (j.getString("status").equals("OK")); // if status is OK then address is valid
     }
 
+    public static Address getAddressFromId(String placeid) throws IOException {
+        JSONObject j = Server.getAPI().placedetails(placeid);
+        JSONObject addr = j.getJSONObject("result");
 
+        Address a = new Address(addr.getString("formatted_address"),placeid);
+
+        return a;
+    }
 }

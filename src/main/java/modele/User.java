@@ -16,7 +16,7 @@ import static spark.Spark.post;
 public class User {
     private int id;
     private String name;
-    private String lastName;
+    private String firstname;
     private String placeid;
     private String mail;
     private String mdp;
@@ -24,20 +24,20 @@ public class User {
 
     public User(String n, String ln) {
         name = n;
-        lastName = ln;
+        firstname = ln;
     }
 
-    public User(String name, String lastName, String mail, String mdp) {
+    public User(String name, String firstname, String mail, String mdp) {
         this.name = name;
-        this.lastName = lastName;
+        this.firstname = firstname;
         this.mail = mail;
         this.mdp = mdp;
     }
 
-    public User(int id, String name, String lastName, String placeid, String mail) {
+    public User(int id, String name, String firstname, String placeid, String mail) {
         this.id = id;
         this.name = name;
-        this.lastName = lastName;
+        this.firstname = firstname;
         this.placeid = placeid;
         this.mail = mail;
     }
@@ -54,8 +54,8 @@ public class User {
         return name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getFirstname() {
+        return firstname;
     }
 
     public String getPlaceid() {
@@ -91,7 +91,7 @@ public class User {
         get("/register", (request, response) -> {//Register the user in database
             if (request.session().attribute("user") != null) {
                 User u = request.session().attribute("user");
-                Server.getDatabase().register(u.name,u.lastName,u.placeid,u.mail,u.mdp);
+                Server.getDatabase().register(u.name,u.firstname,u.placeid,u.mail,u.mdp);
 
                 Map map = new HashMap();
                 map.put("message", "Successfully created user");
@@ -114,7 +114,7 @@ public class User {
             else{
                 Map map = new HashMap();
                 map.put("name", u.name);
-                map.put("lname",u.lastName);
+                map.put("lname",u.firstname);
                 return new ModelAndView(map, "userpage.hbs");
             }
         }, new HandlebarsTemplateEngine());
@@ -125,7 +125,7 @@ public class User {
                 request.session().attribute("user",u);
                 Map map = new HashMap();
                 map.put("name", u.name);
-                map.put("lname",u.lastName);
+                map.put("lname",u.firstname);
                 return new ModelAndView(map, "userpage.hbs");
             }
             catch(Exception e){

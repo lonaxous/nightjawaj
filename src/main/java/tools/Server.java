@@ -39,6 +39,7 @@ public class Server {
         User.start();
         Address.start();
         Event.start();
+        ModelException.start();
     }
 
     public static API getAPI(){

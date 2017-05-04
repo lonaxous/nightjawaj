@@ -20,7 +20,7 @@ public class API {
     public JSONObject getJ(String type, String param) throws IOException {
         URL url = new URL("https://maps.googleapis.com/maps/api/place/"+type+"/json?"+
                 param+"&key=" + APIKEY); // Search for the address via API
-        System.out.println(url.toString());
+        System.out.println("tools.API issued request : "+url.toString());
         Scanner scan = new Scanner(url.openStream());
         String html_output = new String();
         while (scan.hasNext())
