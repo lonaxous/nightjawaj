@@ -29,13 +29,6 @@ public class Server {
     }
 
     public void start() throws SQLException {
-//        Scanner sc = new Scanner(System.in);
-//        System.out.print("tools.Server address : ");
-//        String address = sc.nextLine();
-//        System.out.print("Username : ");
-//        String user = sc.nextLine();
-//        System.out.print("Password : ");
-//        String psw = sc.nextLine();
         db = new tools.Database();
         System.out.println("tools.Database connection success, starting server");
 

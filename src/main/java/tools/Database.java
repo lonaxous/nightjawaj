@@ -137,10 +137,10 @@ public class Database {
         ps.close();
         //On prend le dernier id
         int ide = -1;
-        String lastId = "select max(id) from event where name ="+name+" and jour ="+date;
+        //String lastId = "select max(id) from event where name ="+name+" and jour ="+date;
         Statement s = co.createStatement();
-        ResultSet rs = s.executeQuery(lastId);
-        if(rs.next())ide = rs.getInt(1);
+        //ResultSet rs = s.executeQuery(lastId);
+        //if(rs.next())ide = rs.getInt(1);
         //Liaison entre un event et l'organisateur
         String text2 = "insert into organiser(idu,ide) " +
                 "values(?,?)";
