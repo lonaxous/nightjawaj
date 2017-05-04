@@ -42,3 +42,26 @@ Diagrammes UML de nightjawaj : https://repository.genmymodel.com/lonaxous/nightj
    /_____\
   NightJawaj
                                                                 
+____
+
+# Installation
+## Depuis un terminal avec le fichier jar et le fichier sql :
+```bash
+sqlite3 database.db < nightjawaj.sql
+java -jar nightjawaj.jar initiate
+java -jar nightjawaj.jar start
+```
+
+* Créer la base de donnée à l'aide du fichier sql
+
+* Entrer les paramètres initiaux (la clé api)
+
+* Lancer le serveur
+
+## Depuis le code avec Intelliji
+* Créer la base de donnée
+
+```bash
+sqlite3 database.db < nightjawaj.sql
+```
+* Depuis Intelliji alt+shift+f10, éditer les arguments de lancement. initiate, lancer puis start.
