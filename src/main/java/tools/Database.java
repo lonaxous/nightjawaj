@@ -26,7 +26,7 @@ public class Database {
 
     //Inscription
     public boolean register(String fname, String lname, String placeid, String mail,String psw)throws SQLException{
-        String text =  "insert into utilisateur(fname,lname,placeid,mail,psw) " +
+        String text =  "insert into user(fname,lname,placeid,mail,psw) " +
                 "values(?,?,?,?,?)";
         if(verifmail(mail)) {
             PreparedStatement ps = co.prepareStatement(text);
@@ -35,7 +35,7 @@ public class Database {
             ps.setString(3, placeid);
             ps.setString(4, mail);
             ps.setString(5, psw);
-            ps.executeQuery();
+            ps.executeUpdate();
             ps.close();
             return true;
         }
@@ -44,9 +44,9 @@ public class Database {
 
     }
 
-    //Modifier firstName d'un utilisateur
+    //Modifier firstName d'un user
     public void modifyUserFName(int idu,String fname)throws SQLException{
-        String text = "update utilisateur " +
+        String text = "update user " +
                 "set fname = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -56,9 +56,9 @@ public class Database {
         ps.close();
     }
 
-    //Modifier lastName d'un utilisateur
+    //Modifier lastName d'un user
     public void modifyUserLName(int idu,String lname)throws SQLException{
-        String text = "update utilisateur " +
+        String text = "update user " +
                 "set lname = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -68,9 +68,9 @@ public class Database {
         ps.close();
     }
 
-    //Modifier adresse d'un utilisateur
+    //Modifier adresse d'un user
     public void modifyUserAdrs(int idu,String adrs)throws SQLException{
-        String text = "update utilisateur " +
+        String text = "update user " +
                 "set adrs = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -80,9 +80,9 @@ public class Database {
         ps.close();
     }
 
-    //Modifier le moyen de transport d'un utilisateur
+    //Modifier le moyen de transport d'un user
     public void modifyTransport(int idu, String transport)throws SQLException{
-        String text = "update utilisateur " +
+        String text = "update user " +
                 "set transport = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -94,7 +94,7 @@ public class Database {
 
     //Modifier les préférences allimentaire
     public void modifyFoodPref(int idu, String foodPref)throws SQLException{
-        String text = "update utilisateur " +
+        String text = "update user " +
                 "set foodpref = ? "+
                 "where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
@@ -105,7 +105,7 @@ public class Database {
     }
 
     public boolean modifyMail(int idu, String mail)throws SQLException{
-        String text = "update utilisateur set mail = ? where idu = ?";
+        String text = "update user set mail = ? where idu = ?";
         if(verifmail(mail)) {
             PreparedStatement ps = co.prepareStatement(text);
             ps.setString(1, mail);
@@ -346,7 +346,7 @@ public class Database {
         return selectSQL(text);
     }
 
-    //Selection des informations d'un utilisateur
+    //Selection des informations d'un user
     public  ResultSet selectUser(int idu){
         String text = "select * " +
                 "from user " +
