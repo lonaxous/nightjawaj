@@ -1,50 +1,58 @@
+drop table utilisateur;
+drop table event;
+drop table activity;
+drop table organiser;
+drop table ambiance;
+drop table planning;
+drop table APIgoogle;
+
+
 create table utilisateur(
-	id int primary key autoincrement,
-	fname varchar2(30) not null,
-	lname varchar2(30) not null,
-	adrs varchar2(200),
-	mail varchar2(100) not null,
-	transport varchar2(20),
-	foodpref varchar2(300),
+	id integer primary key autoincrement,
+	fname varchar(30) not null,
+	lname varchar(30) not null,
+	adrs varchar(200),
+	mail varchar(100) not null,
+	psw varchar(100),
+	transport varchar(20),
+	foodpref varchar(300),
 	unique(mail)
 );
 
 create table event(
-	id int primary key autoincrement,
-	name varchar2(50) not null,
-	jour Date not null,
-	starthour varchar2(10),
-	endhour varchar2(10)
+	id integer primary key autoincrement,
+	name varchar(50) not null,
+	startdate varchar(16),
+	enddate varchar(16)
 );
 
-create table actvity(
-	id int primary key autoincrement,
-	name varchar2(50) not null,
-	adrs varchar2(200) not null,
-	jour Date,
-	starthour varchar2(10),
-	endhour varchar2(10)
+create table activity(
+	id integer primary key autoincrement,
+	name varchar(50) not null,
+	adrs varchar(200) not null,
+	startdate varchar(16),
+	enddate varchar(16)
 );
 
 create table organiser(
-	id int primary key autoincrement,
-	idu int references utilisateur,
-	ide int references event
+	id integer primary key autoincrement,
+	idu integer references utilisateur,
+	ide integer references event
 );
 
 create table ambiance(
-	id int primary key autoincrement,
-	idu int references utilisateur,
-	ide int references event
+	id integer primary key autoincrement,
+	idu integer references utilisateur,
+	ide integer references event
 );
 
-create table planing(
-	id int primary key autoincrement,
-	ide int references event,
-	ida int references actvity 
+create table planning(
+	id integer primary key autoincrement,
+	ide integer references event,
+	ida integer references actvity
 );
 
 create table APIgoogle(
-    id int primary key,
-    clef varchar2(300)
+    id integer primary key,
+    clef varchar(300)
 );
