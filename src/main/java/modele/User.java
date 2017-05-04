@@ -46,6 +46,22 @@ public class User {
         this.placeid = placeid;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPlaceid() {
+        return placeid;
+    }
+
     public static void start() {
         post("/user", (request, response) -> { //Getting information from the registering form (HTML)
             // register informations
