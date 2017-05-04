@@ -103,11 +103,36 @@ public class User {
         }, new HandlebarsTemplateEngine());
 
         post("/connect", (request,response) -> {
-            User u = Server.getDatabase().connect(request.queryParams("mail"),request.queryParams("mdp"));
-            request.session().attribute("user",u);
-            Map map = new HashMap();
-            map.put("name", u.name);
-            return new ModelAndView(map, "userpage.hbs");
+            try{
+                User u = Server.getDatabase().connect(request.queryParams("mail"),request.queryParams("mdp"));
+                request.session().attribute("user",u);
+                Map map = new HashMap();
+                map.put("name", u.name);
+                map.put("lname",u.lastName);
+                return new ModelAndView(map, "userpage.hbs");
+            }
+            catch(Exception e){
+                Map map = new HashMap();
+                map.put("message", "Unknown user/password");
+                return new ModelAndView(map, "error.hbs");
+            }
+        }, new HandlebarsTemplateEngine());
+
+        get("/disconnect", (request, response) -> {
+            User u = request.session().attribute("user");
+            if (u != null){
+                request.session(false);
+                request.session().attribute("user",null);
+                response.redirect("/utilisateur.html");
+                Map map = new HashMap();
+                map.put("message", "Redirection error");
+                return new ModelAndView(map, "error.hbs");
+            }
+            else {
+                Map map = new HashMap();
+                map.put("message", "You are not connected");
+                return new ModelAndView(map, "error.hbs");
+            }
         }, new HandlebarsTemplateEngine());
     }
 }
