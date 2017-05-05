@@ -12,9 +12,12 @@ package tools; /**
 //    /   \
 //   /_____\
 //  NightJawaj
+import modele.Event;
 import modele.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+
 public class Database {
     //Attribut
     Connection co;
@@ -139,7 +142,7 @@ public class Database {
         ps.close();
         //On prend le dernier id
         int ide = -1;
-        String lastId = "select max(id) from event where name ="+name+" and startdate ="+startDate+" and enddate ="+endDate;
+        String lastId = "select max(id) from event where name ='"+name+"' and startdate ='"+startDate+"' and enddate ='"+endDate+"'";
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(lastId);
         if(rs.next())ide = rs.getInt(1);
@@ -426,6 +429,21 @@ public class Database {
         return rs.getString(1);
     }
 
+    //Selection des event par id des utilisateur
+    public ArrayList<Event> selectUserEvent(int idu)throws SQLException{
+        ArrayList<Event> listEvent = new ArrayList<>();
+        String requete = "select e.id,e.name,e.startdate,e.enddate " +
+                "from event e, organiser o " +
+                "where e.id = o.ide " +
+                "and o.idu = "+idu;
+        Statement s= co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        while(rs.next()){
+            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+        }
+        return listEvent;
+    }
+
     //Fonction pour vérifier si une adressemail existe déjà
     //Retourne vrai si elle existe, faux sinon
     public boolean verifmail(String mail)throws SQLException{
@@ -436,6 +454,8 @@ public class Database {
         boolean isPresent = rs.next();
         return isPresent;
     }
+
+
 
 
     //Fonction executant du SQL

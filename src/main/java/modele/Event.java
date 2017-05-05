@@ -27,6 +27,13 @@ public class Event {
         this.dateFin = dateFin;
     }
 
+    public Event(int ide,String name, String dateDeb, String dateFin) {
+        this.ide = ide;
+        this.name = name;
+        this.dateDeb = dateDeb;
+        this.dateFin = dateFin;
+    }
+
     public static void start(){
         post("/event", (request, response) -> {
             Event e = new Event(request.queryParams("nomevenement"),
