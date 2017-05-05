@@ -113,7 +113,7 @@ public class Event {
             }
         }, new HandlebarsTemplateEngine());
 
-        get("/ajoutAmbiance", (request,response) -> {
+        get("/ajoutambiance", (request,response) -> {
             User u = request.session().attribute("user");
             //Vérification si l'user est bien connecté
             if(u == null){
@@ -127,7 +127,7 @@ public class Event {
             int ide = Integer.parseInt(request.queryParams("idevent"));
 
             //Vérification si l'user est bien l'organsier de l'event
-            if(Server.getDatabase().verifOragniserEvent(u.getId(),ide)){
+            if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
                 response.redirect("/error?msg=try again");
                 Map map = new HashMap();
                 map.put("message","Redirection error");
@@ -150,7 +150,7 @@ public class Event {
             HashMap map = new HashMap();
             map.put("items",ambiances);
 
-            return new ModelAndView(map,"ajoutAmbiance.hbs");
+            return new ModelAndView(map,"ajoutambiance.hbs");
         },new HandlebarsTemplateEngine());
 
         post("/event", (request, response) -> {

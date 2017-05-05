@@ -51,7 +51,7 @@ public class Activity {
             //Obtention de l'identifiant de l'event
             int ide = Integer.parseInt(request.queryParams("idevent"));
             //Vérification si l'user est bien l'organsier de l'event
-            if(Server.getDatabase().verifOragniserEvent(u.getId(),ide)){
+            if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
                 response.redirect("/error?msg=try again");
                 Map map = new HashMap();
                 map.put("message","Redirection error");

@@ -502,14 +502,11 @@ public class Database {
     }
 
     //Fonction vérifiant si l'user est bien l'organiser d'un event
-    public boolean verifOragniserEvent(int idu, int ide)throws SQLException{
+    public boolean isOragniserEvent(int idu, int ide)throws SQLException{
         String text = "select * from organiser where idu ="+idu+" and ide = "+ide;
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(text);
-        if(rs.next()){
-            return true;
-        }
-        return false;
+        return rs.next();
     }
 
     //Fonction Pour executer les select en sql
