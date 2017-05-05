@@ -346,14 +346,6 @@ public class Database {
         return selectSQL(text);
     }
 
-    //Selection des informations d'un user
-    public ResultSet selectUser(int idu){
-        String text = "select * " +
-                "from user " +
-                "where id ="+idu;
-        return selectSQL(text);
-    }
-
     //Connexion
     public User connect(String mail,String password) throws Exception {
         String text = "SELECT id FROM user WHERE mail = ? AND psw = ?";
@@ -368,14 +360,7 @@ public class Database {
         }
         int idu = rs.getInt("id");
 
-
-        ResultSet userResult = selectUser(idu);
-        userResult.next();
-
-        User u = new User(idu,userResult.getString("fname"),
-                userResult.getString("lname"),
-                userResult.getString("placeid"),
-                userResult.getString("mail"));
+        User u = selectUser(idu);
         return u;
     }
 
@@ -429,8 +414,8 @@ public class Database {
         return rs.getString(1);
     }
 
-    //Selection des event par id des utilisateur
-    public ArrayList<Event> selectUserEvent(int idu)throws SQLException{
+    //Selection des event que l'utilisateur à organiser
+    public ArrayList<Event> selectUserEvent(int idu) throws Exception {
         ArrayList<Event> listEvent = new ArrayList<>();
         String requete = "select e.id,e.name,e.startdate,e.enddate " +
                 "from event e, organiser o " +
@@ -439,13 +424,13 @@ public class Database {
         Statement s= co.createStatement();
         ResultSet rs = s.executeQuery(requete);
         while(rs.next()){
-            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectUser(idu)));
         }
         return listEvent;
     }
 
-    //Selection des event par id des participants
-    public ArrayList<Event> selectAmbianceEvent(int idu)throws SQLException{
+    //Selection des event auquels l'utilisateur participe
+    public ArrayList<Event> selectAmbianceEvent(int idu) throws Exception {
         ArrayList<Event> listEvent = new ArrayList<>();
         String requete = "select e.id,e.name,e.startdate,e.enddate " +
                 "from event e, ambiance a " +
@@ -454,10 +439,33 @@ public class Database {
         Statement s= co.createStatement();
         ResultSet rs = s.executeQuery(requete);
         while(rs.next()){
-            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectOrganiser(rs.getInt(1))));
         }
         return listEvent;
     }
+
+    //Donne l'organisateur d'un event à partir de l'identifiant de celui-ci
+    public User selectOrganiser(int ide)throws Exception{
+        String requete = "select idu from organiser where id="+ide;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        if(rs.next()){
+            return selectUser(rs.getInt(1));
+        }
+        throw new Exception("Event does not exist");
+    }
+
+    //Selection d'un user
+    public User selectUser(int idu)throws Exception{
+        String requete = "select * from user where id = "+idu;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        if(rs.next()){
+            return new User(rs.getInt(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5));
+        }
+        throw new Exception("User does not exist");
+    }
+
 
     //Fonction pour vérifier si une adressemail existe déjà
     //Retourne vrai si elle existe, faux sinon
@@ -470,20 +478,6 @@ public class Database {
         return isPresent;
     }
 
-
-
-
-    //Fonction executant du SQL
-    public void executeSQL(String text){
-        try {
-            Statement s = co.createStatement();
-            s.executeUpdate(text);
-            s.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     //Fonction Pour executer les select en sql
     public ResultSet selectSQL(String text){
         try{
@@ -494,24 +488,6 @@ public class Database {
             e.printStackTrace();
         }
         return null;
-    }
-
-    //Select de sequence - prend le nom d'une table et retourne le nextval d'une sequence
-    //Tables : (user,event,activity,organiser,ambiance,planing)
-    public int seqNumber(String table){
-        String text = "select seq_"+table+".nextval from dual";
-        try{
-            Statement s = co.createStatement();
-            ResultSet r = s.executeQuery(text);
-            if(r.next()) return r.getInt(1);
-            else{
-                System.out.println("Erreur table incorrecte dans la demande de numéro de séquence");
-                return -1;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
     }
 
  }

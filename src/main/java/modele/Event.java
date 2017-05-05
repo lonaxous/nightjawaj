@@ -35,6 +35,14 @@ public class Event {
         this.dateFin = dateFin;
     }
 
+    public Event(int ide, String name, String dateDeb, String dateFin, User hisOrganiser) {
+        this.ide = ide;
+        this.name = name;
+        this.dateDeb = dateDeb;
+        this.dateFin = dateFin;
+        this.hisOrganiser = hisOrganiser;
+    }
+
     public List<User> getHisAmbiances() {
         return hisAmbiances;
     }
