@@ -7,6 +7,7 @@ import tools.Server;
 import java.util.*;
 
 import static spark.Spark.post;
+import static spark.Spark.get;
 
 /**
  * Created by dnguye2 on 27/03/17.
@@ -16,6 +17,7 @@ public class Event {
     private String name;
     private String dateDeb;
     private String dateFin;
+    private User hisOrganiser;
 
     private List<User> hisAmbiances;
     private List<Activity> hisActivities;
@@ -38,6 +40,38 @@ public class Event {
     }
 
     public static void start(){
+        get("/event", (request, response) -> {
+            User u = request.session().attribute("user");
+            if (u == null){
+                response.redirect("/error?msg=session not present");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+            else{
+                ArrayList<Event> listeE = Server.getDatabase().selectUserEvent(u.getId());
+                ArrayList<Map> events = new ArrayList<>();
+
+                for(int i=0;i<listeE.size();i++){
+                    Map<String,String> info = new HashMap<>();
+
+                    info.put("eventname",listeE.get(i).name);
+//                    info.put("nom",listeE.get(i).hisOrganiser.getName());
+//                    info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
+                    info.put("hdeb",listeE.get(i).dateDeb);
+                    info.put("hfin",listeE.get(i).dateFin);
+//                    info.put("hfin",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
+
+                    events.add(info);
+                }
+
+                HashMap map = new HashMap();
+                map.put("items",events);
+
+                return new ModelAndView(map,"listeevenement.hbs");
+            }
+        }, new HandlebarsTemplateEngine());
+
         post("/event", (request, response) -> {
             Event e = new Event(request.queryParams("nomevenement"),
                     request.queryParams("heuredebut"),
