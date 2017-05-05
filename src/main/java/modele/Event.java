@@ -40,7 +40,7 @@ public class Event {
             }
             User u = request.session().attribute("user");
             if (u == null ) response.redirect("/");
-            Server.getDatabase().createEvent(u.getId(),e.name); // Adding event to database
+            Server.getDatabase().createEvent(u.getId(),e.name,e.dateDeb,e.dateFin); // Adding event to database
             Map map = new HashMap();
             map.put("eventname", e.name);
             map.put("nom", u.getName());

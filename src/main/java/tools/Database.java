@@ -127,20 +127,22 @@ public class Database {
     }
 
     //Créer un évènement
-    public void createEvent(int idu, String name)throws SQLException{
+    public void createEvent(int idu, String name,String startDate,String endDate)throws SQLException{
         //Insertion d'un nouvelle event
-        String text = "insert into event(name) " +
-                "values(?)";
+        String text = "insert into event(name,startdate,enddate) " +
+                "values(?,?,?)";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1,name);
+        ps.setString(2, startDate);
+        ps.setString(3, endDate);
         ps.executeUpdate();
         ps.close();
         //On prend le dernier id
         int ide = -1;
-        //String lastId = "select max(id) from event where name ="+name+" and jour ="+date;
+        String lastId = "select max(id) from event where name ="+name+" and startdate ="+startDate+" and enddate ="+endDate;
         Statement s = co.createStatement();
-        //ResultSet rs = s.executeQuery(lastId);
-        //if(rs.next())ide = rs.getInt(1);
+        ResultSet rs = s.executeQuery(lastId);
+        if(rs.next())ide = rs.getInt(1);
         //Liaison entre un event et l'organisateur
         String text2 = "insert into organiser(idu,ide) " +
                 "values(?,?)";
