@@ -414,8 +414,8 @@ public class Database {
         return rs.getString(1);
     }
 
-    //Selection des event par id des utilisateur
-    public ArrayList<Event> selectUserEvent(int idu)throws SQLException{
+    //Selection des event que l'utilisateur à organiser
+    public ArrayList<Event> selectUserEvent(int idu) throws Exception {
         ArrayList<Event> listEvent = new ArrayList<>();
         String requete = "select e.id,e.name,e.startdate,e.enddate " +
                 "from event e, organiser o " +
@@ -424,13 +424,13 @@ public class Database {
         Statement s= co.createStatement();
         ResultSet rs = s.executeQuery(requete);
         while(rs.next()){
-            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectUser(idu)));
         }
         return listEvent;
     }
 
-    //Selection des event par id des participants
-    public ArrayList<Event> selectAmbianceEvent(int idu)throws SQLException{
+    //Selection des event auquels l'utilisateur participe
+    public ArrayList<Event> selectAmbianceEvent(int idu) throws Exception {
         ArrayList<Event> listEvent = new ArrayList<>();
         String requete = "select e.id,e.name,e.startdate,e.enddate " +
                 "from event e, ambiance a " +
@@ -442,6 +442,17 @@ public class Database {
             listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
         }
         return listEvent;
+    }
+
+    //Donne l'organisateur d'un event à partir de l'identifiant de celui-ci
+    public User selectOrganiser(int ide)throws Exception{
+        String requete = "select idu from organiser where id="+ide;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        if(rs.next()){
+            return selectUser(rs.getInt(1));
+        }
+        throw new Exception("Event does not exist");
     }
 
     //Selection d'un user
