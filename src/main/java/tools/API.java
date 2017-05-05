@@ -1,5 +1,6 @@
 package tools;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class API {
         APIKEY = api;
     }
 
-    public JSONObject getJ(String type, String param) throws IOException {
+    public JSONObject getJ(String type, String param) throws IOException, JSONException {
         URL url = new URL("https://maps.googleapis.com/maps/api/place/"+type+"/json?"+
                 param+"&key=" + APIKEY); // Search for the address via API
         System.out.println("tools.API issued request : "+url.toString());
@@ -29,12 +30,12 @@ public class API {
         JSONObject j = new JSONObject(html_output);
         return j;
     }
-    public JSONObject textSearch(String query) throws IOException {
+    public JSONObject textSearch(String query) throws IOException, JSONException {
         String formattedQuery = URLEncoder.encode(query,"UTF-8"); // Make the parameter URL compliant
         return getJ("textsearch","query="+formattedQuery);
     }
 
-    public JSONObject placedetails(String placeid) throws IOException {
+    public JSONObject placedetails(String placeid) throws IOException, JSONException {
         String formattedPlaceid = URLEncoder.encode(placeid,"UTF-8"); // Make the parameter URL compliant
         return getJ("details","placeid="+formattedPlaceid);
     }

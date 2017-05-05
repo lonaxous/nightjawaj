@@ -3,6 +3,7 @@ package modele;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import controleur.ControlerAddress;
+import org.json.JSONException;
 import org.json.JSONObject;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -63,13 +64,13 @@ public class Address {
     }
 
 
-    public boolean isValid(String unformattedAddress) throws IOException {
+    public boolean isValid(String unformattedAddress) throws IOException, JSONException {
         JSONObject j = Server.getAPI().textSearch(unformattedAddress);
 
         return (j.getString("status").equals("OK")); // if status is OK then address is valid
     }
 
-    public static Address getAddressFromId(String placeid) throws IOException {
+    public static Address getAddressFromId(String placeid) throws IOException, JSONException {
         JSONObject j = Server.getAPI().placedetails(placeid);
         JSONObject addr = j.getJSONObject("result");
 
