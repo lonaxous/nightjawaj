@@ -7,6 +7,7 @@ import tools.Server;
 import java.util.*;
 
 import static spark.Spark.post;
+import static spark.Spark.get;
 
 /**
  * Created by dnguye2 on 27/03/17.
