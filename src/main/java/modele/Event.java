@@ -65,11 +65,11 @@ public class Event {
                     Map<String,Object> info = new HashMap<>();
 
                     info.put("eventname",listeE.get(i).name);
-//                    info.put("nom",listeE.get(i).hisOrganiser.getName());
-//                    info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
+                    info.put("nom",listeE.get(i).hisOrganiser.getName());
+                    info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
                     info.put("hdeb",listeE.get(i).dateDeb);
                     info.put("hfin",listeE.get(i).dateFin);
-//                    info.put("hfin",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
+                    info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",true);
 
                     events.add(info);
@@ -81,11 +81,11 @@ public class Event {
                     Map<String,Object> info = new HashMap<>();
 
                     info.put("eventname",listeE.get(i).name);
-//                    info.put("nom",listeE.get(i).hisOrganiser.getName());
-//                    info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
+                    info.put("nom",listeE.get(i).hisOrganiser.getName());
+                    info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
                     info.put("hdeb",listeE.get(i).dateDeb);
                     info.put("hfin",listeE.get(i).dateFin);
-//                    info.put("hfin",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
+                    info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",false);
 
                     events.add(info);
