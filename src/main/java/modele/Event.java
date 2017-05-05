@@ -35,6 +35,10 @@ public class Event {
         this.dateFin = dateFin;
     }
 
+    public List<User> getHisAmbiances() {
+        return hisAmbiances;
+    }
+
     public static void start(){
         get("/event", (request, response) -> {
             User u = request.session().attribute("user");

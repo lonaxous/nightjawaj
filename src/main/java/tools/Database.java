@@ -444,6 +444,21 @@ public class Database {
         return listEvent;
     }
 
+    //Selection des event par id des participants
+    public ArrayList<Event> selectAmbianceEvent(int idu)throws SQLException{
+        ArrayList<Event> listEvent = new ArrayList<>();
+        String requete = "select e.id,e.name,e.startdate,e.enddate " +
+                "from event e, ambiance a " +
+                "where e.id = a.ide " +
+                "and a.idu = "+idu;
+        Statement s= co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        while(rs.next()){
+            listEvent.add(new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+        }
+        return listEvent;
+    }
+
     //Fonction pour vérifier si une adressemail existe déjà
     //Retourne vrai si elle existe, faux sinon
     public boolean verifmail(String mail)throws SQLException{

@@ -20,6 +20,7 @@ public class User {
     private String placeid;
     private String mail;
     private String mdp;
+    private String foodpref;
 
 
     public User(String n, String ln) {
@@ -40,6 +41,10 @@ public class User {
         this.firstname = firstname;
         this.placeid = placeid;
         this.mail = mail;
+    }
+
+    public String getFoodpref() {
+        return foodpref;
     }
 
     public void setPlaceid(String placeid) {
