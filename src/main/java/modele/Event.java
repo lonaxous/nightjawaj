@@ -113,6 +113,7 @@ public class Event {
             }
         }, new HandlebarsTemplateEngine());
 
+        //Pour la page, pour ajouter des ambiancés
         get("/ajoutambiance", (request,response) -> {
             User u = request.session().attribute("user");
             //Vérification si l'user est bien connecté
@@ -134,9 +135,10 @@ public class Event {
                 return new ModelAndView(map,"error.hbs");
             }
 
+            //On attrappe l'ensembre des utilisateurs
             ArrayList<User> listeU = Server.getDatabase().selectAmbiance(ide);
             ArrayList<Map> ambiances = new ArrayList<>();
-            //On attrappe l'ensembre des utilisateurs
+            //On entre l'ensemble des données sur la page web
             for(int i=0;i<listeU.size();i++){
                 Map<String,Object> info = new HashMap<>();
                 info.put("nom",listeU.get(i).getName());
@@ -152,6 +154,26 @@ public class Event {
 
             return new ModelAndView(map,"ajoutambiance.hbs");
         },new HandlebarsTemplateEngine());
+
+        post("/ajoutambiance", (request, response) -> {
+            //On recupère les attributs que nous avons besoin
+            String mail = request.queryParams("mail");
+            int ide = Integer.parseInt(request.queryParams("idevent"));
+            User u = request.session().attribute("user");
+
+            int idambiance=-1;
+            //Vérification que l'utilisateur est bien connecté
+            if (u == null) response.redirect("/error?msg=Votre Session n'existe plus");
+            idambiance=Server.getDatabase().selectUserMail(mail);
+            //Vérification que l'utilisateur à bien saisie une adresse mail valide
+            if(idambiance==-1) response.redirect("/error?msg=mail invalid");
+            //On ajoute l'ambiancé à la base de données
+            Server.getDatabase().insertAmbiance(idambiance,ide);
+            response.redirect("/event" );
+            Map map = new HashMap();
+            map.put("message","Redirection error");
+            return new ModelAndView(map,"error.hbs");
+        });
 
         post("/event", (request, response) -> {
             Event e = new Event(request.queryParams("nomevenement"),

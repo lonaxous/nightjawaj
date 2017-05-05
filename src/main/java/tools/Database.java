@@ -314,7 +314,7 @@ public class Database {
 
 
     //Ajouter un ambiancé
-    public void addAmbiance(int idu,int ide) throws SQLException {
+    public void insertAmbiance(int idu,int ide) throws SQLException {
         String text = "insert into ambiance(idu,ide) values(?,?)";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setInt(1, idu);
@@ -389,6 +389,15 @@ public class Database {
         return  selectSQL(text);
     }
 
+    //Donne l'id un utilisateur à partir du mail
+    public int selectUserMail(String mail)throws SQLException{
+        String requete = "select id from user where mail="+mail;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        if(rs.next())return rs.getInt(1);
+        return -1;
+    }
+
     //insertion d'une clé apiGoogle(à utiliser une unique fois pour entrer la clé)
     public void insertApiG(String clef)throws SQLException{
         String text = "insert into APIgoogle values(1,?)";
@@ -455,7 +464,7 @@ public class Database {
         throw new Exception("Event does not exist");
     }
 
-    //Selection d'un user
+    //Selection d'un user à partir de son id
     public User selectUser(int idu)throws Exception{
         String requete = "select * from user where id = "+idu;
         Statement s = co.createStatement();
@@ -478,7 +487,7 @@ public class Database {
     //Donne tous les ambiances d'un event en fonction de l'ide
     public ArrayList<User> selectAmbiance(int ide)throws SQLException{
         ArrayList<User> listUser = new ArrayList<>();
-        String requete = "select u.id,u.fname,u.lname,u.placeid,u.mail " +
+        String requete = "select distinct u.id,u.fname,u.lname,u.placeid,u.mail " +
                 "from user u,ambiance a " +
                 "where u.id = a.idu " +
                 "and a.ide ="+ide;
