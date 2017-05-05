@@ -1,6 +1,7 @@
 package tools;
 
 import modele.Address;
+import modele.Event;
 import modele.User;
 import spark.Spark;
 
@@ -20,24 +21,25 @@ public class Server {
         db = new Database(); //Initiate connection to database
         System.out.println("tools.tools.Database creation sucess!");
         staticFiles.location("/"); // Initialize static files folder
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("API Key : ");
+        String apikey = sc.nextLine();
+        db.insertApiG(apikey);
     }
 
     public void start() throws SQLException {
-//        Scanner sc = new Scanner(System.in);
-//        System.out.print("tools.Server address : ");
-//        String address = sc.nextLine();
-//        System.out.print("Username : ");
-//        String user = sc.nextLine();
-//        System.out.print("Password : ");
-//        String psw = sc.nextLine();
-        tools.Database db = new tools.Database();
+        db = new tools.Database();
         System.out.println("tools.Database connection success, starting server");
 
-        api = new API("AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4");
+        String apikey = db.selectApiG();
+        api = new API(apikey);
 
         staticFiles.location("/"); // Initialize static files folder
         User.start();
         Address.start();
+        Event.start();
+        ModelException.start();
     }
 
     public static API getAPI(){

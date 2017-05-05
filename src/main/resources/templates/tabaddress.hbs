@@ -23,7 +23,7 @@
 						</div>
 						
 							<div class="modal-body">
-								<form class="modal-md-12 center-block" action="/" method="post">
+								<form class="modal-md-12 center-block" action="validAddress" method="post">
 									 
 									
 									 
@@ -35,7 +35,7 @@
 									         <div class="form-group">
 												  <select name="listeadresse" class="form-control input-lg" placeholder="liste adresse" >
                                                   {{#each items}}
-                                                      <option value="{{this.placeid}}">{{this.formattedAddress}}</option>
+                                                      <option value="{{place_id}}">{{formatted_address}}</option>
                                                   {{/each}}
 												  </select>
 								  
