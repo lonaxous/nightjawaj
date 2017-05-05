@@ -220,7 +220,7 @@ public class Database {
     }
 
     //Ajouter une activité à un événement
-    public void addActivity(int ide, String name, String placeid)throws SQLException{
+    public void createActivity(int ide, String name, String placeid)throws SQLException{
         //Insertion d'une nouvelle activity
         String text = "insert into activity(name,placeid) " +
                 "values(?,?)";
@@ -231,7 +231,7 @@ public class Database {
         ps.close();
         //On prend le dernier id
         int ida = -1;
-        String lastId = "select max(id) from activity where name ="+name+" and placeid ="+placeid;
+        String lastId = "select max(id) from activity where name ='"+name+"' and placeid ='"+placeid+"'";
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(lastId);
         if(rs.next())ida = rs.getInt(1);
@@ -466,6 +466,30 @@ public class Database {
         throw new Exception("User does not exist");
     }
 
+    //Donne les préférence allimentaire d'un utilisateur à partir de son id
+    public String selectFoodPref(int idu) throws Exception {
+        String requete = "select foodpref from user where id ="+idu;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        if(rs.next())rs.getString(1);
+        throw new Exception("User does not exist");
+    }
+
+    //Donne tous les ambiances d'un event en fonction de l'ide
+    public ArrayList<User> selectAmbiance(int ide)throws SQLException{
+        ArrayList<User> listUser = new ArrayList<>();
+        String requete = "select u.id,u.fname,u.lname,u.placeid,u.mail " +
+                "from user u,ambiance a " +
+                "where u.id = a.idu " +
+                "and a.ide ="+ide;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        while (rs.next()){
+            listUser.add(new User(rs.getInt(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5)));
+        }
+        return listUser;
+    }
+
     //Fonction pour vérifier si une adressemail existe déjà
     //Retourne vrai si elle existe, faux sinon
     public boolean verifmail(String mail)throws SQLException{
@@ -475,6 +499,17 @@ public class Database {
         ResultSet rs = ps.executeQuery();
         boolean isPresent = rs.next();
         return isPresent;
+    }
+
+    //Fonction vérifiant si l'user est bien l'organiser d'un event
+    public boolean verifOragniserEvent(int idu, int ide)throws SQLException{
+        String text = "select * from organiser where idu ="+idu+" and ide = "+ide;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        if(rs.next()){
+            return true;
+        }
+        return false;
     }
 
     //Fonction Pour executer les select en sql

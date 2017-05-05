@@ -47,6 +47,10 @@ public class User {
         return foodpref;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
     public void setPlaceid(String placeid) {
         this.placeid = placeid;
     }
