@@ -2,6 +2,7 @@ package tools;
 
 import modele.Address;
 import modele.Event;
+import modele.Preferences;
 import modele.User;
 import spark.Spark;
 
@@ -40,6 +41,7 @@ public class Server {
         Address.start();
         Event.start();
         ModelException.start();
+        Preferences.start();
     }
 
     public static API getAPI(){

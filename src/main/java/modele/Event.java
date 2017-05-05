@@ -52,7 +52,7 @@ public class Event {
         get("/event", (request, response) -> {
             User u = request.session().attribute("user");
             if (u == null){
-                response.redirect("/error?msg=session not present");
+                response.redirect("/");
                 Map map = new HashMap();
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
@@ -78,7 +78,7 @@ public class Event {
 
                     Date datefin = dateFormatInput.parse(listeE.get(i).dateFin);
                     info.put("hfin",dateFormatOuput.format(datedeb));
-                    
+
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",true);
 
