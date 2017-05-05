@@ -49,11 +49,12 @@ public class Event {
                 return new ModelAndView(map,"error.hbs");
             }
             else{
+                // Print all events that user created
                 ArrayList<Event> listeE = Server.getDatabase().selectUserEvent(u.getId());
                 ArrayList<Map> events = new ArrayList<>();
 
                 for(int i=0;i<listeE.size();i++){
-                    Map<String,String> info = new HashMap<>();
+                    Map<String,Object> info = new HashMap<>();
 
                     info.put("eventname",listeE.get(i).name);
 //                    info.put("nom",listeE.get(i).hisOrganiser.getName());
@@ -61,6 +62,23 @@ public class Event {
                     info.put("hdeb",listeE.get(i).dateDeb);
                     info.put("hfin",listeE.get(i).dateFin);
 //                    info.put("hfin",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
+                    info.put("own",true);
+
+                    events.add(info);
+                }
+
+                // Print all event that user paticipate in
+                listeE = Server.getDatabase().selectAmbianceEvent(u.getId());
+                for(int i=0;i<listeE.size();i++){
+                    Map<String,Object> info = new HashMap<>();
+
+                    info.put("eventname",listeE.get(i).name);
+//                    info.put("nom",listeE.get(i).hisOrganiser.getName());
+//                    info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
+                    info.put("hdeb",listeE.get(i).dateDeb);
+                    info.put("hfin",listeE.get(i).dateFin);
+//                    info.put("hfin",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
+                    info.put("own",false);
 
                     events.add(info);
                 }
