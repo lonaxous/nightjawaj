@@ -4,6 +4,7 @@ import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import tools.Server;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static spark.Spark.post;
@@ -61,14 +62,23 @@ public class Event {
                 ArrayList<Event> listeE = Server.getDatabase().selectUserEvent(u.getId());
                 ArrayList<Map> events = new ArrayList<>();
 
+                // Date management
+                SimpleDateFormat dateFormatInput = new SimpleDateFormat("YYYY-mm-dd'T'HH':'MM");
+                SimpleDateFormat dateFormatOuput = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
                 for(int i=0;i<listeE.size();i++){
                     Map<String,Object> info = new HashMap<>();
 
                     info.put("eventname",listeE.get(i).name);
                     info.put("nom",listeE.get(i).hisOrganiser.getName());
                     info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
-                    info.put("hdeb",listeE.get(i).dateDeb);
-                    info.put("hfin",listeE.get(i).dateFin);
+
+                    Date datedeb = dateFormatInput.parse(listeE.get(i).dateDeb);
+                    info.put("hdeb",dateFormatOuput.format(datedeb));
+
+                    Date datefin = dateFormatInput.parse(listeE.get(i).dateFin);
+                    info.put("hfin",dateFormatOuput.format(datedeb));
+                    
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",true);
 
@@ -83,8 +93,13 @@ public class Event {
                     info.put("eventname",listeE.get(i).name);
                     info.put("nom",listeE.get(i).hisOrganiser.getName());
                     info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
-                    info.put("hdeb",listeE.get(i).dateDeb);
-                    info.put("hfin",listeE.get(i).dateFin);
+
+                    Date datedeb = dateFormatInput.parse(listeE.get(i).dateDeb);
+                    info.put("hdeb",dateFormatOuput.format(datedeb));
+
+                    Date datefin = dateFormatInput.parse(listeE.get(i).dateFin);
+                    info.put("hfin",dateFormatOuput.format(datedeb));
+
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",false);
 
