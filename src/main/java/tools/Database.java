@@ -471,7 +471,7 @@ public class Database {
         String requete = "select foodpref from user where id ="+idu;
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(requete);
-        if(rs.next())rs.getString(1);
+        if(rs.next()) return rs.getString(1);
         throw new Exception("User does not exist");
     }
 

@@ -28,7 +28,7 @@ public class Preferences {
                 map.put("prenom",u.getFirstname());
                 map.put("adresse",Address.getAddressFromId(u.getPlaceid()).formattedAddress);
 
-                //Server.getDatabase().food
+                map.put("preferences",Server.getDatabase().selectFoodPref(u.getId()));
 
                 return new ModelAndView(map,"modifprofil.hbs");
             }
