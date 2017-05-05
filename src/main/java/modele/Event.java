@@ -33,6 +33,10 @@ public class Event {
         this.dateFin = dateFin;
     }
 
+    public List<User> getHisAmbiances() {
+        return hisAmbiances;
+    }
+
     public static void start(){
         post("/event", (request, response) -> {
             Event e = new Event(request.queryParams("nomevenement"),
