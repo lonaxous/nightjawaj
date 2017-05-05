@@ -346,14 +346,6 @@ public class Database {
         return selectSQL(text);
     }
 
-    //Selection des informations d'un user
-    public ResultSet selectUser(int idu){
-        String text = "select * " +
-                "from user " +
-                "where id ="+idu;
-        return selectSQL(text);
-    }
-
     //Connexion
     public User connect(String mail,String password) throws Exception {
         String text = "SELECT id FROM user WHERE mail = ? AND psw = ?";
@@ -368,14 +360,7 @@ public class Database {
         }
         int idu = rs.getInt("id");
 
-
-        ResultSet userResult = selectUser(idu);
-        userResult.next();
-
-        User u = new User(idu,userResult.getString("fname"),
-                userResult.getString("lname"),
-                userResult.getString("placeid"),
-                userResult.getString("mail"));
+        User u = selectUser(idu);
         return u;
     }
 
@@ -459,6 +444,18 @@ public class Database {
         return listEvent;
     }
 
+    //Selection d'un user
+    public User selectUser(int idu)throws Exception{
+        String requete = "select * from user where id = "+idu;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(requete);
+        if(rs.next()){
+            return new User(rs.getInt(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5));
+        }
+        throw new Exception("User does not exist");
+    }
+
+
     //Fonction pour vérifier si une adressemail existe déjà
     //Retourne vrai si elle existe, faux sinon
     public boolean verifmail(String mail)throws SQLException{
@@ -468,20 +465,6 @@ public class Database {
         ResultSet rs = ps.executeQuery();
         boolean isPresent = rs.next();
         return isPresent;
-    }
-
-
-
-
-    //Fonction executant du SQL
-    public void executeSQL(String text){
-        try {
-            Statement s = co.createStatement();
-            s.executeUpdate(text);
-            s.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     //Fonction Pour executer les select en sql
@@ -494,24 +477,6 @@ public class Database {
             e.printStackTrace();
         }
         return null;
-    }
-
-    //Select de sequence - prend le nom d'une table et retourne le nextval d'une sequence
-    //Tables : (user,event,activity,organiser,ambiance,planing)
-    public int seqNumber(String table){
-        String text = "select seq_"+table+".nextval from dual";
-        try{
-            Statement s = co.createStatement();
-            ResultSet r = s.executeQuery(text);
-            if(r.next()) return r.getInt(1);
-            else{
-                System.out.println("Erreur table incorrecte dans la demande de numéro de séquence");
-                return -1;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
     }
 
  }
