@@ -35,20 +35,20 @@ create table activity(
 
 create table organiser(
 	id integer primary key autoincrement,
-	idu integer references utilisateur,
+	idu integer references user,
 	ide integer references event
 );
 
 create table ambiance(
 	id integer primary key autoincrement,
-	idu integer references utilisateur,
+	idu integer references user,
 	ide integer references event
 );
 
 create table planning(
 	id integer primary key autoincrement,
 	ide integer references event,
-	ida integer references actvity
+	ida integer references activity
 );
 
 create table APIgoogle(
