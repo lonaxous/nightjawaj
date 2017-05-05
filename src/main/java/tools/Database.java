@@ -446,7 +446,7 @@ public class Database {
 
     //Donne l'organisateur d'un event à partir de l'identifiant de celui-ci
     public User selectOrganiser(int ide)throws Exception{
-        String requete = "select idu from organiser where id="+ide;
+        String requete = "select idu from organiser where ide="+ide;
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(requete);
         if(rs.next()){
@@ -465,7 +465,6 @@ public class Database {
         }
         throw new Exception("User does not exist");
     }
-
 
     //Fonction pour vérifier si une adressemail existe déjà
     //Retourne vrai si elle existe, faux sinon
