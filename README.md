@@ -61,6 +61,8 @@ java -jar nightjawaj.jar start
 
 * Lancer le serveur
 
+* Puis ouvrir dans un navigateur web : http://localhost:4567
+
 ## Depuis le code avec Intelliji
 * Créer la base de donnée
 
@@ -68,3 +70,5 @@ java -jar nightjawaj.jar start
 sqlite3 database.db < nightjawaj.sql
 ```
 * Depuis Intelliji alt+shift+f10, éditer les arguments de lancement. initiate, lancer puis start.
+
+* Puis ouvrir dans un navigateur web : http://localhost:4567
