@@ -139,7 +139,7 @@ public class Database {
         ps.close();
         //On prend le dernier id
         int ide = -1;
-        String lastId = "select max(id) from event where name ="+name+" and startdate ="+startDate+" and enddate ="+endDate;
+        String lastId = "select max(id) from event where name ='"+name+"' and startdate ='"+startDate+"' and enddate ='"+endDate+"'";
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(lastId);
         if(rs.next())ide = rs.getInt(1);
