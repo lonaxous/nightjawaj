@@ -27,10 +27,10 @@ public class Database {
     //Fonctions
 
     //Inscription
-    public boolean register(String fname, String lname, String placeid, String mail,String psw)throws SQLException{
+    public void register(String fname, String lname, String placeid, String mail,String psw) throws Exception {
         String text =  "insert into user(fname,lname,placeid,mail,psw) " +
                 "values(?,?,?,?,?)";
-        if(verifmail(mail)) {
+        if(!verifmail(mail)) {
             PreparedStatement ps = co.prepareStatement(text);
             ps.setString(1, fname);
             ps.setString(2, lname);
@@ -39,10 +39,9 @@ public class Database {
             ps.setString(5, psw);
             ps.executeUpdate();
             ps.close();
-            return true;
         }
         else
-            return false;
+            throw new Exception("Mail already present");
 
     }
 
@@ -133,6 +132,7 @@ public class Database {
                 "values(?,?,?)";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1,name);
+        System.out.println(startDate);
         ps.setString(2, startDate);
         ps.setString(3, endDate);
         ps.executeUpdate();
