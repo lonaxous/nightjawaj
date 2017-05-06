@@ -166,7 +166,11 @@ public class Event {
             if (u == null) response.redirect("/error?msg=Votre Session n'existe plus");
             idambiance=Server.getDatabase().selectUserMail(mail);
             //Vérification que l'utilisateur à bien saisie une adresse mail valide
-            if(idambiance==-1) response.redirect("/error?msg=mail invalid");
+            if(idambiance==-1) response.redirect("/error?msg=mail invalide");
+            //Vérification si l'invité fais déjà partit des ambiancé
+            if(Server.getDatabase().isAmbiance(idambiance,ide))response.redirect("/error?msg=Cette ambiance est deja invite");
+            //Vérification si l'invité n'est pas l'organisateur
+            if(Server.getDatabase().isOragniserEvent(idambiance,ide))response.redirect("/error?msg=vous ne pouvez pas vous inviter vous meme !");
             //On ajoute l'ambiancé à la base de données
             Server.getDatabase().insertAmbiance(idambiance,ide);
             response.redirect("/event" );

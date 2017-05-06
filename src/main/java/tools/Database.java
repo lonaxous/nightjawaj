@@ -518,6 +518,14 @@ public class Database {
         return rs.next();
     }
 
+    //Fonction vérifie si l'id est un ambiancé de l'event
+    public boolean isAmbiance(int idu, int ide)throws SQLException{
+        String text = "select * from ambiance where idu ="+idu+" and ide = "+ide;
+        Statement s = co.createStatement();
+        ResultSet rs =s.executeQuery(text);
+        return rs.next();
+    }
+
     //Fonction Pour executer les select en sql
     public ResultSet selectSQL(String text){
         try{
