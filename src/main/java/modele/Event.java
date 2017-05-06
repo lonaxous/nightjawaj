@@ -77,7 +77,7 @@ public class Event {
                     info.put("hdeb",dateFormatOuput.format(datedeb));
 
                     Date datefin = dateFormatInput.parse(listeE.get(i).dateFin);
-                    info.put("hfin",dateFormatOuput.format(datedeb));
+                    info.put("hfin",dateFormatOuput.format(datefin));
 
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",true);
@@ -98,7 +98,7 @@ public class Event {
                     info.put("hdeb",dateFormatOuput.format(datedeb));
 
                     Date datefin = dateFormatInput.parse(listeE.get(i).dateFin);
-                    info.put("hfin",dateFormatOuput.format(datedeb));
+                    info.put("hfin",dateFormatOuput.format(datefin));
 
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",false);
@@ -186,7 +186,7 @@ public class Event {
 
             if (!e.dateDeb.matches("([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])")) {
                 response.redirect("/error?msg=Error, start hour doesn't match format. Hint : ([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])");
-            } else if (!e.dateDeb.matches("([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])")) {
+            } else if (!e.dateFin.matches("([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])")) {
                 response.redirect("/error?msg=Error, end hour doesn't match format. Hint : ([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])");
             }
             User u = request.session().attribute("user");
