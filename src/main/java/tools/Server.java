@@ -53,8 +53,8 @@ public class Server {
     }
 
     public static void main(String args[]) throws SQLException {
-        System.setProperty("https.proxyHost", "cache.u-psud.fr");
-        System.setProperty("https.proxyPort", "8080");
+        /*System.setProperty("https.proxyHost", "cache.u-psud.fr");
+        System.setProperty("https.proxyPort", "8080");*/
 
         Spark.exception(Exception.class, (exception, request, response) -> {
             exception.printStackTrace();

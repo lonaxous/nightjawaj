@@ -391,7 +391,7 @@ public class Database {
 
     //Donne l'id un utilisateur à partir du mail
     public int selectUserMail(String mail)throws SQLException{
-        String requete = "select id from user where mail="+mail;
+        String requete = "select id from user where mail='"+mail+"'";
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(requete);
         if(rs.next())return rs.getInt(1);
