@@ -63,7 +63,7 @@ public class Event {
                 ArrayList<Map> events = new ArrayList<>();
 
                 // Date management
-                SimpleDateFormat dateFormatInput = new SimpleDateFormat("YYYY-mm-dd'T'HH':'MM");
+                SimpleDateFormat dateFormatInput = new SimpleDateFormat("yyyy-MM-dd'T'HH':'mm");
                 SimpleDateFormat dateFormatOuput = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
                 for(int i=0;i<listeE.size();i++){

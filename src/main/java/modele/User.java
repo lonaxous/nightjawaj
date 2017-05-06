@@ -102,6 +102,9 @@ public class User {
                 User u = request.session().attribute("user");
                 Server.getDatabase().register(u.name,u.firstname,u.placeid,u.mail,u.mdp);
 
+                request.session().attribute("user",null); // Closing session to disconnect user
+                request.session(false);
+
                 Map map = new HashMap();
                 map.put("message", "Successfully created user");
                 return new ModelAndView(map, "error.hbs");
