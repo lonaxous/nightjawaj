@@ -81,6 +81,7 @@ public class Event {
 
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",true);
+                    info.put("ide",listeE.get(i).ide);
 
                     events.add(info);
                 }
