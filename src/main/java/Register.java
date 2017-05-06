@@ -1,10 +1,15 @@
 import org.json.JSONException;
 import org.json.JSONObject;
+import spark.ModelAndView;
+import spark.Spark;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import static spark.Spark.*;
@@ -47,7 +52,8 @@ public class Register {
 
     public boolean isAddressValid(String address) throws IOException, JSONException {
         String addressEncoded = URLEncoder.encode(address,"UTF-8"); // Make the address URL compliant
-        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query="+addressEncoded+"&key=" + GooglePlacesKey); // Search for the address via API
+        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query="+
+                addressEncoded+"&key=" + GooglePlacesKey); // Search for the address via API
         Scanner scan = new Scanner(url.openStream());
         String html_output = new String();
         while (scan.hasNext())
@@ -61,7 +67,8 @@ public class Register {
 
     public ArrayList<String> registerAddress(String address) throws IOException, JSONException {
         String addressEncoded = URLEncoder.encode(address, "UTF-8"); // Make the address URL compliant
-        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + addressEncoded + "&key=" + GooglePlacesKey); // Search for the address via API
+        URL url = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" +
+                addressEncoded + "&key=" + GooglePlacesKey); // Search for the address via API
         Scanner scan = new Scanner(url.openStream());
         String html_output = new String();
         while (scan.hasNext())
@@ -70,6 +77,7 @@ public class Register {
         JSONObject j = new JSONObject(html_output);
 
         ArrayList<String> results = new ArrayList<>();
+        System.out.println("nb address : "+j.getJSONArray("results").length());
         for (int i = 0; i < j.getJSONArray("results").length(); i++) { // Getting results in an Array
             JSONObject addr = j.getJSONArray("results").getJSONObject(i);
             results.add(addr.getString("formatted_address"));
@@ -83,16 +91,16 @@ public class Register {
         String tmp = "";
 
         for (int i = 0; i < list_address.size();i++){
-            tmp = tmp.concat("<a href=\"\">"+list_address.get(i)+"</a>");
+            tmp = tmp.concat("value="+i+">"+list_address.get(i)+"</a><br>");
         }
 
         String page = tmp;
 
-        System.out.println(page);
+        Map map = new HashMap();
+        map.put("items", list_address);
 
-        get("/choose_address", ((request, response) -> {
-            return page;
-        }));
+        get("/choose_address", (request, response) -> new ModelAndView(map,"chooseAddress_test.hbs"), new HandlebarsTemplateEngine()); // Create template
+        // get("/choose_address", (request, response) -> "sava");
     }
 
     public static void main(String args[]) throws IOException, JSONException {
@@ -100,5 +108,8 @@ public class Register {
         System.setProperty("https.proxyPort", "8080");
         staticFiles.location("/"); // Initialize static files folder
         Register user1 = new Register();
+        Spark.exception(Exception.class, (exception, request, response) -> {
+            exception.printStackTrace();
+        });
     }
 }

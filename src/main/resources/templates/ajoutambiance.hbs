@@ -27,21 +27,9 @@
 									 
 									
 									<div class="form-group">
-										<input type="text" name="nom" class="form-control input-lg" placeholder="nom">
+										<input type="text" name="mail" class="form-control input-lg" placeholder="mail">
 									</div>
-									
-									<div class="form-group">
-										<input type="text" name="prenom" class="form-control input-lg" placeholder="prénom">
-									</div>
-									
-								      <div class="form-group">
-										 <input type="number" name="age" class="form-control input-lg" placeholder="âge">
-									   </div>
-									
-										
-									<div class="form-group">
-										<textarea  name="adresse" class="form-control input-lg" placeholder="adresse"></textarea>
-									</div>
+
 									
 									
 									  <!---
@@ -68,7 +56,7 @@
 										
 										 
 										<div class="form-group">
-												<input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
+                                            <input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
 												 
 											</div>
 										 
@@ -137,22 +125,23 @@
 	 <tr class="active">
 	 <th> Nom</th>
 	 <th>Prénom</th>
-	 <th>Age</th>
+	 <th>mail</th>
 	  <th>Adresse</th>
 	      
 	 </tr>
 	 </thead>
 	 
 	 <tbody>
+     {{#each items}}
 	 <tr>
 	 <td>{{nom}}</td>
 	 <td>{{prenom}}</td>
-	 <td>{{age}</td>
+	 <td>{{mail}}</td>
 	 <td>{{adresse}}  </td>
 	 
 	 
 	 </tr>
-	 
+	 {{/each}}
 	 
 	 </tbody>
 	 </table>

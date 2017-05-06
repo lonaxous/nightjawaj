@@ -2,7 +2,7 @@
 <!DOCTYPE html> 
 <html lang="fr"> 
   <head> 
-    <title> Recherche activité </title> 
+    <title> Nightwaj </title> 
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
  <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -17,30 +17,33 @@
      </head>
 	 <body>
 	 
-	 
+	 	 
 	  <p align="center">  <img src="logo_nightjawaj.png"   alt="logo_nightjawaj" width="170"   > </p>
 	 
 	 		<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h1 class="text-center"> Recherche activité </h1>
+							<h1 class="text-center"> Creer événement </h1>
 						</div>
 						
 							<div class="modal-body">
-								<form class="modal-md-12 center-block" action="" method="post">
-								
+								<form class="modal-md-12 center-block" action="event" method="post">
 									<div class="form-group">
-										<input type="texte" name="activite"   class="form-control input-lg" placeholder="nom activite" />
+										<input type="texte" name="nomevenement"   class="form-control input-lg" placeholder="nom evenement" />
+									</div>
+
+									<div class="form-group">
+										<input type="datetime-local" name="heuredebut" pattern="([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])"   class="form-control input-lg" placeholder="AAAA-MM-JJTHH:MM" />
 									</div>
 									
-									 <div class="form-group">
-										<input type="time" name="heure"   class="form-control input-lg" placeholder="HH:MM:SS" />
-									</div>
 									
+										<div class="form-group">
+											<input type="datetime-local" name="heurefin"  pattern="([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])" class="form-control input-lg" placeholder="AAAA-MM-JJTHH:MM" />
+										</div>
 										
 										 
 										<div class="form-group">
-												<input type="submit" class="btn btn-block btn-lg" value="search" name="search">
+												<input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
 												 
 											</div>
 										 
@@ -53,7 +56,6 @@
 			</div>
 			
 	 
-	               <p align="center">  <img src="googlechatelet.png" class="img-thumbnail" alt="google chatelet"  > </p>
 	 
 	 
 	 
@@ -69,8 +71,12 @@
 			    
 				 <tr>
 				 
-				   <td><b> restaurant </td></b>
-				  
+				   <td><b> nom événement </td></b>
+				   <td><b> nom organisateur </td></b>
+				   <td><b> prénom organisateur </td></b>
+				   <td><b> heure début </td></b>
+				    <td><b> heure fin </td></b>
+					<td><b> adresse organisateur </td></b>
 				   
 				   
 				 </tr>
@@ -78,17 +84,17 @@
 				 
 				 <tr class="info">
 				 
-				   <td> {{restaurant}} </td>
+				   <td>  {{nom evénement }} </td>
+				   <td> {{nom organisateur }} </td>
+				   <td> {{prenom organisateur }} </td>
+				   <td>  {{heure debut}} </td>
+				   <td> {{heure fin}}</td>
+				   <td>{{adresse organisateur }} </td>
+					
 				 
-			
 				 </tr>
 				 
-                 <tr class="success">
-				 
-				   <td>{{restaurant}} </td>
-				   
-				 </tr>
-				 
+
 			  
 			  			  
 			  
@@ -99,7 +105,10 @@
 	  </div>
 	 
 	 
-	 
+	 	
+	<center>
+		<a href="rechercheactivite.html">Recherche activité</a>
+	</center>
 	 
 	 
 	 	 	   <!--liaison aux script-->

@@ -2,7 +2,7 @@
 <!DOCTYPE html> 
 <html lang="fr"> 
   <head> 
-    <title> Ajout ambiancé </title> 
+    <title> Modification profil </title> 
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
  <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -19,7 +19,7 @@
 	 		<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h1 class="text-center"> Ajout ambiancé </h1>
+							<h1 class="text-center"> Modification profil </h1>
 						</div>
 						
 							<div class="modal-body">
@@ -44,6 +44,13 @@
 									</div>
 									
 									
+										
+									<div class="form-group">
+										<textarea  name="preferencealimentaire" class="form-control input-lg" placeholder="préférences alimentaires"></textarea>
+									</div>
+									
+									
+									
 									  <!---
 									         <div class="form-group">
 												  <select name="preference" class="form-control input-lg" placeholder="preference alimentaire" >
@@ -55,20 +62,12 @@
 								  
 								             </div> --->
 											 
-											<!--
-											 <div class="form-group">
-												  <select name="moyentransport" class="form-control input-lg" placeholder="moyentrannsport" >
-												   <option value="metro">métro</option>
-												   <option value="mexicain">voiture</option> 
-												   <option value="velo">vélo</option>  
-												   <option value="apied">à pied</option>    				   
-												  </select>
-								  
-								             </div> --->
+											
+											 
 										
 										 
 										<div class="form-group">
-												<input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
+												<input type="submit" class="btn btn-block btn-lg" value="modifer" name="modifier">
 												 
 											</div>
 										 
@@ -85,79 +84,7 @@
 	 
 	 
 	 
-	 
-	 <!--
-	 
-	 <div class="panel panel-default">
-	  
-	 
-	  
-	 
-	 <table class="table">
-	 <thead>
-	 <tr class="active">
-	 <th> Nom</th>
-	 <th>Prénom</th>
-	 <th>Age</th>
-	  <th>Adresse</th>
-	   <th>Preference alimentaire</th>
-	    <th>Moyen de transport</th>
-	 </tr>
-	 </thead>
-	 
-	 <tbody>
-	 <tr>
-	 <td>Kent</td>
-	 <td>Clark</td>
-	 <td>25</td>
-	 <td>3 rue Léon Frot 75011 Paris</td>
-	 <td>Italien</td>
-	 <td>métro</td>
-	 </tr>
-	 
-	 
-	 </tbody>
-	 </table>
-	 
-	 </div> -->
-	 
-	 
-	 
-	  
-	 
-	 
-	 
-	 <div class="panel panel-default">
-	  
-	 
-	  
-	 
-	 <table class="table">
-	 <thead>
-	 <tr class="active">
-	 <th> Nom</th>
-	 <th>Prénom</th>
-	 <th>Age</th>
-	  <th>Adresse</th>
-	      
-	 </tr>
-	 </thead>
-	 
-	 <tbody>
-	 <tr>
-	 <td>{{nom}}</td>
-	 <td>{{prenom}}</td>
-	 <td>{{age}</td>
-	 <td>{{adresse}}  </td>
-	 
-	 
-	 </tr>
-	 
-	 
-	 </tbody>
-	 </table>
-	 
-	 </div> 
+ 
 	 
 	 
 	 	   <!--liaison aux script-->

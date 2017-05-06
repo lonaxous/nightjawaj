@@ -27,32 +27,19 @@
 						</div>
 						
 							<div class="modal-body">
-								<form class="modal-md-12 center-block" action="" method="post">
+								<form class="modal-md-12 center-block" action="event" method="post">
 									<div class="form-group">
 										<input type="texte" name="nomevenement"   class="form-control input-lg" placeholder="nom evenement" />
 									</div>
-									
+
 									<div class="form-group">
-										<input type="text" name="nom" class="form-control input-lg" placeholder="nom organisateur">
-									</div>
-									
-									<div class="form-group">
-										<input type="text" name="prenom" class="form-control input-lg" placeholder="prenom organisateur">
-									</div>
-									
-									<div class="form-group">
-										<input type="time" name="heuredebut"   class="form-control input-lg" placeholder="HH:MM:SS" />
+										<input type="datetime-local" name="heuredebut" pattern="([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])"   class="form-control input-lg" placeholder="AAAA-MM-JJTHH:MM" />
 									</div>
 									
 									
 										<div class="form-group">
-											<input type="time" name="heurefin"   class="form-control input-lg" placeholder="HH:MM:SS" />
+											<input type="datetime-local" name="heurefin"  pattern="([0-2][0-9]{3})-([0-1][0-9])-([0-3][0-9])T([0-5][0-9]):([0-5][0-9])" class="form-control input-lg" placeholder="AAAA-MM-JJTHH:MM" />
 										</div>
-										
-										
-									<div class="form-group">
-										<textarea  name="adresse" class="form-control input-lg" placeholder="adresse organisateur"></textarea>
-									</div>
 										
 										 
 										<div class="form-group">
@@ -90,35 +77,27 @@
 				   <td><b> heure début </td></b>
 				    <td><b> heure fin </td></b>
 					<td><b> adresse organisateur </td></b>
-				  <!-- <td><b> modifier </td></b> -->
 				   
 				   
 				 </tr>
-				 
-				 
+
+                {{#each items}}
 				 <tr class="info">
 				 
-				   <td>  {{nom evénement }} </td>
-				   <td> {{nom organisateur }} </td>
-				   <td> {{prenom organisateur }} </td>
-				   <td>  {{heure debut}} </td>
-				   <td> {{heure fin}}</td>
-				   <td>{{adresse organisateur }} </td>
-				   <td><a href="modifieractivite.html">Modifier activité</a> </td>
-				   <td><a href="tabajoutambiance.html">Ajouter ambiancé</a> </td>
-				 </tr>
-				
-	 <tr class="info">
+				   <td>  {{eventname}} </td>
+				   <td> {{nom}} </td>
+				   <td> {{prenom}} </td>
+				   <td>  {{hdeb}} </td>
+				   <td> {{hfin}}</td>
+				   <td>{{adresse}} </td>
+                   {{#if own}}
+                       <td><a href="modifieractivite.html">Modifier activité</a> </td>
+                   {{else}}
+                       <td><a href="afficheractivite.html">Afficher activité</a> </td>
+                   {{/if}}
 				 
-				  <td>   </td>
-				   <td>  </td>
-				   <td>  </td>
-				   <td>   </td>
-				   <td> </td>
-				   <td> </td>
-				   
-				    <td><a href="afficheractivite.html">Afficher activité</a> </td>
-				 </tr>				
+				 </tr>
+                {{/each}}
 
 			  
 			  			  
@@ -130,10 +109,10 @@
 	  </div>
 	 
 	 
-	 <!--	
+	 	
 	<center>
 		<a href="rechercheactivite.html">Recherche activité</a>
-	</center> -->
+	</center>
 	 
 	 
 	 	 	   <!--liaison aux script-->
