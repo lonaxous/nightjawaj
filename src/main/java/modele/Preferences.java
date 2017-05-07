@@ -44,9 +44,31 @@ public class Preferences {
                 return new ModelAndView(map,"error.hbs");
             }
             else{
+                //getting post parameters
+                String name = request.queryParams("nom");
+                String fname = request.queryParams("prenom");
+                String psw = request.queryParams("mdp");
+                String addr = request.queryParams("adresse");
+
                 String foodpref = request.queryParams("preferencealimentaire");
                 Server.getDatabase().modifyFoodPref(u.getId(),foodpref);
-                response.redirect("/");
+
+                //modify info if necessary
+                if (!name.equals(u.getName())){
+                    Server.getDatabase().modifyUserLName(u.getId(),name);
+                }
+                if (!fname.equals(u.getFirstname())){
+                    Server.getDatabase().modifyUserFName(u.getId(),fname);
+                }
+                if (!psw.equals("")){
+                    Server.getDatabase().modifyPsw(u.getId(),psw);
+                }
+                if (!addr.equals(Address.getAddressFromId(u.getPlaceid()).formattedAddress)){
+                    response.redirect("/choose_address?unformatted_address="+addr);
+                }
+                else{
+                    response.redirect("/");
+                }
                 Map map = new HashMap();
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");

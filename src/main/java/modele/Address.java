@@ -33,27 +33,46 @@ public class Address {
 
     public static void start(){
         get("/choose_address", (request, response) -> { //User choose the valid address in the liste
-            String unformattedAddress = request.queryParams("unformatted_address");
-            ControlerAddress control = new ControlerAddress();
-            //Map map = control.getValidAddress(unformattedAddress);
-            ArrayList<Map> liste = control.getValidAddress(unformattedAddress);
+            try{
+                String unformattedAddress = request.queryParams("unformatted_address");
+                ControlerAddress control = new ControlerAddress();
+                //Map map = control.getValidAddress(unformattedAddress);
+                ArrayList<Map> liste = control.getValidAddress(unformattedAddress);
 
-            Map map = new HashMap();
-            map.put("items", liste);
+                Map map = new HashMap();
+                map.put("items", liste);
 
-            return new ModelAndView(map,"tabaddress.hbs");
+                return new ModelAndView(map,"tabaddress.hbs");
+            }
+            catch(Exception e){
+                response.redirect("/error?msg="+e.toString());
+
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+
         }, new HandlebarsTemplateEngine());
 
         post("/validAddress",(request, response) -> {//Getting the placid from user
             User u = request.session().attribute("user");
 
             if(u != null){
-                u.setPlaceid(request.queryParams("listeadresse"));//Set the address
-                request.session().attribute("user",u);//Update the session with placeid
-                response.redirect("/register");
-                Map map = new HashMap();
-                map.put("message","Redirection error");
-                return new ModelAndView(map,"error.hbs");
+                if (u.getPlaceid() != null){//Assuming user already register so modify the address instead of register
+                    Server.getDatabase().modifyUserPlaceId(u.getId(),request.queryParams("listeadresse"));
+                    response.redirect("/");
+                    Map map = new HashMap();
+                    map.put("message","Redirection error");
+                    return new ModelAndView(map,"error.hbs");
+                }
+                else{
+                    u.setPlaceid(request.queryParams("listeadresse"));//Set the address
+                    request.session().attribute("user",u);//Update the session with placeid
+                    response.redirect("/register");
+                    Map map = new HashMap();
+                    map.put("message","Redirection error");
+                    return new ModelAndView(map,"error.hbs");
+                }
             }
             else{
                 Map map = new HashMap();

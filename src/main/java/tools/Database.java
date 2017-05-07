@@ -120,7 +120,7 @@ public class Database {
 
     //Modifier les evenements
     public void modifyPsw(int idu, String psw)throws SQLException{
-        String text = "update user set psw = ? where idu = ?";
+        String text = "update user set psw = ? where id = ?";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setString(1, psw);
         ps.setInt(2, idu);
