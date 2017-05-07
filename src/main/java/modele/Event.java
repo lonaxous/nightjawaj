@@ -147,6 +147,8 @@ public class Event {
                     info.put("prenom",listeU.get(i).getFirstname());
                     info.put("mail",listeU.get(i).getMail());
                     info.put("adresse",Address.getAddressFromId(listeU.get(i).getPlaceid()).formattedAddress);
+                    info.put("idu",listeU.get(i).getId());
+                    info.put("ide",ide);
 
                     ambiances.add(info);
                 }
