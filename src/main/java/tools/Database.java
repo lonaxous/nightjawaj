@@ -364,12 +364,19 @@ public class Database {
         return u;
     }
 
-    //Selection des informations d'un evenement
-    public ResultSet selectEvent(int ide){
+    //Selection d'un évenement à partir de son id
+    public Event selectEvent(int ide)throws Exception{
         String text = "select * " +
                 "from event " +
                 "where id = "+ide;
-        return selectSQL(text);
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        if(rs.next()){
+            return new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectOrganiser(rs.getInt(1)));
+        }
+        else{
+            throw new Exception("Event does not exist");
+        }
     }
 
     //Selection des information d'une activité
