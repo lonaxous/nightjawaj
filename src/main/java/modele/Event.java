@@ -27,6 +27,7 @@ public class Event {
         this.name = name;
         this.dateDeb = dateDeb;
         this.dateFin = dateFin;
+        hisActivities = new ArrayList<>();
     }
 
     public Event(int ide,String name, String dateDeb, String dateFin) {
@@ -34,6 +35,7 @@ public class Event {
         this.name = name;
         this.dateDeb = dateDeb;
         this.dateFin = dateFin;
+        hisActivities = new ArrayList<>();
     }
 
     public Event(int ide, String name, String dateDeb, String dateFin, User hisOrganiser) {
@@ -42,6 +44,15 @@ public class Event {
         this.dateDeb = dateDeb;
         this.dateFin = dateFin;
         this.hisOrganiser = hisOrganiser;
+        hisActivities = new ArrayList<>();
+    }
+
+    public int getIde() {
+        return ide;
+    }
+
+    public void addHisActivities(Activity activity) {
+        hisActivities.add(activity);
     }
 
     public List<User> getHisAmbiances() {
@@ -64,7 +75,7 @@ public class Event {
 
                 // Date management
                 SimpleDateFormat dateFormatInput = new SimpleDateFormat("yyyy-MM-dd'T'HH':'mm");
-                SimpleDateFormat dateFormatOuput = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                SimpleDateFormat dateFormatOutput = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
                 for(int i=0;i<listeE.size();i++){
                     Map<String,Object> info = new HashMap<>();
@@ -74,10 +85,10 @@ public class Event {
                     info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
 
                     Date datedeb = dateFormatInput.parse(listeE.get(i).dateDeb);
-                    info.put("hdeb",dateFormatOuput.format(datedeb));
+                    info.put("hdeb",dateFormatOutput.format(datedeb));
 
                     Date datefin = dateFormatInput.parse(listeE.get(i).dateFin);
-                    info.put("hfin",dateFormatOuput.format(datefin));
+                    info.put("hfin",dateFormatOutput.format(datefin));
 
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",true);
@@ -96,10 +107,10 @@ public class Event {
                     info.put("prenom",listeE.get(i).hisOrganiser.getFirstname());
 
                     Date datedeb = dateFormatInput.parse(listeE.get(i).dateDeb);
-                    info.put("hdeb",dateFormatOuput.format(datedeb));
+                    info.put("hdeb",dateFormatOutput.format(datedeb));
 
                     Date datefin = dateFormatInput.parse(listeE.get(i).dateFin);
-                    info.put("hfin",dateFormatOuput.format(datefin));
+                    info.put("hfin",dateFormatOutput.format(datefin));
 
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",false);

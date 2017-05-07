@@ -55,6 +55,6 @@ public class API {
         JSONObject jsonObject = placedetails(formattedPlaceid);
         Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
         Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=500&type="+formattedType+"&keyword="+foodpref);
+        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword=-"+foodpref);
     }
 }
