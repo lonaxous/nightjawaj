@@ -84,18 +84,18 @@
                 {{#each items}}
 				 <tr class="info">
 				 
-				   <td>  {{eventname}} </td>
-				   <td> {{nom}} </td>
-				   <td> {{prenom}} </td>
-				   <td>  {{hdeb}} </td>
-				   <td> {{hfin}}</td>
+				   <td>{{eventname}} </td>
+				   <td>{{nom}}</td>
+				   <td>{{prenom}}</td>
+				   <td>{{hdeb}}</td>
+				   <td>{{hfin}}</td>
 				   <td>{{adresse}} </td>
                    {{#if own}}
                        <td><a href="modifactivity?idevent={{ide}}">Modifier activité</a> </td>
                        <td><a href="ajoutambiance?idevent={{ide}}">Ajouter ambiancé</a> </td>
                    {{else}}
                        <td><a href="afficheractivite.html">Afficher activité</a> </td>
-                       <td><a href="afficherambiance?idevent={{ide}}">Afficher ambiancé</a> </td>
+                       <td><a href="ajoutambiance?idevent={{ide}}">Afficher ambiancé</a> </td>
                    {{/if}}
 				 
 				 </tr>

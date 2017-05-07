@@ -103,6 +103,7 @@ public class Event {
 
                     info.put("adresse",Address.getAddressFromId(listeE.get(i).hisOrganiser.getPlaceid()).formattedAddress);
                     info.put("own",false);
+                    info.put("ide",listeE.get(i).ide);
 
                     events.add(info);
                 }
@@ -126,17 +127,9 @@ public class Event {
             }
             else {
                 try {
-                    //Obtention de l'identifiant de l'event
-                    int ide = Integer.parseInt(request.queryParams("idevent"));
-
-                    //Vérification si l'user est bien l'organsier de l'event
-                    if (!Server.getDatabase().isOragniserEvent(u.getId(), ide)) {
-                        response.redirect("/error?msg=Vous n'etes pas l'organisateur");
-                        Map map = new HashMap();
-                        map.put("message", "Redirection error");
-                        return new ModelAndView(map, "error.hbs");
-                    }
-                    else {
+                    try{
+                        //Obtention de l'identifiant de l'event
+                        int ide = Integer.parseInt(request.queryParams("idevent"));
                         //On attrappe l'ensembre des utilisateurs
                         ArrayList<User> listeU = Server.getDatabase().selectAmbiance(ide);
                         ArrayList<Map> ambiances = new ArrayList<>();
@@ -152,10 +145,17 @@ public class Event {
 
                             ambiances.add(info);
                         }
-
                         HashMap map = new HashMap();
                         map.put("items", ambiances);
+                        map.put("own",Server.getDatabase().isOragniserEvent(u.getId(), ide));
+
                         return new ModelAndView(map, "ajoutambiance.hbs");
+                    }
+                    catch (NumberFormatException e){
+                        response.redirect("/error?msg=parse error");
+                        Map map = new HashMap();
+                        map.put("message","Redirection error");
+                        return new ModelAndView(map,"error.hbs");
                     }
                 } catch (NumberFormatException e) {
                     response.redirect("/error?msg=parse error");

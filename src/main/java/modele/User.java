@@ -100,7 +100,7 @@ public class User {
         get("/register", (request, response) -> {//Register the user in database
             if (request.session().attribute("user") != null) {
                 User u = request.session().attribute("user");
-                Server.getDatabase().register(u.name,u.firstname,u.placeid,u.mail,u.mdp);
+                Server.getDatabase().register(u.firstname,u.name,u.placeid,u.mail,u.mdp);
 
                 request.session().attribute("user",null); // Closing session to disconnect user
                 request.session(false);

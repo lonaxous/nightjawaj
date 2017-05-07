@@ -15,14 +15,16 @@
 	 
 	 	 
 	  <p align="center">  <img src="logo_nightjawaj.png"   alt="logo_nightjawaj" width="170"   > </p>
-	 	 
+      {{#if own}}
 	 		<div class="modal-dialog">
+
 					<div class="modal-content">
 						<div class="modal-header">
 							<h1 class="text-center"> Ajout ambiancé </h1>
 						</div>
 						
 							<div class="modal-body">
+
 								<form class="modal-md-12 center-block" action="" method="post">
 									 
 									
@@ -63,11 +65,11 @@
 										
 										 
 								</form>
-								 
+
 							</div>
 					</div>
 			</div>
-			
+      {{/if}}
 	 
 	 
 	 
@@ -139,8 +141,9 @@
 	 <td>{{prenom}}</td>
 	 <td>{{mail}}</td>
 	 <td>{{adresse}}  </td>
+     {{#if own}}
 	 <td><a href="supprambiance?idu={{idu}}&ide={{ide}}">Supprimer</a></td>
-	 
+     {{/if}}
 	 </tr>
 	 {{/each}}
 	 
