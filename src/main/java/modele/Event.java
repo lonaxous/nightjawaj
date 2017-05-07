@@ -255,5 +255,39 @@ public class Event {
             map.put("message","Redirection error");
             return new ModelAndView(map,"error.hbs");
         });
+
+        //Suppression d'un event (il faut un ide)
+        get("/supprevent",(request, response) -> {
+            User u = request.session().attribute("user");
+            //On récupère les informations que nous avons besoin
+            int ide = Integer.parseInt(request.queryParams("ide"));
+            if(u == null){
+                response.redirect("/");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+            //Véification si l'event existe
+            else if(!Server.getDatabase().isEvent(ide)){
+                response.redirect("/error?msg=L'event n'existe pas");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+            //Vérification si l'user est bien l'organsier de l'event
+            else if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
+                response.redirect("/error?msg=Vous n'etes pas l'organisateur");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+            else{
+                Server.getDatabase().deleteEvent(ide);
+                response.redirect("/event" );
+            }
+            Map map = new HashMap();
+            map.put("message", "Redirection error");
+            return new ModelAndView(map, "error.hbs");
+        },new HandlebarsTemplateEngine());
     }
 }
