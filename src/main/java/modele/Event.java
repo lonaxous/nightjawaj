@@ -114,7 +114,7 @@ public class Event {
             }
         }, new HandlebarsTemplateEngine());
 
-        //Pour la page, pour ajouter des ambiancés
+        //Aller sur la page pour ajouter des ambiancés
         get("/ajoutambiance", (request,response) -> {
             User u = request.session().attribute("user");
             //Vérification si l'user est bien connecté
@@ -124,49 +124,50 @@ public class Event {
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
             }
+            else {
+                try {
+                    //Obtention de l'identifiant de l'event
+                    int ide = Integer.parseInt(request.queryParams("idevent"));
 
-            try{
-                //Obtention de l'identifiant de l'event
-                int ide = Integer.parseInt(request.queryParams("idevent"));
+                    //Vérification si l'user est bien l'organsier de l'event
+                    if (!Server.getDatabase().isOragniserEvent(u.getId(), ide)) {
+                        response.redirect("/error?msg=Vous n'etes pas l'organisateur");
+                        Map map = new HashMap();
+                        map.put("message", "Redirection error");
+                        return new ModelAndView(map, "error.hbs");
+                    }
+                    else {
+                        //On attrappe l'ensembre des utilisateurs
+                        ArrayList<User> listeU = Server.getDatabase().selectAmbiance(ide);
+                        ArrayList<Map> ambiances = new ArrayList<>();
+                        //On entre l'ensemble des données sur la page web
+                        for (int i = 0; i < listeU.size(); i++) {
+                            Map<String, Object> info = new HashMap<>();
+                            info.put("nom", listeU.get(i).getName());
+                            info.put("prenom", listeU.get(i).getFirstname());
+                            info.put("mail", listeU.get(i).getMail());
+                            info.put("adresse", Address.getAddressFromId(listeU.get(i).getPlaceid()).formattedAddress);
+                            info.put("idu", listeU.get(i).getId());
+                            info.put("ide", ide);
 
-                //Vérification si l'user est bien l'organsier de l'event
-                if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
-                    response.redirect("/error?msg=try again");
+                            ambiances.add(info);
+                        }
+
+                        HashMap map = new HashMap();
+                        map.put("items", ambiances);
+                        return new ModelAndView(map, "ajoutambiance.hbs");
+                    }
+                } catch (NumberFormatException e) {
+                    response.redirect("/error?msg=parse error");
                     Map map = new HashMap();
-                    map.put("message","Redirection error");
-                    return new ModelAndView(map,"error.hbs");
+                    map.put("message", "Redirection error");
+                    return new ModelAndView(map, "error.hbs");
                 }
-
-                //On attrappe l'ensembre des utilisateurs
-                ArrayList<User> listeU = Server.getDatabase().selectAmbiance(ide);
-                ArrayList<Map> ambiances = new ArrayList<>();
-                //On entre l'ensemble des données sur la page web
-                for(int i=0;i<listeU.size();i++){
-                    Map<String,Object> info = new HashMap<>();
-                    info.put("nom",listeU.get(i).getName());
-                    info.put("prenom",listeU.get(i).getFirstname());
-                    info.put("mail",listeU.get(i).getMail());
-                    info.put("adresse",Address.getAddressFromId(listeU.get(i).getPlaceid()).formattedAddress);
-                    info.put("idu",listeU.get(i).getId());
-                    info.put("ide",ide);
-
-                    ambiances.add(info);
-                }
-
-                HashMap map = new HashMap();
-                map.put("items",ambiances);
-
-                return new ModelAndView(map,"ajoutambiance.hbs");
-            }
-            catch(NumberFormatException e){
-                response.redirect("/error?msg=parse error");
-                Map map = new HashMap();
-                map.put("message","Redirection error");
-                return new ModelAndView(map,"error.hbs");
             }
 
         },new HandlebarsTemplateEngine());
 
+        //Ajouter un ambiancé
         post("/ajoutambiance", (request, response) -> {
             //On recupère les attributs que nous avons besoin
             String mail = request.queryParams("mail");
@@ -174,22 +175,67 @@ public class Event {
             User u = request.session().attribute("user");
 
             int idambiance=-1;
+            idambiance=Server.getDatabase().selectUserMail(mail);
             //Vérification que l'utilisateur est bien connecté
             if (u == null) response.redirect("/error?msg=Votre Session n'existe plus");
-            idambiance=Server.getDatabase().selectUserMail(mail);
+            //Vérification si l'user est bien l'organsier de l'event
+            else if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
+                response.redirect("/error?msg=Vous n'etes pas l'organisateur");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
             //Vérification que l'utilisateur à bien saisie une adresse mail valide
-            if(idambiance==-1) response.redirect("/error?msg=mail invalide");
+            else if(idambiance==-1) response.redirect("/error?msg=mail invalide");
             //Vérification si l'invité fais déjà partit des ambiancé
-            if(Server.getDatabase().isAmbiance(idambiance,ide))response.redirect("/error?msg=Cette ambiance est deja invite");
+            else if(Server.getDatabase().isAmbiance(idambiance,ide))response.redirect("/error?msg=Cette ambiance est deja invite");
             //Vérification si l'invité n'est pas l'organisateur
-            if(Server.getDatabase().isOragniserEvent(idambiance,ide))response.redirect("/error?msg=vous ne pouvez pas vous inviter vous meme !");
+            else if(Server.getDatabase().isOragniserEvent(idambiance,ide))response.redirect("/error?msg=vous ne pouvez pas vous inviter vous meme !");
             //On ajoute l'ambiancé à la base de données
-            Server.getDatabase().insertAmbiance(idambiance,ide);
-            response.redirect("/ajoutambiance?idevent="+ide);
+            else {
+                Server.getDatabase().insertAmbiance(idambiance, ide);
+                response.redirect("/ajoutambiance?idevent=" + ide);
+            }
             Map map = new HashMap();
             map.put("message","Redirection error");
             return new ModelAndView(map,"error.hbs");
         });
+
+        //Supprimer un Ambiancé
+        get("/supprambiance", (request,response) -> {
+            User u = request.session().attribute("user");
+            //On recupère les attributs que nous avons besoin
+            int idambiance = Integer.parseInt(request.queryParams("idu"));
+            int ide = Integer.parseInt(request.queryParams("ide"));
+            //Vérification si l'user est bien connecté
+            if(u == null){
+                response.redirect("/");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+            //Vérification si l'user est bien l'organsier de l'event
+            else if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
+                response.redirect("/error?msg=Vous n'etes pas l'organisateur");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+            //Vérification si l'ambiancé existe bien dans la base de données
+            else if(!Server.getDatabase().isAmbiance(idambiance,ide)){
+                response.redirect("/error?msg=Cette ambiance est deja invite");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+            else {
+                Server.getDatabase().deleteAmbiance(idambiance, ide);
+                response.redirect("/ajoutambiance?idevent=" + ide);
+            }
+            Map map = new HashMap();
+            map.put("message", "Redirection error");
+            return new ModelAndView(map, "error.hbs");
+        },new HandlebarsTemplateEngine());
 
         post("/event", (request, response) -> {
             Event e = new Event(request.queryParams("nomevenement"),
