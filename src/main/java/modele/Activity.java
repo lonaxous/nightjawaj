@@ -43,21 +43,28 @@ public class Activity {
             User u = request.session().attribute("user");
             //Vérification si l'user est bien connecté
             if(u == null){
-                response.redirect("/error?msg=session not present");
+                response.redirect("/");
                 Map map = new HashMap();
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
             }
             //Obtention de l'identifiant de l'event
-            int ide = Integer.parseInt(request.queryParams("idevent"));
-            //Vérification si l'user est bien l'organsier de l'event
-            if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
-                response.redirect("/error?msg=try again");
+            try{
+                int ide = Integer.parseInt(request.queryParams("idevent"));
+                //Vérification si l'user est bien l'organsier de l'event
+                if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
+                    response.redirect("/error?msg=try again");
+                    Map map = new HashMap();
+                    map.put("message","Redirection error");
+                    return new ModelAndView(map,"error.hbs");
+                }
+            }
+            catch (NumberFormatException e){
+                response.redirect("/error?msg=parse error");
                 Map map = new HashMap();
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
             }
-
             return null;
         },new HandlebarsTemplateEngine());
     }

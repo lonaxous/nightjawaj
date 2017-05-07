@@ -119,41 +119,50 @@ public class Event {
             User u = request.session().attribute("user");
             //Vérification si l'user est bien connecté
             if(u == null){
-                response.redirect("/error?msg=session not present");
+                response.redirect("/");
                 Map map = new HashMap();
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
             }
 
-            //Obtention de l'identifiant de l'event
-            int ide = Integer.parseInt(request.queryParams("idevent"));
+            try{
+                //Obtention de l'identifiant de l'event
+                int ide = Integer.parseInt(request.queryParams("idevent"));
 
-            //Vérification si l'user est bien l'organsier de l'event
-            if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
-                response.redirect("/error?msg=try again");
+                //Vérification si l'user est bien l'organsier de l'event
+                if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
+                    response.redirect("/error?msg=try again");
+                    Map map = new HashMap();
+                    map.put("message","Redirection error");
+                    return new ModelAndView(map,"error.hbs");
+                }
+
+                //On attrappe l'ensembre des utilisateurs
+                ArrayList<User> listeU = Server.getDatabase().selectAmbiance(ide);
+                ArrayList<Map> ambiances = new ArrayList<>();
+                //On entre l'ensemble des données sur la page web
+                for(int i=0;i<listeU.size();i++){
+                    Map<String,Object> info = new HashMap<>();
+                    info.put("nom",listeU.get(i).getName());
+                    info.put("prenom",listeU.get(i).getFirstname());
+                    info.put("mail",listeU.get(i).getMail());
+                    info.put("adresse",Address.getAddressFromId(listeU.get(i).getPlaceid()).formattedAddress);
+
+                    ambiances.add(info);
+                }
+
+                HashMap map = new HashMap();
+                map.put("items",ambiances);
+
+                return new ModelAndView(map,"ajoutambiance.hbs");
+            }
+            catch(NumberFormatException e){
+                response.redirect("/error?msg=parse error");
                 Map map = new HashMap();
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
             }
 
-            //On attrappe l'ensembre des utilisateurs
-            ArrayList<User> listeU = Server.getDatabase().selectAmbiance(ide);
-            ArrayList<Map> ambiances = new ArrayList<>();
-            //On entre l'ensemble des données sur la page web
-            for(int i=0;i<listeU.size();i++){
-                Map<String,Object> info = new HashMap<>();
-                info.put("nom",listeU.get(i).getName());
-                info.put("prenom",listeU.get(i).getFirstname());
-                info.put("mail",listeU.get(i).getMail());
-                info.put("adresse",Address.getAddressFromId(listeU.get(i).getPlaceid()).formattedAddress);
-
-                ambiances.add(info);
-            }
-
-            HashMap map = new HashMap();
-            map.put("items",ambiances);
-
-            return new ModelAndView(map,"ajoutambiance.hbs");
         },new HandlebarsTemplateEngine());
 
         post("/ajoutambiance", (request, response) -> {
@@ -174,7 +183,7 @@ public class Event {
             if(Server.getDatabase().isOragniserEvent(idambiance,ide))response.redirect("/error?msg=vous ne pouvez pas vous inviter vous meme !");
             //On ajoute l'ambiancé à la base de données
             Server.getDatabase().insertAmbiance(idambiance,ide);
-            response.redirect("/event" );
+            response.redirect("/ajoutambiance?idevent="+ide);
             Map map = new HashMap();
             map.put("message","Redirection error");
             return new ModelAndView(map,"error.hbs");
