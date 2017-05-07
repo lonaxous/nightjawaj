@@ -2,138 +2,51 @@
 <!DOCTYPE html> 
 <html lang="fr"> 
   <head> 
-    <title> Ajout ambiancé </title> 
+    <title>Ajout ambiancé</title>
     <meta charset="utf-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
- <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="dist/css/bootstrap-theme.min.css" rel="stylesheet" />
-   
-   <script src="assets/js/html5shiv.js"></script>
-     <script src="assets/js/respond.min.js"></script>
-     </head>
-	 <body>
-	 
-	 	 
-	  <p align="center">  <img src="logo_nightjawaj.png"   alt="logo_nightjawaj" width="170"   > </p>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+  </head>
+  <body>
+	  <p align="center">
+          <a href="/"><img src="logo_nightjawaj.png" alt="logo_nightjawaj" width="170"></a>
+      </p>
       {{#if own}}
-	 		<div class="modal-dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h1 class="text-center"> Ajout ambiancé </h1>
+              </div>
 
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="text-center"> Ajout ambiancé </h1>
-						</div>
-						
-							<div class="modal-body">
-
-								<form class="modal-md-12 center-block" action="" method="post">
-									 
-									
-									<div class="form-group">
-										<input type="text" name="mail" class="form-control input-lg" placeholder="mail">
-									</div>
-
-									
-									
-									  <!---
-									         <div class="form-group">
-												  <select name="preference" class="form-control input-lg" placeholder="preference alimentaire" >
-												   <option value="thai">thai</option>
-												   <option value="mexicain">mexicain</option> 
-												   <option value="fastfood">fast-food</option>  
-												   <option value="indien">indien</option>    				   
-												  </select>
-								  
-								             </div> --->
-											 
-											<!--
-											 <div class="form-group">
-												  <select name="moyentransport" class="form-control input-lg" placeholder="moyentrannsport" >
-												   <option value="metro">métro</option>
-												   <option value="mexicain">voiture</option> 
-												   <option value="velo">vélo</option>  
-												   <option value="apied">à pied</option>    				   
-												  </select>
-								  
-								             </div> --->
-										
-										 
-										<div class="form-group">
-                                            <input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
-												 
-											</div>
-										 
-										
-										 
-								</form>
-
-							</div>
-					</div>
-			</div>
+              <div class="modal-body">
+                  <form class="modal-md-12 center-block" action="" method="post">
+                      <div class="form-group">
+                          <input type="text" name="mail" class="form-control input-lg" placeholder="mail">
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
       {{/if}}
-	 
-	 
-	 
-	 
-	 
-	 
-	 <!--
-	 
-	 <div class="panel panel-default">
-	  
-	 
-	  
-	 
-	 <table class="table">
-	 <thead>
-	 <tr class="active">
-	 <th> Nom</th>
+      <div class="panel panel-default">
+	        <table class="table">
+	            <thead>
+	                <tr class="active">
+	 <th>Nom</th>
 	 <th>Prénom</th>
-	 <th>Age</th>
-	  <th>Adresse</th>
-	   <th>Preference alimentaire</th>
-	    <th>Moyen de transport</th>
+	 <th>Mail</th>
+	 <th>Adresse</th>
+     <th></th>
+
 	 </tr>
 	 </thead>
-	 
-	 <tbody>
-	 <tr>
-	 <td>Kent</td>
-	 <td>Clark</td>
-	 <td>25</td>
-	 <td>3 rue Léon Frot 75011 Paris</td>
-	 <td>Italien</td>
-	 <td>métro</td>
-	 </tr>
-	 
-	 
-	 </tbody>
-	 </table>
-	 
-	 </div> -->
-	 
-	 
-	 
-	  
-	 
-	 
-	 
-	 <div class="panel panel-default">
-	  
-	 
-	  
-	 
-	 <table class="table">
-	 <thead>
-	 <tr class="active">
-	 <th> Nom</th>
-	 <th>Prénom</th>
-	 <th>mail</th>
-	  <th>Adresse</th>
-         <th></th>
-	      
-	 </tr>
-	 </thead>
-	 
+
 	 <tbody>
      {{#each items}}
 	 <tr>
@@ -146,15 +59,15 @@
      {{/if}}
 	 </tr>
 	 {{/each}}
-	 
+
 	 </tbody>
 	 </table>
-	 
-	 </div> 
-	 
-	 
+
+	 </div>
+
+
 	 	   <!--liaison aux script-->
   <script src="asset/js/jquery.js" type="text/javascript"></script>
   <script src="dist/js/bootstrap.min.js" type="text/javascript"></script>
   </body>
-  </html>
+</html>

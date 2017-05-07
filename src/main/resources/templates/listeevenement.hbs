@@ -2,7 +2,7 @@
 <!DOCTYPE html> 
 <html lang="fr"> 
   <head> 
-    <title> Nightwaj </title> 
+    <title>NightJawaj</title>
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
  <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,12 +18,12 @@
 	 <body>
 	 
 	 	 
-	  <p align="center">  <img src="logo_nightjawaj.png"   alt="logo_nightjawaj" width="170"   > </p>
+     <a href="/"><p align="center">  <img src="logo_nightjawaj.png"   alt="logo_nightjawaj" width="170"   > </p></a>
 	 
 	 		<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h1 class="text-center"> Creer événement </h1>
+							<h1 class="text-center">Creer événement</h1>
 						</div>
 						
 							<div class="modal-body">
@@ -71,12 +71,12 @@
 
 				 <tr>
 				 
-				   <td><b> nom événement </td></b>
-				   <td><b> nom organisateur </td></b>
-				   <td><b> prénom organisateur </td></b>
-				   <td><b> heure début </td></b>
-				    <td><b> heure fin </td></b>
-					<td><b> adresse organisateur </td></b>
+				   <td><b>nom événement</b></td>
+				   <td><b>nom organisateur</b></td>
+				   <td><b>prénom organisateur</b></td>
+				   <td><b>heure début</b></td>
+				    <td><b>heure fin</b></td>
+					<td><b>adresse organisateur</b></td>
 				   
 				   
 				 </tr>
@@ -84,18 +84,18 @@
                 {{#each items}}
 				 <tr class="info">
 				 
-				   <td>{{eventname}} </td>
+				   <td>{{eventname}}</td>
 				   <td>{{nom}}</td>
 				   <td>{{prenom}}</td>
 				   <td>{{hdeb}}</td>
 				   <td>{{hfin}}</td>
-				   <td>{{adresse}} </td>
+				   <td>{{adresse}}</td>
                    {{#if own}}
-                       <td><a href="modifactivity?idevent={{ide}}">Modifier activité</a> </td>
-                       <td><a href="ajoutambiance?idevent={{ide}}">Ajouter ambiancé</a> </td>
+                       <td><a href="modifactivity?idevent={{ide}}">Modifier activité</a></td>
+                       <td><a href="ajoutambiance?idevent={{ide}}">Ajouter ambiancé</a></td>
                    {{else}}
-                       <td><a href="afficheractivite.html">Afficher activité</a> </td>
-                       <td><a href="ajoutambiance?idevent={{ide}}">Afficher ambiancé</a> </td>
+                       <td><a href="afficheractivite.html">Afficher activité</a></td>
+                       <td><a href="ajoutambiance?idevent={{ide}}">Afficher ambiancé</a></td>
                    {{/if}}
 				 
 				 </tr>

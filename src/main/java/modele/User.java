@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.redirect;
 
 /**
  * Created by dnguye2 on 27/03/17.
@@ -105,8 +106,9 @@ public class User {
                 request.session().attribute("user",null); // Closing session to disconnect user
                 request.session(false);
 
+                response.redirect("/felicitation.html");
                 Map map = new HashMap();
-                map.put("message", "Successfully created user");
+                map.put("message", "Redirection error");
                 return new ModelAndView(map, "error.hbs");
             } else {
                 Map map = new HashMap();
