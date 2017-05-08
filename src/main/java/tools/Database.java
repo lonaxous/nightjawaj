@@ -391,6 +391,31 @@ public class Database {
         else throw new Exception("Activity does not exist");
     }
 
+    //Donne une activité à partir de son id,Surcharge d'argument, evite une opération en plus quand on connait déjà l'id event
+    public Activity selectActivity(int ida,int ide)throws Exception{
+        String text = "select * " +
+                "from activity " +
+                "where id = "+ida;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        if(rs.next())return new Activity(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectEvent(ide));
+        else throw new Exception("Activity does not exist");
+    }
+
+    //Selection d'une liste d'activité à partir d'un ide
+    public ArrayList<Activity> selectListActivity(int ide)throws Exception{
+        String text = "select ida " +
+                "from planning " +
+                "where ide="+ide;
+        ArrayList<Activity> listA=new ArrayList<>();
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        while(rs.next()){
+            listA.add(selectActivity(rs.getInt(1),ide));
+        }
+        return listA;
+    }
+
     public Event selectEventActivity(int ida)throws Exception{
         String text = "select ide " +
                 "from planning " +
