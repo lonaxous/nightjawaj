@@ -1,9 +1,6 @@
 package tools;
 
-import modele.Address;
-import modele.Event;
-import modele.Preferences;
-import modele.User;
+import modele.*;
 import spark.Spark;
 
 import java.sql.SQLException;
@@ -42,6 +39,7 @@ public class Server {
         Event.start();
         ModelException.start();
         Preferences.start();
+        Activity.start();
     }
 
     public static API getAPI(){

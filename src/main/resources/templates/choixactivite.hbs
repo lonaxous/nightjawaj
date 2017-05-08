@@ -18,7 +18,8 @@
                         <h1 class="text-center">Choisissez les activités</h1>
                     </div>
                         <div class="modal-body">
-                            <form onChange="this.reset()" class="modal-md-12 center-block" action="/ajoutactivite" method="post">
+                            <form class="modal-md-12 center-block" action="/ajoutactivite" method="post">
+                                <input type="hidden" value="{{ide}}", name="ide">
                                 <div class="form-group">
                                     <select name="type1" class="form-control input-lg" placeholder="liste d'activites">
                                         <option value="restaurant">Restaurant</option>
@@ -115,7 +116,7 @@
                                     </select>
                                 </div>
                                 <input type="hidden" name="ide" value="{{ide}}">
-                                <input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
+                                <input type="submit" class="btn btn-block btn-lg" value="Générer des sorties" name="ajouter">
 								</form>
 								 
 							</div>

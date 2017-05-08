@@ -47,8 +47,26 @@ public class Event {
         hisActivities = new ArrayList<>();
     }
 
+    public Event(int ide, String name, String dateDeb, String dateFin, User hisOrganiser, List<User> hisAmbiances) {
+        this.ide = ide;
+        this.name = name;
+        this.dateDeb = dateDeb;
+        this.dateFin = dateFin;
+        this.hisOrganiser = hisOrganiser;
+        this.hisAmbiances = hisAmbiances;
+        hisActivities = new ArrayList<>();
+    }
+
     public int getIde() {
         return ide;
+    }
+
+    public List<Activity> getHisActivities() {
+        return hisActivities;
+    }
+
+    public User getHisOrganiser() {
+        return hisOrganiser;
     }
 
     public void addHisActivities(Activity activity) {

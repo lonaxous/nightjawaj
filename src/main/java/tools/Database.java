@@ -371,8 +371,9 @@ public class Database {
                 "where id = "+ide;
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(text);
+
         if(rs.next()){
-            return new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectOrganiser(rs.getInt(1)));
+            return new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectOrganiser(rs.getInt(1)),selectAmbiance(ide));
         }
         else{
             throw new Exception("Event does not exist");

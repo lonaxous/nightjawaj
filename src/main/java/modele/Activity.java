@@ -48,7 +48,7 @@ public class Activity {
 
     //Fonction
     public static void start(){
-        get("/modifactivity", (request,response) -> {
+        get("/modifactivity", (request,response) -> {//Show the form to specify types of activities
             User u = request.session().attribute("user");
             //Vérification si l'user est bien connecté
             if(u == null){
@@ -69,6 +69,9 @@ public class Activity {
                     map.put("message","Redirection error");
                     return new ModelAndView(map,"error.hbs");
                 }
+                Map map = new HashMap();
+                map.put("ide",ide);
+                return new ModelAndView(map,"choixactivite.hbs");
             }
             catch (NumberFormatException e){
                 response.redirect("/error?msg=parse error");
@@ -76,10 +79,9 @@ public class Activity {
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
             }
-            return null;
         },new HandlebarsTemplateEngine());
 
-        post("/modifactivity",(request, response) -> {
+        post("/ajoutactivite",(request, response) -> {//Search for random activities and display result
             User u = request.session().attribute("user");
             //Vérification si l'user est bien connecté
             if(u == null){
@@ -108,10 +110,11 @@ public class Activity {
                         if(!typeList.get(i).equals("empty")){
                             Activity a = new Activity(u,typeList.get(i),e);//Search for a random activity
                             e.addHisActivities(a);
-                            Server.getDatabase().createActivity(e.getIde(),a.name,a.placeid);
+                            //Server.getDatabase().createActivity(e.getIde(),a.name,a.placeid);
                         }
                     }
-                    response.redirect("/showactivities?ide="+e.getIde());
+                    request.session().attribute("event",e);// Temporary store the event into the session before sending to database
+                    response.redirect("/showactivities");// Show activities and wait confirmation from user before sending to database
                     Map map = new HashMap();
                     map.put("message","Redirection error");
                     return new ModelAndView(map,"error.hbs");
@@ -132,10 +135,19 @@ public class Activity {
         });
 
         get("/showactivities",(request, response) -> {
-            request.queryParams("ide");
-            //for (int i = 0;i<)
-            //Server.getDatabase().selectActivity()
-            return null;
+            Event e = request.session().attribute("event");
+            if (e != null){
+                String msg = "";
+                for (int i=0;i<e.getHisActivities().size();i++){
+                    Activity a = e.getHisActivities().get(i);
+                    msg = msg.concat("Activity name : "+a.name+"<br>Activity address : "+Address.getAddressFromId(a.placeid).formattedAddress);
+                }
+                return msg;
+            }
+            else{
+                response.redirect("/error?msg=your didn't create an event");
+                return "error";
+            }
         });
     }
 

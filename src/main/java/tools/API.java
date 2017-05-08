@@ -50,11 +50,16 @@ public class API {
         List<User> ambiances = e.getHisAmbiances();
         String foodpref="";
         for(int i = 0;i<ambiances.size();i++){
-            foodpref=foodpref+ambiances.get(i).getFoodpref();
+            if (ambiances.get(i).getFoodpref() != null){
+                foodpref=foodpref.concat(" "+ambiances.get(i).getFoodpref());//Getting all preferences from all users
+            }
         }
+        if (e.getHisOrganiser().getFoodpref() != null) foodpref=foodpref.concat(" "+e.getHisOrganiser().getFoodpref());//Adding organiser preferences
+        String urlFood = URLEncoder.encode(foodpref,"UTF-8");//make the food prefs url complient
+
         JSONObject jsonObject = placedetails(formattedPlaceid);
         Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
         Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword=-"+foodpref);
+        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword=-"+urlFood);//all words  in foodprefs are excluded from research
     }
 }
