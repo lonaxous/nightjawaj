@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 public class Time {
 
     //On donne une activité ainsi que son heure de début et retourne la date de fin
-    public static String timeActivity(String act, String startact) throws ParseException {
+    public static String timeEndActivity(String act, String startAct) throws ParseException {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd'T'HH':'mm");
-        Date jd = sdf.parse(startact);
+        Date jd = sdf.parse(startAct);
         //Le temps est en millisecondes
         switch (act){
             case "restaurant" : jd=new Date(jd.getTime()+3600000); break;
@@ -32,5 +32,13 @@ public class Time {
             default:break;
         }
         return sdf.format(jd);
+    }
+
+    //Donne le temps de début d'une activité(flottement entre chaque activité)en prenant le temps de fin de l'activité précédente
+    public static String timeStartActivity(String endAct) throws ParseException {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd'T'HH':'mm");
+        Date jd = sdf.parse(endAct);
+        //30 minutes de flottement entre chaque activité
+        return sdf.format(new Date(jd.getTime()+1800000));
     }
 }
