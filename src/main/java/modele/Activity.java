@@ -16,6 +16,7 @@ import static spark.Spark.get;
  * Created by dnguye2 on 27/03/17.
  */
 public class Activity {
+    private int id;
     private String name;
     private String placeid;
     private String startDate;
@@ -25,7 +26,7 @@ public class Activity {
     //Constructeur
 
 
-    public Activity(String name, String placeid, Event hisEvent) {
+    public Activity(int anInt, String string, String name, String placeid, Event hisEvent) {
         this.name = name;
         this.placeid = placeid;
         this.hisEvent = hisEvent;
@@ -38,7 +39,8 @@ public class Activity {
         this.endDate = endDate;
     }
 
-    public Activity(String name, String placeid, String startDate, String endDate, Event hisEvent) {
+    public Activity(int id,String name, String placeid, String startDate, String endDate, Event hisEvent) {
+        this.id =id;
         this.name = name;
         this.placeid = placeid;
         this.startDate = startDate;

@@ -12,6 +12,7 @@ package tools; /**
 //    /   \
 //   /_____\
 //  NightJawaj
+import modele.Activity;
 import modele.Event;
 import modele.User;
 
@@ -380,11 +381,24 @@ public class Database {
     }
 
     //Selection des information d'une activité
-    public ResultSet selectActivity(int ida){
+    public Activity selectActivity(int ida)throws Exception{
         String text = "select * " +
                 "from activity " +
                 "where id = "+ida;
-        return selectSQL(text);
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        if(rs.next())return new Activity(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectEventActivity(rs.getInt(1)));
+        else throw new Exception("Activity does not exist");
+    }
+
+    public Event selectEventActivity(int ida)throws Exception{
+        String text = "select ide " +
+                "from planning " +
+                "where ida = "+ida;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        if(rs.next())return selectEvent(rs.getInt(1));
+        else throw new Exception("Activity does not exist");
     }
 
     //Selection du planing d'un événement
