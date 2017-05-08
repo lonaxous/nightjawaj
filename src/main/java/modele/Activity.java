@@ -134,6 +134,12 @@ public class Activity {
                 map.put("message","Redirection error");
                 return new ModelAndView(map,"error.hbs");
             }
+            catch(Exception e){
+                response.redirect("/error?msg=no result for those criteria");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
         });
 
         get("/showactivities",(request, response) -> {
@@ -142,7 +148,7 @@ public class Activity {
                 String msg = "";
                 for (int i=0;i<e.getHisActivities().size();i++){
                     Activity a = e.getHisActivities().get(i);
-                    msg = msg.concat("Activity name : "+a.name+"<br>Activity address : "+Address.getAddressFromId(a.placeid).formattedAddress);
+                    msg = msg.concat("Activity name : "+a.name+"<br>Activity address : "+Address.getAddressFromId(a.placeid).formattedAddress+"<hr>");
                 }
                 return msg;
             }
@@ -153,10 +159,12 @@ public class Activity {
         });
     }
 
-    public Activity (User u,String type,Event e) throws IOException, JSONException {//This constructor search for a random activity matching parameters
+    public Activity (User u,String type,Event e) throws Exception {//This constructor search for a random activity matching parameters
         Random rand = new Random();
 
         JSONObject j = Server.getAPI().nearBy(u.getPlaceid(),type,e);
+
+        if(!j.getString("status").equals("OK")) throw new Exception("No result");
 
         int nbresult = j.getJSONArray("results").length();
         JSONObject addr = j.getJSONArray("results").getJSONObject(rand.nextInt(nbresult));
