@@ -91,8 +91,10 @@ public class API {
         String color[] = {"blue", "yellow", "red", "green", "purple"};
         String url = "https://maps.googleapis.com/maps/api/staticmap?center="+localisation(e.getHisOrganiser())+"&size=500x500";
         for (int i = 0; i < e.getHisActivities().size();i++){
-            url=url+"&markers=color:"+color[i]+"%7Clabel:"+i+1+"%7C"+localisation(e.getHisActivities().get(i));
+            url=url+"&markers=color:"+color[i]+"%7Clabel:"+(i+1)+"%7C"+localisation(e.getHisActivities().get(i));
         }
-        return url+"&key="+APIKEY;
+        url=url+"&key="+APIKEY;
+        System.out.println("Api static map :"+url);
+        return url;
     }
 }

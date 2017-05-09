@@ -60,6 +60,7 @@ public class Address {
             if(u != null){
                 if (u.getPlaceid() != null){//Assuming user already register so modify the address instead of register
                     Server.getDatabase().modifyUserPlaceId(u.getId(),request.queryParams("listeadresse"));
+                    request.session().attribute("user",Server.getDatabase().selectUser(u.getId()));
                     response.redirect("/");
                     Map map = new HashMap();
                     map.put("message","Redirection error");

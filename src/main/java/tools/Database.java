@@ -388,7 +388,7 @@ public class Database {
                 "where id = "+ida;
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(text);
-        if(rs.next())return new Activity(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectEventActivity(rs.getInt(1)));
+        if(rs.next())return new Activity(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),selectEventActivity(rs.getInt(1)));
         else throw new Exception("Activity does not exist");
     }
 
@@ -399,7 +399,7 @@ public class Database {
                 "where id = "+ida;
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(text);
-        if(rs.next())return new Activity(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectEvent(ide));
+        if(rs.next())return new Activity(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),selectEvent(ide));
         else throw new Exception("Activity does not exist");
     }
 
