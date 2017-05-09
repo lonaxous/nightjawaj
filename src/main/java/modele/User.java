@@ -44,6 +44,15 @@ public class User {
         this.mail = mail;
     }
 
+    public User(int id, String name, String firstname, String placeid, String mail, String foodpref) {
+        this.id = id;
+        this.name = name;
+        this.firstname = firstname;
+        this.placeid = placeid;
+        this.mail = mail;
+        this.foodpref = foodpref;
+    }
+
     public String getFoodpref() {
         return foodpref;
     }

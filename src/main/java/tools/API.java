@@ -55,11 +55,19 @@ public class API {
             }
         }
         if (e.getHisOrganiser().getFoodpref() != null) foodpref=foodpref.concat(" "+e.getHisOrganiser().getFoodpref());//Adding organiser preferences
-        String urlFood = URLEncoder.encode(foodpref,"UTF-8");//make the food prefs url complient
+
+        String[] tokens = foodpref.split(" ");//Split each keywords of the foodpref
+        String minusKeyword = "";
+        for (String t : tokens){
+            minusKeyword = minusKeyword.concat(t+" -");//Put a minus before every words to exclude them from research
+        }
+
+        String urlFood = URLEncoder.encode(minusKeyword,"UTF-8");//make the food prefs url complient
+
 
         JSONObject jsonObject = placedetails(formattedPlaceid);
         Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
         Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword=-"+urlFood);//all words  in foodprefs are excluded from research
+        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword="+urlFood);//all words  in foodprefs are excluded from research
     }
 }
