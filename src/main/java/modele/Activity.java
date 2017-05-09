@@ -19,6 +19,7 @@ public class Activity {
     private int id;
     private String name;
     private String placeid;
+    private String type;
     private String startDate;
     private String endDate;
     private Event hisEvent;
@@ -150,17 +151,24 @@ public class Activity {
             Event e = request.session().attribute("event");
             if (e != null){
                 String msg = "";
+
+                HashMap<String,String> info = new HashMap<>();
                 for (int i=0;i<e.getHisActivities().size();i++){
                     Activity a = e.getHisActivities().get(i);
-                    msg = msg.concat("Activity name : "+a.name+"<br>Activity address : "+Address.getAddressFromId(a.placeid).formattedAddress+"<hr>");
+                    info.put("type".concat(String.valueOf(i)),a.type);//Set all info
+                    info.put("name".concat(String.valueOf(i)),a.name);
+                    info.put("adresse".concat(String.valueOf(i)),Address.getAddressFromId(a.placeid).formattedAddress);
+                    info.put("map",Server.getAPI().staticMap(e));
                 }
-                return msg;
+                return new ModelAndView(info,"afficheactivite.hbs");
             }
             else{
                 response.redirect("/error?msg=your didn't create an event");
-                return "error";
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
             }
-        });
+        },new HandlebarsTemplateEngine());
     }
 
     public Activity (User u,String type,Event e) throws Exception {//This constructor search for a random activity matching parameters
@@ -175,6 +183,7 @@ public class Activity {
 
         this.name = addr.getString("name");
         this.placeid = addr.getString("place_id");
+        this.type = type;
         this.hisEvent = e;
     }
 }
