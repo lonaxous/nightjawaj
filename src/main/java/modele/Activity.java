@@ -70,6 +70,30 @@ public class Activity {
         typeActivite.put("bowling_alley","Bowling");
     }
 
+    //Prend un type de lieu google et retourne son nom en fr
+    public String typeActiviteFr(String typeAct){
+        String retour="";
+        switch (typeAct){
+            case "restaurant" : retour="Restaurant"; break;
+            case "bar" : retour="Bar"; break;
+            case "cafe" : retour="Café"; break;
+            case "night_club": retour="Boite de nuit"; break;
+            case "museum": retour="Musée"; break;
+            case "park": retour="Parc"; break;
+            case "amusement_park": retour="Parc d'attraction"; break;
+            case "library": retour="Bibliothèque"; break;
+            case "casino": retour="Casino"; break;
+            case "movie_theater": retour="Cinéma"; break;
+            case "shopping_mall": retour="Centre commercial"; break;
+            case "aquarium": retour="Aquarium"; break;
+            case "bowling_alley": retour="Bowling"; break;
+            case "zoo": retour="Zoo"; break;
+            case "gym": retour="Salle de sport"; break;
+            default:break;
+        }
+        return retour;
+    }
+
     //Fonction
     public static void start(){
         get("/modifactivity", (request,response) -> {//Show the form to specify types of activities
