@@ -237,7 +237,7 @@ public class Database {
         ResultSet rs = s.executeQuery(lastId);
         if(rs.next())ida = rs.getInt(1);
         //Liaison entre un event et l'organisateur
-        String text2 = "insert into planing(ide,ida)" +
+        String text2 = "insert into planning(ide,ida)" +
                 "values(?,?)";
         PreparedStatement ps2 = co.prepareStatement(text2);
         ps2.setInt(1, ide);
