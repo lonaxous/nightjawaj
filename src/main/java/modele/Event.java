@@ -279,7 +279,7 @@ public class Event {
             User u = request.session().attribute("user");
             if (u == null) response.redirect("/");
             Server.getDatabase().createEvent(u.getId(), e.name, e.dateDeb, e.dateFin); // Adding event to database
-            response.redirect("/event" );
+            response.redirect("/modifactivity" );
             Map map = new HashMap();
             map.put("message","Redirection error");
             return new ModelAndView(map,"error.hbs");

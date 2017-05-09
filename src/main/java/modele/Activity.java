@@ -37,6 +37,10 @@ public class Activity {
         this.hisEvent = hisEvent;
     }
 
+    public Activity(String type) {
+        this.type = type;
+    }
+
     public Activity(String name, String placeid, String startDate, String endDate) {
         this.name = name;
         this.placeid = placeid;
@@ -112,15 +116,16 @@ public class Activity {
                     // Create the event
                     Event e = Server.getDatabase().selectEvent(ide);
 
-                    // Search for a random activity for each type
+                    // Search for a random activities for each type
+                    ArrayList<JSONObject> jsList = new ArrayList<>();
                     for(int i=0;i<typeList.size();i++){
                         if(!typeList.get(i).equals("empty")){
-                            Activity a = new Activity(u,typeList.get(i),e);//Search for a random activity
-                            e.addHisActivities(a);
-                            //Server.getDatabase().createActivity(e.getIde(),a.name,a.placeid);
+                            jsList.add(Server.getAPI().nearBy(u.getPlaceid(),typeList.get(i),e));
+                            e.getHisActivities().add(new Activity(typeList.get(i)));
                         }
                     }
-                    request.session().attribute("event",e);// Temporary store the event into the session before sending to database
+                    request.session().attribute("event",e);
+                    request.session().attribute("json",jsList);// Temporary store the event into the session before sending to database
                     response.redirect("/showactivities");// Show activities and wait confirmation from user before sending to database
                     Map map = new HashMap();
                     map.put("message","Redirection error");
@@ -148,19 +153,28 @@ public class Activity {
         });
 
         get("/showactivities",(request, response) -> {
+            ArrayList<JSONObject> jsList = request.session().attribute("json");
             Event e = request.session().attribute("event");
-            if (e != null){
+            if (jsList != null && e != null){
+                // Search for a random activity for each type
+                for (int i=0;i<e.getHisActivities().size();i++){
+                    e.getHisActivities().get(i).getRandom(jsList.get(i),e);//For each activity in event get a random one matching
+                }
                 String msg = "";
 
-                HashMap<String,String> info = new HashMap<>();
+                ArrayList<Map> activities = new ArrayList<>();
                 for (int i=0;i<e.getHisActivities().size();i++){
+                    HashMap<String,String> info = new HashMap<>();
                     Activity a = e.getHisActivities().get(i);
-                    info.put("type".concat(String.valueOf(i)),a.type);//Set all info
-                    info.put("name".concat(String.valueOf(i)),a.name);
-                    info.put("adresse".concat(String.valueOf(i)),Address.getAddressFromId(a.placeid).formattedAddress);
-                    info.put("map",Server.getAPI().staticMap(e));
+                    info.put("type",a.type);//Set all info
+                    info.put("name",a.name);
+                    info.put("adresse",Address.getAddressFromId(a.placeid).formattedAddress);
+                    activities.add(info);
                 }
-                return new ModelAndView(info,"afficheactivite.hbs");
+                HashMap map = new HashMap();
+                map.put("map",Server.getAPI().staticMap(e));
+                map.put("items",activities);
+                return new ModelAndView(map,"afficheactivite.hbs");
             }
             else{
                 response.redirect("/error?msg=your didn't create an event");
@@ -171,10 +185,8 @@ public class Activity {
         },new HandlebarsTemplateEngine());
     }
 
-    public Activity (User u,String type,Event e) throws Exception {//This constructor search for a random activity matching parameters
+    public void getRandom(JSONObject j,Event e) throws Exception {//This constructor search for a random activity matching parameters
         Random rand = new Random();
-
-        JSONObject j = Server.getAPI().nearBy(u.getPlaceid(),type,e);
 
         if(!j.getString("status").equals("OK")) throw new Exception("No result");
 
@@ -183,7 +195,6 @@ public class Activity {
 
         this.name = addr.getString("name");
         this.placeid = addr.getString("place_id");
-        this.type = type;
         this.hisEvent = e;
     }
 }
