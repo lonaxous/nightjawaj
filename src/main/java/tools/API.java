@@ -69,7 +69,7 @@ public class API {
         JSONObject jsonObject = placedetails(formattedPlaceid);
         Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
         Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword="+urlFood);//all words  in foodprefs are excluded from research
+        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=1000&type="+formattedType+"&keyword="+urlFood);//all words  in foodprefs are excluded from research
     }
 
     public String localisation(Activity a) throws IOException, JSONException {
