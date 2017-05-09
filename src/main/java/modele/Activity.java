@@ -48,24 +48,7 @@ public class Activity {
         this.placeid = placeid;
         this.startDate = startDate;
         this.endDate = endDate;
-        //initialiseHashMap();
-    }
-
-    //Fonction d'initialisation du hashmap
-    public void initialiseHashMap(){
-        typeActivite.put("restaurant","Restaurant");
-        typeActivite.put("bar","Bar");
-        typeActivite.put("cafe","Café");
-        typeActivite.put("night_club","Boite de nuit");
-        typeActivite.put("museum","Musée");
-        typeActivite.put("park","Parc");
-        typeActivite.put("amusement_park","Parc d'attraction");
-        typeActivite.put("library","Bibliothèque");
-        typeActivite.put("casino","Casino");
-        typeActivite.put("movie_theater","Théatre");
-        typeActivite.put("shopping_mall","Centre Commercial");
-        typeActivite.put("aquarium","Aquarium");
-        typeActivite.put("bowling_alley","Bowling");
+        type = "Enseigne";
     }
 
     //Prend un type de lieu google et retourne son nom en fr
