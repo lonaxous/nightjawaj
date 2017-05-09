@@ -23,18 +23,13 @@ public class Activity {
     private String startDate;
     private String endDate;
     private Event hisEvent;
+    private HashMap<String,String>typeActivite;
 
     //Constructeur
 
 
     public String getPlaceid() {
         return placeid;
-    }
-
-    public Activity(int anInt, String string, String name, String placeid, Event hisEvent) {
-        this.name = name;
-        this.placeid = placeid;
-        this.hisEvent = hisEvent;
     }
 
     public Activity(String name, String placeid, String startDate, String endDate) {
@@ -51,6 +46,24 @@ public class Activity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.hisEvent = hisEvent;
+        //initialiseHashMap();
+    }
+
+    //Fonction d'initialisation du hashmap
+    public void initialiseHashMap(){
+        typeActivite.put("restaurant","Restaurant");
+        typeActivite.put("bar","Bar");
+        typeActivite.put("cafe","Café");
+        typeActivite.put("night_club","Boite de nuit");
+        typeActivite.put("museum","Musée");
+        typeActivite.put("park","Parc");
+        typeActivite.put("amusement_park","Parc d'attraction");
+        typeActivite.put("library","Bibliothèque");
+        typeActivite.put("casino","Casino");
+        typeActivite.put("movie_theater","Théatre");
+        typeActivite.put("shopping_mall","Centre Commercial");
+        typeActivite.put("aquarium","Aquarium");
+        typeActivite.put("bowling_alley","Bowling");
     }
 
     //Fonction
@@ -185,5 +198,6 @@ public class Activity {
         this.placeid = addr.getString("place_id");
         this.type = type;
         this.hisEvent = e;
+        //initialiseHashMap();
     }
 }

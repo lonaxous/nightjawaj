@@ -69,7 +69,7 @@ public class API {
         JSONObject jsonObject = placedetails(formattedPlaceid);
         Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
         Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=1000&type="+formattedType+"&keyword="+urlFood);//all words  in foodprefs are excluded from research
+        return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword="+urlFood);//all words  in foodprefs are excluded from research
     }
 
     public String localisation(Activity a) throws IOException, JSONException {
@@ -91,8 +91,10 @@ public class API {
         String color[] = {"blue", "yellow", "red", "green", "purple"};
         String url = "https://maps.googleapis.com/maps/api/staticmap?center="+localisation(e.getHisOrganiser())+"&size=500x500";
         for (int i = 0; i < e.getHisActivities().size();i++){
-            url=url+"&markers=color:"+color[i]+"%7Clabel:"+i+1+"%7C"+localisation(e.getHisActivities().get(i));
+            url=url+"&markers=color:"+color[i]+"%7Clabel:"+(i+1)+"%7C"+localisation(e.getHisActivities().get(i));
         }
-        return url+"&key="+APIKEY;
+        url=url+"&key="+APIKEY;
+        System.out.println("Api static map :"+url);
+        return url;
     }
 }

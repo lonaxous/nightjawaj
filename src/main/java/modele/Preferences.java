@@ -67,6 +67,7 @@ public class Preferences {
                     response.redirect("/choose_address?unformatted_address="+addr);
                 }
                 else{
+                    request.session().attribute("user",Server.getDatabase().selectUser(u.getId()));
                     response.redirect("/");
                 }
                 Map map = new HashMap();
