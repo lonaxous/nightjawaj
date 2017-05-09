@@ -26,6 +26,7 @@ Pour aller plus loin, vous êtes libres de prendre des initiatives afin d'enrich
 ___
 
 API key: AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4
+
 API de secours : AIzaSyCixQpC0sRu2QPXgZF5OKQE19xgx2f-iz8
 
 API URL exemple : https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=48.855218,2.368622&radius=500&type=restaurant&name=burger&key=AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4
