@@ -23,7 +23,8 @@ public class Server {
         Scanner sc = new Scanner(System.in);
         System.out.print("API Key : ");
         String apikey = sc.nextLine();
-        db.insertApiG(apikey);
+        if(Server.getDatabase().apiExist())db.updateApiG(apikey);
+        else db.insertApiG(apikey);
     }
 
     public void start() throws SQLException {
