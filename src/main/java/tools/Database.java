@@ -517,7 +517,7 @@ public class Database {
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(requete);
         if(rs.next()){
-            return new User(rs.getInt(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5));
+            return new User(rs.getInt(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5),selectFoodPref(rs.getInt(1)));
         }
         throw new Exception("User does not exist");
     }
@@ -532,7 +532,7 @@ public class Database {
     }
 
     //Donne tous les ambiances d'un event en fonction de l'ide
-    public ArrayList<User> selectAmbiance(int ide)throws SQLException{
+    public ArrayList<User> selectAmbiance(int ide) throws Exception {
         ArrayList<User> listUser = new ArrayList<>();
         String requete = "select distinct u.id,u.fname,u.lname,u.placeid,u.mail " +
                 "from user u,ambiance a " +
@@ -541,7 +541,8 @@ public class Database {
         Statement s = co.createStatement();
         ResultSet rs = s.executeQuery(requete);
         while (rs.next()){
-            listUser.add(new User(rs.getInt(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5)));
+            String food = selectFoodPref(rs.getInt(1));
+            listUser.add(new User(rs.getInt(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5),food));
         }
         return listUser;
     }
