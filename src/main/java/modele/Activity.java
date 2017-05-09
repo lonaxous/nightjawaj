@@ -169,6 +169,13 @@ public class Activity {
         });
 
         get("/showactivities",(request, response) -> {
+            if (request.session().attribute("user") == null){
+                response.redirect("/");
+                Map map = new HashMap();
+                map.put("message","Redirection error");
+                return new ModelAndView(map,"error.hbs");
+            }
+
             ArrayList<JSONObject> jsList = request.session().attribute("json");
             Event e = request.session().attribute("event");
             if (jsList != null || e != null){
@@ -190,6 +197,7 @@ public class Activity {
                 HashMap map = new HashMap();
                 map.put("map",Server.getAPI().staticMap(e));
                 map.put("items",activities);
+                map.put("button",true);
                 return new ModelAndView(map,"afficheactivite.hbs");
             }
             else{
