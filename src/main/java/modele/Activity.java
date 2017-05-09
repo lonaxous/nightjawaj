@@ -22,7 +22,6 @@ public class Activity {
     private String type;
     private String startDate;
     private String endDate;
-    private Event hisEvent;
     private HashMap<String,String>typeActivite;
 
     //Constructeur
@@ -43,13 +42,12 @@ public class Activity {
         this.endDate = endDate;
     }
 
-    public Activity(int id,String name, String placeid, String startDate, String endDate, Event hisEvent) {
+    public Activity(int id,String name, String placeid, String startDate, String endDate) {
         this.id =id;
         this.name = name;
         this.placeid = placeid;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.hisEvent = hisEvent;
         //initialiseHashMap();
     }
 
@@ -281,7 +279,6 @@ public class Activity {
 
         this.name = addr.getString("name");
         this.placeid = addr.getString("place_id");
-        this.hisEvent = e;
         //initialiseHashMap();
     }
 }
