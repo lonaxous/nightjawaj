@@ -295,9 +295,9 @@ public class Database {
     }
 
     //Supprimer une activité
-    public void deletePlaning(int ida)throws SQLException{
+    public void deleteplanning(int ida)throws SQLException{
         String text = "delete " +
-                "from planing " +
+                "from planning " +
                 "where ida = ? ";
         PreparedStatement ps = co.prepareStatement(text);
         ps.setInt(1,ida);
@@ -436,10 +436,10 @@ public class Database {
         else throw new Exception("Activity does not exist");
     }
 
-    //Selection du planing d'un événement
-    public ResultSet selectPlaning(int ide){
+    //Selection du planning d'un événement
+    public ResultSet selectplanning(int ide){
         String text = "select name, starthour, endhour, adrs " +
-                "from activity a, planing p " +
+                "from activity a, planning p " +
                 "where a.id = p.ida " +
                 "and p.ide ="+ide;
         return  selectSQL(text);
