@@ -1,5 +1,6 @@
 package tools;
 
+import modele.Activity;
 import modele.Event;
 import modele.User;
 import org.json.JSONException;
@@ -69,5 +70,29 @@ public class API {
         Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
         Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
         return getJ("nearbysearch","location="+latitude+","+longitude+"&radius=5000&type="+formattedType+"&keyword="+urlFood);//all words  in foodprefs are excluded from research
+    }
+
+    public String localisation(Activity a) throws IOException, JSONException {
+        JSONObject jsonObject = placedetails(a.getPlaceid());
+        Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+        Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+        return latitude+","+longitude;
+    }
+
+    public String localisation(User u) throws IOException, JSONException {
+        JSONObject jsonObject = placedetails(u.getPlaceid());
+        Double latitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+        Double longitude = jsonObject.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+        return latitude+","+longitude;
+    }
+
+    public String staticMap(Event e) throws IOException, JSONException {
+
+        String color[] = {"blue", "yellow", "red", "green", "purple"};
+        String url = "https://maps.googleapis.com/maps/api/staticmap?center="+localisation(e.getHisOrganiser())+"&size=500x500";
+        for (int i = 0; i < e.getHisActivities().size();i++){
+            url=url+"&markers=color:"+color[i]+"%7Clabel:"+i+1+"%7C"+localisation(e.getHisActivities().get(i));
+        }
+        return url+"&key="+APIKEY;
     }
 }

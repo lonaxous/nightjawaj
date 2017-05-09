@@ -26,6 +26,10 @@ public class Activity {
     //Constructeur
 
 
+    public String getPlaceid() {
+        return placeid;
+    }
+
     public Activity(int anInt, String string, String name, String placeid, Event hisEvent) {
         this.name = name;
         this.placeid = placeid;
