@@ -381,6 +381,15 @@ public class Database {
         }
     }
 
+    //Fonction retournant le dernier event qu'à créer un utilisateur
+    public int selectidEvent(int idu)throws Exception{
+        String text= "select max(ide) from organiser where idu="+idu;
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        if(rs.next())return rs.getInt(1);
+        else throw new Exception("Event does not exist");
+    }
+
     //Selection des information d'une activité
     public Activity selectActivity(int ida)throws Exception{
         String text = "select * " +
