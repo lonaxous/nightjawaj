@@ -155,7 +155,6 @@ public class Event {
                 return new ModelAndView(map,"error.hbs");
             }
             else {
-                try {
                     try{
                         //Obtention de l'identifiant de l'event
                         int ide = Integer.parseInt(request.queryParams("idevent"));
@@ -186,12 +185,6 @@ public class Event {
                         map.put("message","Redirection error");
                         return new ModelAndView(map,"error.hbs");
                     }
-                } catch (NumberFormatException e) {
-                    response.redirect("/error?msg=parse error");
-                    Map map = new HashMap();
-                    map.put("message", "Redirection error");
-                    return new ModelAndView(map, "error.hbs");
-                }
             }
 
         },new HandlebarsTemplateEngine());
@@ -279,7 +272,7 @@ public class Event {
             User u = request.session().attribute("user");
             if (u == null) response.redirect("/");
             Server.getDatabase().createEvent(u.getId(), e.name, e.dateDeb, e.dateFin); // Adding event to database
-            response.redirect("/modifactivity" );
+            response.redirect("/modifactivity?ide="+Server.getDatabase().selectidEvent(u.getId()));
             Map map = new HashMap();
             map.put("message","Redirection error");
             return new ModelAndView(map,"error.hbs");

@@ -35,7 +35,7 @@ public class Activity {
     public Activity(String type) {
         this.type = type;
     }
-    
+
     public Activity(String name, String placeid, String startDate, String endDate) {
         this.name = name;
         this.placeid = placeid;
@@ -107,12 +107,10 @@ public class Activity {
             }
             //Obtention de l'identifiant de l'event
             try{
-                int ide = Integer.parseInt(request.queryParams("idevent"));
+                int ide = Integer.parseInt(request.queryParams("ide"));
                 //Vérification si l'user est bien l'organsier de l'event
                 if(!Server.getDatabase().isOragniserEvent(u.getId(),ide)){
-                    //Receive
-
-
+                    response.redirect("/error?msg=Vous n'êtes pas l'organisateur");
                     Map map = new HashMap();
                     map.put("message","Redirection error");
                     return new ModelAndView(map,"error.hbs");
@@ -220,7 +218,58 @@ public class Activity {
                 return new ModelAndView(map,"error.hbs");
             }
         },new HandlebarsTemplateEngine());
+
+        get("/confirmeractivite",(request,response)-> {//Send activities to database
+            Event e = request.session().attribute("event");
+            for(int i=0;i<e.getHisActivities().size();i++)
+            Server.getDatabase().createActivity(e.getIde(),e.getHisActivities().get(i).name,e.getHisActivities().get(i).placeid);
+
+            //Destroy useless session things
+            request.session().attribute("event",null);
+            request.session().attribute("json",null);
+
+            response.redirect("/affichersortie?ide="+e.getIde());
+            Map map = new HashMap();
+            map.put("message","Redirection error");
+            return new ModelAndView(map,"error.hbs");
+        });
+
+        get("/affichersortie", (request, response) -> {//Get activities from database
+            try{
+                int ide = Integer.parseInt(request.queryParams("ide"));
+                Event e = Server.getDatabase().selectEvent(ide);
+                if (e != null){
+                    ArrayList<Map> activities = new ArrayList<>();
+                    for (int i=0;i<e.getHisActivities().size();i++){
+                        HashMap<String,String> info = new HashMap<>();
+                        Activity a = e.getHisActivities().get(i);
+                        info.put("type",a.type);//Set all info
+                        info.put("name",a.name);
+                        info.put("adresse",Address.getAddressFromId(a.placeid).formattedAddress);
+                        activities.add(info);
+                    }
+                    HashMap map = new HashMap();
+                    map.put("map",Server.getAPI().staticMap(e));
+                    map.put("items",activities);
+                    return new ModelAndView(map,"afficheactivite.hbs");
+                }
+                else{
+                    response.redirect("/error?msg=unknown event");
+                    Map map = new HashMap();
+                    map.put("message","Redirection error");
+                    return new ModelAndView(map,"error.hbs");
+                }
+            }
+            catch (NumberFormatException e){
+                response.redirect("/error?msg=parse error");
+                Map map = new HashMap();
+                map.put("message", "Redirection error");
+                return new ModelAndView(map, "error.hbs");
+            }
+        },new HandlebarsTemplateEngine());
     }
+
+
 
     public void getRandom(JSONObject j,Event e) throws Exception {//This constructor search for a random activity matching parameters
         Random rand = new Random();
