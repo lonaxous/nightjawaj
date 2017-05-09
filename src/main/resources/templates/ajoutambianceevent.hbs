@@ -1,0 +1,76 @@
+ 
+<!DOCTYPE html> 
+<html lang="fr"> 
+  <head> 
+    <title>Ajout ambiancé</title>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+  </head>
+  <body>
+	  <p align="center">
+          <a href="/"><img src="logo_nightjawaj.png" alt="logo_nightjawaj" width="170"></a>
+      </p>
+      {{#if own}}
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h1 class="text-center"> Ajout ambiancé </h1>
+              </div>
+
+              <div class="modal-body">
+                  <form class="modal-md-12 center-block" action="" method="post">
+                      <div class="form-group">
+                          <input type="text" name="mail" class="form-control input-lg" placeholder="mail">
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-block btn-lg" value="ajouter" name="ajouter">
+                      </div>
+                  </form>
+                  <a href="modifactivity?ide={{ide}}"><button type="submit" class="btn btn-block btn-lg">Continuer</button></a>
+              </div>
+          </div>
+      </div>
+      {{/if}}
+              <div class="container">
+                  <div class="well">
+	        <table class="table table-hover">
+	            <thead>
+	                <tr>
+	 <th>Nom</th>
+	 <th>Prénom</th>
+	 <th>Mail</th>
+	 <th>Adresse</th>
+     <th></th>
+
+	 </tr>
+	 </thead>
+
+	 <tbody>
+     {{#each items}}
+	 <tr class="info">
+	 <td>{{nom}}</td>
+	 <td>{{prenom}}</td>
+	 <td>{{mail}}</td>
+	 <td>{{adresse}}  </td>
+     {{#if own}}
+	 <td><a href="supprambiance?idu={{idu}}&ide={{ide}}">Supprimer</a></td>
+     {{/if}}
+	 </tr>
+	 {{/each}}
+
+	 </tbody>
+	 </table>
+
+              </div>
+              </div>
+
+
+	 	   <!--liaison aux script-->
+  <script src="asset/js/jquery.js" type="text/javascript"></script>
+  <script src="dist/js/bootstrap.min.js" type="text/javascript"></script>
+  </body>
+</html>
