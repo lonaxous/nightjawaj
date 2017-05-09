@@ -374,7 +374,7 @@ public class Database {
         ResultSet rs = s.executeQuery(text);
 
         if(rs.next()){
-            return new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectOrganiser(rs.getInt(1)),selectAmbiance(ide));
+            return new Event(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),selectOrganiser(rs.getInt(1)),selectAmbiance(ide),selectListActivity(ide));
         }
         else{
             throw new Exception("Event does not exist");
@@ -461,6 +461,13 @@ public class Database {
         ps.setString(1,clef);
         ps.executeUpdate();
         ps.close();
+    }
+
+    public boolean apiExist()throws SQLException{
+        String text = "select * from apigoogle where id=1";
+        Statement s = co.createStatement();
+        ResultSet rs = s.executeQuery(text);
+        return rs.next();
     }
 
     //Obtenir la clé d'api google

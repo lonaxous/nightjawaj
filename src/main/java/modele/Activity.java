@@ -192,7 +192,7 @@ public class Activity {
         get("/showactivities",(request, response) -> {
             ArrayList<JSONObject> jsList = request.session().attribute("json");
             Event e = request.session().attribute("event");
-            if (jsList != null && e != null){
+            if (jsList != null || e != null){
                 // Search for a random activity for each type
                 for (int i=0;i<e.getHisActivities().size();i++){
                     e.getHisActivities().get(i).getRandom(jsList.get(i),e);//For each activity in event get a random one matching

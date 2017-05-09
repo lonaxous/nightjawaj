@@ -47,14 +47,14 @@ public class Event {
         hisActivities = new ArrayList<>();
     }
 
-    public Event(int ide, String name, String dateDeb, String dateFin, User hisOrganiser, List<User> hisAmbiances) {
+    public Event(int ide, String name, String dateDeb, String dateFin, User hisOrganiser, List<User> hisAmbiances,List<Activity> hisActivities) {
         this.ide = ide;
         this.name = name;
         this.dateDeb = dateDeb;
         this.dateFin = dateFin;
         this.hisOrganiser = hisOrganiser;
         this.hisAmbiances = hisAmbiances;
-        hisActivities = new ArrayList<>();
+        this.hisActivities=hisActivities;
     }
 
     public int getIde() {
