@@ -144,7 +144,7 @@ public class Database {
         //On prend le dernier id
         int ide = -1;
         String lastId = "select max(id) from event where name =? and startdate =? and enddate =?";
-        PreparedStatement ps3 = co.prepareCall(lastId);
+        PreparedStatement ps3 = co.prepareStatement(lastId);
         ps3.setString(1,name);
         ps3.setString(2,startDate);
         ps3.setString(3,endDate);
@@ -452,9 +452,10 @@ public class Database {
 
     //Donne l'id un utilisateur à partir du mail
     public int selectUserMail(String mail)throws SQLException{
-        String requete = "select id from user where mail='"+mail+"'";
-        Statement s = co.createStatement();
-        ResultSet rs = s.executeQuery(requete);
+        String requete = "select id from user where mail=?";
+        PreparedStatement ps = co.prepareStatement(requete);
+        ps.setString(1,mail);
+        ResultSet rs = ps.executeQuery();
         if(rs.next())return rs.getInt(1);
         return -1;
     }
