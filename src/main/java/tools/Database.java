@@ -143,9 +143,12 @@ public class Database {
         ps.close();
         //On prend le dernier id
         int ide = -1;
-        String lastId = "select max(id) from event where name ='"+name+"' and startdate ='"+startDate+"' and enddate ='"+endDate+"'";
-        Statement s = co.createStatement();
-        ResultSet rs = s.executeQuery(lastId);
+        String lastId = "select max(id) from event where name =? and startdate =? and enddate =?";
+        PreparedStatement ps3 = co.prepareCall(lastId);
+        ps3.setString(1,name);
+        ps3.setString(2,startDate);
+        ps3.setString(3,endDate);
+        ResultSet rs = ps3.executeQuery();
         if(rs.next())ide = rs.getInt(1);
         //Liaison entre un event et l'organisateur
         String text2 = "insert into organiser(idu,ide) " +
@@ -236,7 +239,7 @@ public class Database {
         PreparedStatement ps3 = co.prepareStatement(lastId);
         ps3.setString(1,name);
         ps3.setString(2,placeid);
-        ResultSet rs = ps3.executeQuery(lastId);
+        ResultSet rs = ps3.executeQuery();
         if(rs.next())ida = rs.getInt(1);
         //Liaison entre un event et l'organisateur
         String text2 = "insert into planning(ide,ida) " +
