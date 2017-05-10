@@ -32,6 +32,7 @@ API de secours : AIzaSyCixQpC0sRu2QPXgZF5OKQE19xgx2f-iz8
 API URL exemple : https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=48.855218,2.368622&radius=500&type=restaurant&name=burger&key=AIzaSyBPLlRzEty62nUM8JIArfmRv8YLFMaY5u4
 
 Diagrammes UML de nightjawaj : https://repository.genmymodel.com/lonaxous/nightjawaj
+```
          ()
  ________/__
  \ _____/_ /
@@ -43,13 +44,14 @@ Diagrammes UML de nightjawaj : https://repository.genmymodel.com/lonaxous/nightj
     /   \
    /_____\
   NightJawaj
-                                                                
+```                                                                
+
 ____
 
 # Installation
 ## Depuis un terminal avec le fichier jar et le fichier sql :
 
-* Télécharger les fichiers jar et sql dans la partie ["release"](https://github.com/Nomeji/nightjawaj/releases "téléchargement")
+* Télécharger les fichiers jar et sql dans la partie __["release"](https://github.com/Nomeji/nightjawaj/releases "téléchargement")__
 
 ```bash
 sqlite3 database.db < nightjawaj.sql
@@ -67,7 +69,7 @@ java -jar nightjawaj.jar start
 
 * Ouvrir dans un navigateur web : http://localhost:4567
 
-## Depuis le code avec IntelliJ
+## Depuis le code avec IntelliJ :
 
 * Cloner le projet
 
@@ -83,7 +85,7 @@ sqlite3 database.db < nightjawaj.sql
 
 * Depuis Intelliji alt+shift+f10, éditer les paramètres de lancement.
 
-* Choisir dans un premier temps 'initiate', cliquer sur "run". et entrer la clé API dans le terminal
+* Choisir dans un premier temps 'initiate', cliquer sur "run" et entrer la clé API dans le terminal
 
 * Refaire la même procédure en entrant le paramètre 'start'. Cliquer sur "run".
 
