@@ -49,7 +49,7 @@ ____
 # Installation
 ## Depuis un terminal avec le fichier jar et le fichier sql :
 
-Les fichiers jar et sql sont disponible dans la partie "release"
+* Télécharger les fichiers jar et sql dans la partie ["release"](https://github.com/Nomeji/nightjawaj/releases "téléchargement")
 
 ```bash
 sqlite3 database.db < nightjawaj.sql
@@ -57,20 +57,40 @@ java -jar nightjawaj.jar initiate
 java -jar nightjawaj.jar start
 ```
 
-* Créer la base de donnée à l'aide du fichier sql
+### Détail de la procédure
+
+* Créer la base de donnée à l'aide du fichier sql dans le dossier où se trouve le fichier jar
 
 * Entrer les paramètres initiaux (la clé api)
 
 * Lancer le serveur
 
-* Puis ouvrir dans un navigateur web : http://localhost:4567
+* Ouvrir dans un navigateur web : http://localhost:4567
 
-## Depuis le code avec Intelliji
-* Créer la base de donnée
+## Depuis le code avec IntelliJ
+
+* Cloner le projet
+
+* Créer la base de donnée à la racine du dossier projet
 
 ```bash
 sqlite3 database.db < nightjawaj.sql
 ```
-* Depuis Intelliji alt+shift+f10, éditer les arguments de lancement. initiate, lancer puis start.
 
-* Puis ouvrir dans un navigateur web : http://localhost:4567
+* Importer le projet en choississant "maven project"
+
+* IntelliJ devrait se charger de télécharger les dépendences automatiquement depuis Maven. Si ça n'est pas le cas le faire manuellement.
+
+* Depuis Intelliji alt+shift+f10, éditer les paramètres de lancement.
+
+* Choisir dans un premier temps 'initiate', cliquer sur "run". et entrer la clé API dans le terminal
+
+* Refaire la même procédure en entrant le paramètre 'start'. Cliquer sur "run".
+
+* Ouvrir dans un navigateur web : http://localhost:4567
+
+## Editer la clé API
+
+* Relancer le projet avec le paramètre 'initiate'
+
+* Entrer la nouvelle clé API
