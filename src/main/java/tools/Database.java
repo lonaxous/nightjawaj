@@ -232,14 +232,14 @@ public class Database {
         ps.close();
         //On prend le dernier id
         int ida = -1;
-        String lastId = "select max(id) from activity where name = ? and placeid = ?;";
+        String lastId = "select max(id) from activity where name = ? and placeid = ?";
         PreparedStatement ps3 = co.prepareStatement(lastId);
         ps3.setString(1,name);
         ps3.setString(2,placeid);
         ResultSet rs = ps3.executeQuery(lastId);
         if(rs.next())ida = rs.getInt(1);
         //Liaison entre un event et l'organisateur
-        String text2 = "insert into planning(ide,ida)" +
+        String text2 = "insert into planning(ide,ida) " +
                 "values(?,?)";
         PreparedStatement ps2 = co.prepareStatement(text2);
         ps2.setInt(1, ide);
